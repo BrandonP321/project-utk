@@ -1,0 +1,9 @@
+{
+  "name": "project-utk",
+  "packageManager": "yarn@4.1.1",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
