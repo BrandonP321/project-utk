@@ -1,33 +1,34 @@
-export type APIErrResponse<Errors extends APIErrors> = {
+import { APIError } from "../errors/APIError";
+
+export type APIErrorsMap<K extends string> = { [key in K]: APIError<key> };
+
+export type APIErrResponse<Errors extends APIErrorsMap<string>> = {
   errCode: keyof Errors;
   msg: string;
 };
 
-type APIError = {
-  msg: string;
-  statusCode: number;
-};
-
-export type APIErrors = {
-  [key: string]: APIError;
-};
-
-function getTypedDefaultAPIErrors<ErrCodes extends APIErrors>(
-  errors: ErrCodes
-) {
-  return errors;
-}
-
-export const DefaultAPIErrors = getTypedDefaultAPIErrors({
-  InternalServerError: {
+const DefaultAPIErrorsList = [
+  new APIError({
+    code: "INTERNAL_SERVER_ERROR",
     msg: "Internal server error",
     statusCode: 500,
-  },
-});
+  }),
+  new APIError({
+    code: "INVALID_INPUT",
+    msg: "Invalid input",
+    statusCode: 400,
+  }),
+];
 
-export function getTypedErrors<ErrCodes extends APIErrors>(errors: ErrCodes) {
-  return {
-    ...DefaultAPIErrors,
-    ...errors,
-  };
+export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);
+
+type DefaultAPIErrorCode = (typeof DefaultAPIErrorsList)[number]["code"];
+
+export function getErrorsMap<K extends string>(errors: APIError<K>[]) {
+  return [...errors, ...DefaultAPIErrorsList].reduce((acc, error) => {
+    return {
+      ...acc,
+      [error.code]: error,
+    };
+  }, {} as APIErrorsMap<K | DefaultAPIErrorCode>);
 }

@@ -1,4 +1,5 @@
-import { getTypedErrors } from "../routeErrors";
+import { APIError } from "../../errors/APIError";
+import { getErrorsMap } from "../routeErrors";
 
 export namespace LoginVendor {
   export type ReqBody = {
@@ -8,10 +9,11 @@ export namespace LoginVendor {
 
   export type ResBody = {};
 
-  export const Errors = getTypedErrors({
-    InvalidCredentials: {
+  export const Errors = getErrorsMap([
+    new APIError({
+      code: "INVALID_CREDENTIALS",
       msg: "Invalid credentials",
       statusCode: 401,
-    },
-  });
+    }),
+  ]);
 }

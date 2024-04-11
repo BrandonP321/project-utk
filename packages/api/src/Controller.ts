@@ -1,12 +1,12 @@
+import { APIError } from "@project-utk/shared/src/api/errors/APIError";
 import {
-  APIErrResponse,
-  APIErrors,
+  APIErrorsMap,
   DefaultAPIErrors,
 } from "@project-utk/shared/src/api/routes/routeErrors";
 import { Response, Request, NextFunction } from "express";
 
-type ErrorMethods<Errors extends APIErrors> = {
-  [key in keyof Errors]: (msg?: string, err?: any) => Response;
+type ErrorMethods<Errors extends APIErrorsMap<string>> = {
+  [key in keyof Errors]: (msg?: string, err?: any) => APIError<string>;
 };
 
 type HandlerCallback<ReqBody, ResBody, Locals extends object> = (
@@ -19,7 +19,7 @@ type HandlerCallbackWithErrors<
   ReqBody,
   ResBody,
   Locals extends object,
-  Errors extends APIErrors
+  Errors extends APIErrorsMap<string>
 > = (
   req: Request<{}, ResBody, ReqBody, {}, {}>,
   res: Response<ResBody, Locals>,
@@ -31,7 +31,7 @@ export class Controller<
   ReqBody,
   ResBody,
   Locals extends {},
-  Errors extends APIErrors
+  Errors extends APIErrorsMap<string>
 > {
   public errors: Errors;
 
@@ -43,33 +43,39 @@ export class Controller<
     cb: HandlerCallbackWithErrors<ReqBody, ResBody, Locals, Errors>
   ): HandlerCallback<ReqBody, ResBody, Locals> {
     return async (req, res, next) => {
-      const errors = this.getErrorMethods(res);
+      const errors = Controller.getErrorMethods(this.errors);
 
       try {
+        // Execute controller callback
         await cb(req, res, errors, next);
       } catch (err) {
-        return (
-          errors as ErrorMethods<typeof DefaultAPIErrors>
-        ).InternalServerError(undefined, err as any);
+        const fallbackErrors = Controller.getErrorMethods(DefaultAPIErrors);
+
+        // Fallback to default error map if error is not an APIError
+        const error =
+          err instanceof APIError
+            ? err
+            : fallbackErrors.INTERNAL_SERVER_ERROR(undefined, err);
+
+        // Send error response
+        return res
+          .status(error.statusCode)
+          .json(error.apiResponse as ResBody)
+          .end();
       }
     };
   }
 
-  private getErrorMethods(res: Response) {
-    const errorMethods = {} as ErrorMethods<Errors>;
+  private static getErrorMethods<E extends APIErrorsMap<string>>(errors: E) {
+    const errorMethods = {} as ErrorMethods<typeof errors>;
 
-    for (const errCode in this.errors) {
-      const error = this.errors[errCode];
+    for (const errCode in errors) {
+      const error = errors[errCode];
 
       errorMethods[errCode] = (msg, err) => {
         Controller.logError(err);
 
-        const resJSON: APIErrResponse<Errors> = {
-          errCode,
-          msg: msg ?? error.msg,
-        };
-
-        return res.status(error.statusCode).json(resJSON).end();
+        return error.getErrorWithNewMsg(msg ?? error.msg);
       };
     }
 
