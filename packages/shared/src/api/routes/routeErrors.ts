@@ -18,6 +18,16 @@ const DefaultAPIErrorsList = [
     msg: "Invalid input",
     statusCode: 400,
   }),
+  new APIError({
+    code: "UNAUTHENTICATED",
+    msg: "Unauthenticated, please log in",
+    statusCode: 401,
+  }),
+  new APIError({
+    code: "VENDOR_NOT_FOUND",
+    msg: "Vendor not found",
+    statusCode: 404,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);

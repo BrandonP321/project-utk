@@ -9,6 +9,8 @@ type ErrorMethods<Errors extends APIErrorsMap<string>> = {
   [key in keyof Errors]: (msg?: string, err?: any) => APIError<string>;
 };
 
+type CustomNextFunction<T> = (locals: T) => void;
+
 type HandlerCallback<ReqBody, ResBody, Locals extends object> = (
   req: Request<{}, ResBody, ReqBody, {}, {}>,
   res: Response<ResBody, Locals>,
@@ -18,19 +20,23 @@ type HandlerCallback<ReqBody, ResBody, Locals extends object> = (
 type HandlerCallbackWithErrors<
   ReqBody,
   ResBody,
-  Locals extends object,
+  IncomingLocals extends object,
+  OutgoingLocals extends object,
   Errors extends APIErrorsMap<string>
 > = (
   req: Request<{}, ResBody, ReqBody, {}, {}>,
-  res: Response<ResBody, Locals>,
+  res: Response<ResBody, IncomingLocals>,
   error: ErrorMethods<Errors>,
-  next: NextFunction
+  next: CustomNextFunction<OutgoingLocals>
 ) => Promise<any>;
 
 export class Controller<
   ReqBody,
   ResBody,
-  Locals extends {},
+  /** Res locals are current function can access */
+  IncomingLocals extends {},
+  /** Res locals that will be passed on to the next function */
+  OutgoingLocals extends {},
   Errors extends APIErrorsMap<string>
 > {
   public errors: Errors;
@@ -40,14 +46,25 @@ export class Controller<
   }
 
   public handler(
-    cb: HandlerCallbackWithErrors<ReqBody, ResBody, Locals, Errors>
-  ): HandlerCallback<ReqBody, ResBody, Locals> {
+    cb: HandlerCallbackWithErrors<
+      ReqBody,
+      ResBody,
+      IncomingLocals,
+      OutgoingLocals,
+      Errors
+    >
+  ): HandlerCallback<ReqBody, ResBody, IncomingLocals> {
     return async (req, res, next) => {
       const errors = Controller.getErrorMethods(this.errors);
 
+      function customNext(locals: OutgoingLocals) {
+        res.locals = { ...res.locals, ...locals };
+        next();
+      }
+
       try {
         // Execute controller callback
-        await cb(req, res, errors, next);
+        await cb(req, res, errors, customNext);
       } catch (err) {
         const fallbackErrors = Controller.getErrorMethods(DefaultAPIErrors);
 

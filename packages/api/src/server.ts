@@ -6,7 +6,6 @@ dotenv.config();
 import { createServer } from "http";
 import { configureDefaultMiddleware } from "./middleware/default.middleware";
 import { setupRoutes } from "./routes";
-import Vendor from "./models/vendor/Vendor";
 import { connectToDB } from "./config/database/sequelize.config";
 
 const PORT = process.env.PORT ?? 8000;
@@ -23,12 +22,6 @@ setupRoutes(app);
 // Health check endpoint
 app.get("/", (req, res) => {
   res.json({ msg: "HI" }).end();
-});
-
-app.get("/vendors", async (req, res) => {
-  const vendors = await Vendor.findAll();
-
-  res.json(vendors).end();
 });
 
 connectToDB();

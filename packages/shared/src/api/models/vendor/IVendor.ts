@@ -4,6 +4,7 @@ export interface VendorBaseProperties {
   email: string;
   password: string;
   name: string;
+  refreshToken: string | null;
 }
 
 export interface IVendor extends VendorBaseProperties {

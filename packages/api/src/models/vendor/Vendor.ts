@@ -11,6 +11,7 @@ class Vendor extends Model<IVendor, VendorBaseProperties> implements IVendor {
   public name!: string;
   public email!: string;
   public password!: string;
+  public refreshToken!: string | null;
 
   // Statics
   static findByEmail = vendorStatics.findByEmail;
@@ -42,6 +43,11 @@ export function initializeVendorModel(sequelize: Sequelize) {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      refreshToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: null,
       },
     },
     { sequelize, modelName: "Vendor", tableName: "vendors" }
