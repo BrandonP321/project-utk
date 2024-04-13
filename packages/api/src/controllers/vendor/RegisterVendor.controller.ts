@@ -1,5 +1,5 @@
 import { RegisterVendor } from "@project-utk/shared/src/api/routes/vendor/RegisterVendor";
-import { Controller } from "../../Controller";
+import { Controller } from "../../utils/Controller";
 import { validateRegisterVendorInput } from "@project-utk/shared/src/schemas/vendor/registerVendorSchema";
 import { ObjectUtils } from "@project-utk/shared/src/utils/ObjectUtils";
 import Vendor from "../../models/vendor/Vendor";

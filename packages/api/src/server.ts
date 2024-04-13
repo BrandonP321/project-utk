@@ -4,7 +4,6 @@ import express from "express";
 dotenv.config();
 
 import { createServer } from "http";
-import { tempController } from "./temp";
 import { configureDefaultMiddleware } from "./middleware/default.middleware";
 import { setupRoutes } from "./routes";
 import Vendor from "./models/vendor/Vendor";
@@ -25,8 +24,6 @@ setupRoutes(app);
 app.get("/", (req, res) => {
   res.json({ msg: "HI" }).end();
 });
-
-app.post("/temp", tempController);
 
 app.get("/vendors", async (req, res) => {
   const vendors = await Vendor.findAll();
