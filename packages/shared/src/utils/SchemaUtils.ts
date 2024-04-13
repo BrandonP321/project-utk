@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import { APIError } from "../api/errors/APIError";
 import { DefaultAPIErrors } from "../api/routes/routeErrors";
 
 export class SchemaUtils {
