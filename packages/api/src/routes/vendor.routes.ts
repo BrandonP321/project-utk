@@ -9,6 +9,8 @@ import { SendVendorVerificationEmail } from "@project-utk/shared/src/api/routes/
 import { sendVendorVerificationEmailController } from "../controllers/vendor/SendVendorVerificationEmailController";
 import { getAuthVendor } from "../middleware/getAuthVendor.middleware";
 import { authenticateJWT } from "../middleware/authenticateJWT.middleware";
+import { RequestVendorPasswordReset } from "@project-utk/shared/src/api/routes/vendor/RequestVendorPasswordReset";
+import { RequestVendorPasswordResetController } from "../controllers/vendor/RequestVendorPasswordResetController";
 
 const router = express.Router();
 
@@ -20,6 +22,10 @@ router.post(
   authenticateJWT,
   getAuthVendor,
   sendVendorVerificationEmailController
+);
+router.post(
+  RequestVendorPasswordReset.Path,
+  RequestVendorPasswordResetController
 );
 
 export const vendorRouter = router;

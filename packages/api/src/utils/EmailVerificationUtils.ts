@@ -8,12 +8,13 @@ type VendorJWTPayload = {
 };
 
 export class EmailVerificationUtils {
+  private static tokenExpiry = "1h";
+  private static tokenSecret = process.env.EMAIL_VERIFICATION_SECRET!;
+
   static generateVerificationToken = (vendor: Vendor) => {
-    return jwt.sign(
-      { vendorId: vendor.id },
-      process.env.EMAIL_VERIFICATION_SECRET!,
-      { expiresIn: "1h" }
-    );
+    return jwt.sign({ vendorId: vendor.id }, this.tokenSecret, {
+      expiresIn: this.tokenExpiry,
+    });
   };
 
   static sendVerificationEmail = async (vendor: Vendor) => {
@@ -30,9 +31,6 @@ export class EmailVerificationUtils {
   };
 
   static verifyToken = (token: string) => {
-    return JWTUtils.verifyToken<VendorJWTPayload>(
-      token,
-      process.env.EMAIL_VERIFICATION_SECRET!
-    );
+    return JWTUtils.verifyToken<VendorJWTPayload>(token, this.tokenSecret);
   };
 }

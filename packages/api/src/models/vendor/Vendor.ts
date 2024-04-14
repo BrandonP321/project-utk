@@ -17,6 +17,7 @@ class Vendor
   public refreshToken!: string | null;
   public isEmailVerified!: boolean;
   public emailVerificationToken!: string | null;
+  public resetToken!: string | null;
 
   // Statics
   static findByEmail = vendorStatics.findByEmail;
@@ -60,6 +61,11 @@ export function initializeVendorModel(sequelize: Sequelize) {
         defaultValue: false,
       },
       emailVerificationToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: null,
+      },
+      resetToken: {
         type: DataTypes.TEXT,
         allowNull: true,
         defaultValue: null,

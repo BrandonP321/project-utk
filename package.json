@@ -11,6 +11,10 @@
   ],
   "dependencies": {
     "@types/yup": "^0.32.0",
+    "lodash": "^4.17.21",
     "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4"
   }
 }
