@@ -7,6 +7,9 @@ declare global {
       RDS_DB_HOST?: string;
       ACCESS_TOKEN_SECRET?: string;
       REFRESH_TOKEN_SECRET?: string;
+      EMAIL_VERIFICATION_SECRET?: string;
+      EMAIL_VERIFICATION_EMAIL?: string;
+      EMAIL_VERIFICATION_PASSWORD?: string;
     }
   }
 }

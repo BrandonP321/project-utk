@@ -5,7 +5,14 @@ export interface VendorBaseProperties {
   password: string;
   name: string;
   refreshToken: string | null;
+  isEmailVerified: boolean;
+  emailVerificationToken: string | null;
 }
+
+export type VendorCreationAttributes = Omit<
+  VendorBaseProperties,
+  "isEmailVerified" | "emailVerificationToken" | "refreshToken"
+>;
 
 export interface IVendor extends VendorBaseProperties {
   id: string;

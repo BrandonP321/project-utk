@@ -1,17 +1,22 @@
 import {
   IVendor,
-  VendorBaseProperties,
+  VendorCreationAttributes,
 } from "@project-utk/shared/src/api/models/vendor/IVendor";
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { vendorStatics } from "./statics";
 import { vendorInstanceMethods } from "./instances";
 
-class Vendor extends Model<IVendor, VendorBaseProperties> implements IVendor {
+class Vendor
+  extends Model<IVendor, VendorCreationAttributes>
+  implements IVendor
+{
   public id!: string;
   public name!: string;
   public email!: string;
   public password!: string;
   public refreshToken!: string | null;
+  public isEmailVerified!: boolean;
+  public emailVerificationToken!: string | null;
 
   // Statics
   static findByEmail = vendorStatics.findByEmail;
@@ -45,6 +50,16 @@ export function initializeVendorModel(sequelize: Sequelize) {
         allowNull: false,
       },
       refreshToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: null,
+      },
+      isEmailVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      emailVerificationToken: {
         type: DataTypes.TEXT,
         allowNull: true,
         defaultValue: null,

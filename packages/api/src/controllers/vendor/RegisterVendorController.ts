@@ -3,6 +3,7 @@ import { Controller } from "../../utils/Controller";
 import { validateAndFilterRegisterVendorInput } from "@project-utk/shared/src/schemas/vendor/registerVendorSchema";
 import Vendor from "../../models/vendor/Vendor";
 import { JWTUtils } from "../../utils/JWTUtils";
+import { EmailVerificationUtils } from "../../utils/EmailVerificationUtils";
 
 const controller = new Controller<
   RegisterVendor.ReqBody,
@@ -26,6 +27,9 @@ export const RegisterVendorController = controller.handler(
 
     // Create and set JWT
     await JWTUtils.generateAndSetVendorTokens(res, newVendor.id);
+
+    // Send verification email
+    await EmailVerificationUtils.sendVerificationEmail(newVendor);
 
     return res.json({ vendorId: newVendor.id });
   }
