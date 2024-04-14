@@ -57,4 +57,15 @@ export function addAuthYupExtensions() {
         "Password cannot contain non-printable characters or unusual symbols"
       );
   });
+
+  yup.addMethod(
+    yup.string,
+    "confirmPassword",
+    function (passwordField = "password") {
+      return this.oneOf(
+        [yup.ref(passwordField)],
+        "Passwords do not match"
+      ).required("Confirm password is required");
+    }
+  );
 }

@@ -9,6 +9,7 @@ declare module "yup" {
 
     password(): RequiredReturnType;
     requiredWithPasswordMsg(): RequiredReturnType;
+    confirmPassword(): RequiredReturnType;
 
     name(): this;
     requiredWithNameMsg(): RequiredReturnType;

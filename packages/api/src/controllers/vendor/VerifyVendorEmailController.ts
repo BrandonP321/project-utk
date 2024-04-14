@@ -2,6 +2,7 @@ import { VerifyVendorEmail } from "@project-utk/shared/src/api/routes/vendor/Ver
 import { Controller } from "../../utils/Controller";
 import { EmailVerificationUtils } from "../../utils/EmailVerificationUtils";
 import Vendor from "../../models/vendor/Vendor";
+import { JWTUtils } from "../../utils/JWTUtils";
 
 const controller = new Controller<
   VerifyVendorEmail.ReqBody,
@@ -37,7 +38,9 @@ export const VerifyVendorEmailController = controller.handler(
 
       return res.json({ vendorId }).end();
     } catch (err) {
-      throw errors.LINK_EXPIRED();
+      throw JWTUtils.isExpiredError(err)
+        ? errors.LINK_EXPIRED()
+        : errors.INVALID_LINK();
     }
   }
 );

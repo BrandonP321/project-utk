@@ -11,6 +11,8 @@ import { getAuthVendor } from "../middleware/getAuthVendor.middleware";
 import { authenticateJWT } from "../middleware/authenticateJWT.middleware";
 import { RequestVendorPasswordReset } from "@project-utk/shared/src/api/routes/vendor/RequestVendorPasswordReset";
 import { RequestVendorPasswordResetController } from "../controllers/vendor/RequestVendorPasswordResetController";
+import { ResetVendorPasswordController } from "../controllers/vendor/ResetVendorPasswordController";
+import { ResetVendorPassword } from "@project-utk/shared/src/api/routes/vendor/ResetVendorPassword";
 
 const router = express.Router();
 
@@ -27,5 +29,6 @@ router.post(
   RequestVendorPasswordReset.Path,
   RequestVendorPasswordResetController
 );
+router.post(ResetVendorPassword.Path, ResetVendorPasswordController);
 
 export const vendorRouter = router;

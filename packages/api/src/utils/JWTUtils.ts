@@ -94,4 +94,8 @@ export class JWTUtils {
   static decodeVendorToken(token: string) {
     return JWTUtils.decodeToken<VendorJWTPayload>(token);
   }
+
+  static isExpiredError(err: any) {
+    return err instanceof jwt.TokenExpiredError;
+  }
 }
