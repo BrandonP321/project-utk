@@ -15,12 +15,17 @@ import { ResetVendorPasswordController } from "../controllers/vendor/ResetVendor
 import { ResetVendorPassword } from "@project-utk/shared/src/api/routes/vendor/ResetVendorPassword";
 import { ResetVendorPasswordLimiter } from "../middleware/rateLimiters/ResetVendorPasswordLimiter";
 import { RequestVendorPasswordResetLimiter } from "../middleware/rateLimiters/RequestVendorPasswordResetLimiter";
+import { VerifyVendorEmailLimiter } from "../middleware/rateLimiters/VerifyVendorEmailLimiter";
 
 const router = express.Router();
 
 router.post(RegisterVendor.Path, RegisterVendorController);
 router.post(LoginVendor.Path, LoginVendorController);
-router.post(VerifyVendorEmail.Path, VerifyVendorEmailController);
+router.post(
+  VerifyVendorEmail.Path,
+  VerifyVendorEmailLimiter,
+  VerifyVendorEmailController
+);
 router.post(
   SendVendorVerificationEmail.Path,
   authenticateJWT,

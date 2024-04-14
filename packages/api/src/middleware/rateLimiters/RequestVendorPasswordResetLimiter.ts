@@ -1,6 +1,5 @@
-import { DefaultAPIErrors } from "@project-utk/shared/src/api/routes/routeErrors";
 import { TimeUtils } from "@project-utk/shared/src/utils/TimeUtils";
-import rateLimit from "express-rate-limit";
+import { RateLimiterUtils } from "../../utils/RateLimiterUtils";
 
 const windowMinutes = 60;
 const maxPerWindow = 10;
@@ -10,10 +9,9 @@ const maxPerWindow = 10;
  * users sufficient attemps in case of issues like typos in their
  * email address
  */
-export const RequestVendorPasswordResetLimiter = rateLimit({
-  windowMs: TimeUtils.minutesToMilliseconds(windowMinutes),
-  max: maxPerWindow,
-  message: DefaultAPIErrors.RATE_LIMITED.getErrorWithNewMsg(
-    `Too many requests, please try again after ${windowMinutes} minutes.`
-  ).apiResponse,
-});
+export const RequestVendorPasswordResetLimiter =
+  RateLimiterUtils.createRateLimiter({
+    windowMs: TimeUtils.minutesToMilliseconds(windowMinutes),
+    max: maxPerWindow,
+    msg: `Too many requests, please try again after ${windowMinutes} minutes.`,
+  });
