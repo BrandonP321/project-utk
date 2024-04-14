@@ -13,6 +13,8 @@ import { RequestVendorPasswordReset } from "@project-utk/shared/src/api/routes/v
 import { RequestVendorPasswordResetController } from "../controllers/vendor/RequestVendorPasswordResetController";
 import { ResetVendorPasswordController } from "../controllers/vendor/ResetVendorPasswordController";
 import { ResetVendorPassword } from "@project-utk/shared/src/api/routes/vendor/ResetVendorPassword";
+import { ResetVendorPasswordLimiter } from "../middleware/rateLimiters/ResetVendorPasswordLimiter";
+import { RequestVendorPasswordResetLimiter } from "../middleware/rateLimiters/RequestVendorPasswordResetLimiter";
 
 const router = express.Router();
 
@@ -27,8 +29,13 @@ router.post(
 );
 router.post(
   RequestVendorPasswordReset.Path,
+  RequestVendorPasswordResetLimiter,
   RequestVendorPasswordResetController
 );
-router.post(ResetVendorPassword.Path, ResetVendorPasswordController);
+router.post(
+  ResetVendorPassword.Path,
+  ResetVendorPasswordLimiter,
+  ResetVendorPasswordController
+);
 
 export const vendorRouter = router;

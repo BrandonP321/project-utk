@@ -28,6 +28,11 @@ const DefaultAPIErrorsList = [
     msg: "Vendor not found",
     statusCode: 404,
   }),
+  new APIError({
+    code: "RATE_LIMITED",
+    msg: "Rate limited",
+    statusCode: 429,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);

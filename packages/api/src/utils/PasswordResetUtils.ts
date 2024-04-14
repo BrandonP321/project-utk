@@ -1,3 +1,4 @@
+import { TimeUtils } from "@project-utk/shared/src/utils/TimeUtils";
 import Vendor from "../models/vendor/Vendor";
 import { JWTUtils } from "./JWTUtils";
 import { NodeMailerUtils } from "./NodeMailerUtils";
@@ -9,6 +10,7 @@ type JWTPayload = {
 
 export class PasswordResetUtils {
   static tokenExpiry = "1h";
+  static tokenExpiryMs = TimeUtils.hoursToMilliseconds(60);
   private static tokenSecret = process.env.EMAIL_VERIFICATION_SECRET!;
 
   static generateResetToken = (vendor: Vendor) => {
