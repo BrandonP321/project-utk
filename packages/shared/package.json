@@ -3,5 +3,6 @@
   "packageManager": "yarn@4.1.1",
   "private": true,
   "version": "1.0.0",
-  "main": "./src/index.ts"
+  "main": "./src/index.ts",
+  "types/": "./src/index.ts"
 }

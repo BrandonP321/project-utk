@@ -1,8 +1,11 @@
 import dotenv from "dotenv";
-import express from "express";
+import { addYupExtensions } from "@project-utk/shared/src/schemas/yupExtensions";
 
+// Load environment variables and add custom yup extensions before anything else
 dotenv.config();
+addYupExtensions();
 
+import express from "express";
 import { createServer } from "http";
 import { configureDefaultMiddleware } from "./middleware/default.middleware";
 import { setupRoutes } from "./routes";

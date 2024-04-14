@@ -1,0 +1,23 @@
+{
+  "API Controller": {
+    "scope": "typescript",
+    "prefix": "api-controller",
+    "body": [
+      "import { Controller } from \"../../utils/Controller\";",
+      "",
+      "const controller = new Controller<",
+      "\t{},",
+      "\t{},",
+      "\t{},",
+      "\t{},",
+      "\t{}",
+      ">({});",
+      "",
+      "export const ${TM_FILENAME_BASE} = controller.handler(",
+      "\tasync (req, res, errors) => {",
+      "\t\t",
+      "\t}",
+      ");"
+    ]
+  }
+}
