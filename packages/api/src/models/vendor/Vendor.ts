@@ -71,7 +71,12 @@ export function initializeVendorModel(sequelize: Sequelize) {
         defaultValue: null,
       },
     },
-    { sequelize, modelName: "Vendor", tableName: "vendors" }
+    {
+      sequelize,
+      modelName: "Vendor",
+      tableName: "vendors",
+      indexes: [{ unique: true, fields: ["email"] }],
+    }
   );
 }
 

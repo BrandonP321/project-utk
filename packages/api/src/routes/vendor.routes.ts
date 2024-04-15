@@ -1,42 +1,63 @@
-import { RegisterVendor } from "@project-utk/shared/src/api/routes/vendor/RegisterVendor";
 import express from "express";
-import { RegisterVendorController } from "../controllers/vendor/RegisterVendorController";
-import { LoginVendor } from "@project-utk/shared/src/api/routes/vendor/LoginVendor";
-import { LoginVendorController } from "../controllers/vendor/LoginVendorController";
-import { VerifyVendorEmail } from "@project-utk/shared/src/api/routes/vendor/VerifyVendorEmail";
-import { VerifyVendorEmailController } from "../controllers/vendor/VerifyVendorEmailController";
-import { SendVendorVerificationEmail } from "@project-utk/shared/src/api/routes/vendor/SendVendorVerificationEmail";
-import { sendVendorVerificationEmailController } from "../controllers/vendor/SendVendorVerificationEmailController";
-import { getAuthVendor } from "../middleware/getAuthVendor.middleware";
-import { authenticateJWT } from "../middleware/authenticateJWT.middleware";
-import { RequestVendorPasswordReset } from "@project-utk/shared/src/api/routes/vendor/RequestVendorPasswordReset";
-import { RequestVendorPasswordResetController } from "../controllers/vendor/RequestVendorPasswordResetController";
-import { ResetVendorPasswordController } from "../controllers/vendor/ResetVendorPasswordController";
-import { ResetVendorPassword } from "@project-utk/shared/src/api/routes/vendor/ResetVendorPassword";
-import { ResetVendorPasswordLimiter } from "../middleware/rateLimiters/ResetVendorPasswordLimiter";
-import { RequestVendorPasswordResetLimiter } from "../middleware/rateLimiters/RequestVendorPasswordResetLimiter";
-import { VerifyVendorEmailLimiter } from "../middleware/rateLimiters/VerifyVendorEmailLimiter";
+import {
+  LoginVendorController,
+  LogoutVendorController,
+  RegisterVendorController,
+  RequestVendorPasswordResetController,
+  ResetVendorPasswordController,
+  VerifyVendorEmailController,
+  sendVendorVerificationEmailController,
+} from "../controllers";
+import {
+  RequestVendorPasswordResetLimiter,
+  ResetVendorPasswordLimiter,
+  VerifyVendorEmailLimiter,
+  authenticateJWT,
+  getAuthVendor,
+} from "../middleware";
+import {
+  LoginVendor,
+  LogoutVendor,
+  RegisterVendor,
+  RequestVendorPasswordReset,
+  ResetVendorPassword,
+  SendVendorVerificationEmail,
+  VerifyVendorEmail,
+} from "@project-utk/shared/src/api/routes/vendor";
 
 const router = express.Router();
 
+// Register
 router.post(RegisterVendor.Path, RegisterVendorController);
+// Login
 router.post(LoginVendor.Path, LoginVendorController);
+// Logout
+router.post(
+  LogoutVendor.Path,
+  authenticateJWT,
+  getAuthVendor,
+  LogoutVendorController
+);
+// Verify Email
 router.post(
   VerifyVendorEmail.Path,
   VerifyVendorEmailLimiter,
   VerifyVendorEmailController
 );
+// Send Verification Email
 router.post(
   SendVendorVerificationEmail.Path,
   authenticateJWT,
   getAuthVendor,
   sendVendorVerificationEmailController
 );
+// Request Password Reset
 router.post(
   RequestVendorPasswordReset.Path,
   RequestVendorPasswordResetLimiter,
   RequestVendorPasswordResetController
 );
+// Reset Password
 router.post(
   ResetVendorPassword.Path,
   ResetVendorPasswordLimiter,

@@ -44,7 +44,7 @@ export class JWTUtils {
   }
 
   static removeJWTCookie(res: Response) {
-    res.clearCookie(jwtCookieKey);
+    return res.clearCookie(jwtCookieKey);
   }
 
   static getJWTCookie(req: Request): string | undefined {
