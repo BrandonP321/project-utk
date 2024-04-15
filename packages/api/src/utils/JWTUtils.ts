@@ -12,6 +12,8 @@ type VendorJWTPayload = {
 const jwtCookieKey = "AccessToken";
 
 export class JWTUtils {
+  static cookieKey = jwtCookieKey;
+
   static generateAccessToken<P extends {}>(payload: P) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
       expiresIn: "15m",

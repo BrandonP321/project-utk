@@ -8,7 +8,9 @@ export namespace RegisterVendor {
   export type ReqBody = Pick<
     VendorBaseProperties,
     "email" | "password" | "name"
-  >;
+  > & {
+    confirmPassword: string;
+  };
 
   export type ResBody = {
     vendorId: string;

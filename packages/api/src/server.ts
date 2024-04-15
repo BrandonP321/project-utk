@@ -13,7 +13,7 @@ import { connectToDB } from "./config/database/sequelize.config";
 
 const PORT = process.env.PORT ?? 8000;
 
-const app = express();
+export const app = express();
 const httpServer = createServer(app);
 
 // Middleware

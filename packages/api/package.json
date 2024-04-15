@@ -4,7 +4,12 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "test": "yarn run -T jest --forceExit",
+    "test:unit": "yarn run -T jest --selectProjects unit",
+    "test:integration": "yarn run -T jest --selectProjects integration",
+    "test:watch": "yarn run -T jest --watch",
+    "test:coverage": "yarn run -T jest --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.554.0",
@@ -18,6 +23,7 @@
     "nodemailer": "^6.9.13",
     "pg": "^8.11.5",
     "sequelize": "^6.37.2",
+    "supertest": "^6.3.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -28,6 +34,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6",
     "@types/pg": "^8",
+    "@types/supertest": "^6",
     "@types/uuid": "^9"
   }
 }
