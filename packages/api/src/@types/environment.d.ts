@@ -1,6 +1,8 @@
+import { EnvVars } from "@project-utk/shared/src/@types/environment";
+
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {
+    interface ProcessEnv extends EnvVars {
       RDS_DB_SECRET_ID?: string;
       PORT?: string;
       RDS_DB_NAME?: string;

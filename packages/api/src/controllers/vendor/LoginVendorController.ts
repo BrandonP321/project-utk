@@ -19,13 +19,33 @@ export const LoginVendorController = controller.handler(
     const vendor = await Vendor.findByEmail(req.body.email);
     const isCorrectPassword = await vendor?.validatePassword(req.body.password);
 
-    // Respond with generic error message to avoid leaking information
-    if (!vendor || !isCorrectPassword) {
+    if (!vendor) {
+      throw errors.INVALID_CREDENTIALS();
+    }
+
+    if (vendor.isAccountLocked()) {
+      throw errors.ACCOUNT_LOCKED();
+    } else if (vendor.isAccountReadyForUnlock()) {
+      await vendor.resetFailedLoginAttempts();
+    }
+
+    if (!isCorrectPassword) {
+      vendor.incrementFailedLoginAttempts();
+
+      if (vendor.hasReachedLoginAttemptLimit()) {
+        await vendor.lockAccount();
+        throw errors.ACCOUNT_LOCKED();
+      }
+
+      await vendor.save();
       throw errors.INVALID_CREDENTIALS();
     }
 
     // Generate and set tokens
     await JWTUtils.generateAndSetVendorTokens(res, vendor.id);
+
+    // Reset failed login attempts and lockUntil on successful login
+    await vendor.resetFailedLoginAttempts();
 
     return res.json({ vendorId: vendor.id });
   }

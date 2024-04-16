@@ -8,6 +8,8 @@ export interface VendorBaseProperties {
   isEmailVerified: boolean;
   emailVerificationToken: string | null;
   resetToken: string | null;
+  failedLoginAttempts: number;
+  lockUntil: number | null;
 }
 
 export type VendorCreationAttributes = Pick<

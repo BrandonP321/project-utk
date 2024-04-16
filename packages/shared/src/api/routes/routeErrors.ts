@@ -33,6 +33,11 @@ const DefaultAPIErrorsList = [
     msg: "Rate limited",
     statusCode: 429,
   }),
+  new APIError({
+    code: "ACCOUNT_LOCKED",
+    msg: "Account locked",
+    statusCode: 403,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);

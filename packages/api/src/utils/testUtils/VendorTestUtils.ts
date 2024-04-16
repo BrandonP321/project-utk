@@ -1,10 +1,13 @@
 import { noop } from "lodash";
 import Vendor from "../../models/vendor/Vendor";
 import { JWTUtils } from "../JWTUtils";
+import { TestUtils } from "./TestUtils";
+import { LoginVendor } from "@project-utk/shared/src/api/routes";
 
 export class VendorTestUtils {
-  static validPassword = "Password123!";
+  static correctPassword = "Password123!";
   static invalidPassword = "password";
+  static incorrectPassword = "Password321@";
   static invalidEmail = "testemail.com";
 
   static getJWTFromHeader = (header: Record<string, string>) => {
@@ -31,8 +34,18 @@ export class VendorTestUtils {
   static async createTestVendor(email: string) {
     return Vendor.create({
       email,
-      password: this.validPassword,
+      password: this.correctPassword,
       name: "Test Vendor",
     });
+  }
+
+  static loginVendorRequest = TestUtils.getRequestFunc<
+    LoginVendor.ReqBody,
+    LoginVendor.ResBody,
+    typeof LoginVendor.Errors
+  >(LoginVendor.Path);
+
+  static async loginTestVendor(email: string, password = this.correctPassword) {
+    return this.loginVendorRequest({ email, password });
   }
 }
