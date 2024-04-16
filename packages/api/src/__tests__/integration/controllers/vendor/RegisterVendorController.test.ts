@@ -13,16 +13,16 @@ const testEmail = VendorTestUtils.getTestEmail("vendor.register");
 
 const validReq: RegisterVendor.ReqBody = {
   email: testEmail,
-  password: VendorTestUtils.validPassword,
+  password: VendorTestUtils.correctPassword,
   name: "Test Vendor",
-  confirmPassword: VendorTestUtils.validPassword,
+  confirmPassword: VendorTestUtils.correctPassword,
 };
 
 const invalidReq: RegisterVendor.ReqBody = {
   email: VendorTestUtils.invalidEmail,
   password: VendorTestUtils.invalidPassword,
   name: "Test Vendor",
-  confirmPassword: VendorTestUtils.validPassword,
+  confirmPassword: VendorTestUtils.correctPassword,
 };
 
 describe("Register Vendor Endpoint", () => {
