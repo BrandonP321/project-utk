@@ -3155,6 +3155,7 @@ __metadata:
     cors: "npm:^2.8.5"
     express: "npm:^4.19.2"
     express-rate-limit: "npm:^7.2.0"
+    helmet: "npm:^7.1.0"
     jsonwebtoken: "npm:^9.0.2"
     nodemailer: "npm:^6.9.13"
     pg: "npm:^8.11.5"
@@ -8910,6 +8911,13 @@ __metadata:
   bin:
     he: bin/he
   checksum: 10c0/a27d478befe3c8192f006cdd0639a66798979dfa6e2125c6ac582a19a5ebfec62ad83e8382e6036170d873f46e4536a7e795bf8b95bf7c247f4cc0825ccc8c17
+  languageName: node
+  linkType: hard
+
+"helmet@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "helmet@npm:7.1.0"
+  checksum: 10c0/8c3370d07487be11ac918577c68952e05d779a1a2c037023c1ba763034c381a025899bc52f8acfab5209304a1dc618a3764dbfd26386a0d1173befe4fb932e84
   languageName: node
   linkType: hard
 
