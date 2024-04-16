@@ -1,6 +1,7 @@
 import { EmailVerificationUtils, JWTUtils } from "../../../../utils";
 import { TestUtils } from "../../../../utils/testUtils";
 import { RegisterVendor } from "@project-utk/shared/src/api/routes";
+import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
 
 const registerVendorRequest = TestUtils.getRequestFunc<
   RegisterVendor.ReqBody,
@@ -8,29 +9,25 @@ const registerVendorRequest = TestUtils.getRequestFunc<
   typeof RegisterVendor.Errors
 >(RegisterVendor.Path);
 
-const testEmail = TestUtils.getTestEmail("vendor.register");
+const testEmail = VendorTestUtils.getTestEmail("vendor.register");
 
 const validReq: RegisterVendor.ReqBody = {
   email: testEmail,
-  password: TestUtils.validPassword,
+  password: VendorTestUtils.validPassword,
   name: "Test Vendor",
-  confirmPassword: TestUtils.validPassword,
+  confirmPassword: VendorTestUtils.validPassword,
 };
 
 const invalidReq: RegisterVendor.ReqBody = {
-  email: TestUtils.invalidEmail,
-  password: TestUtils.invalidPassword,
+  email: VendorTestUtils.invalidEmail,
+  password: VendorTestUtils.invalidPassword,
   name: "Test Vendor",
-  confirmPassword: TestUtils.validPassword,
+  confirmPassword: VendorTestUtils.validPassword,
 };
 
 describe("Register Vendor Endpoint", () => {
-  beforeAll(async () => {
-    await TestUtils.waitForServerToStart();
-  });
-
   afterEach(async () => {
-    await TestUtils.deleteTestVendor(testEmail);
+    await VendorTestUtils.deleteTestVendor(testEmail);
   });
 
   it("should return a new vendor id after successful registration", async () => {
@@ -56,13 +53,8 @@ describe("Register Vendor Endpoint", () => {
 
   it("should set a JWT on successful registration", async () => {
     const res = await registerVendorRequest(validReq);
-    const cookieHeader = res.header["set-cookie"] as unknown;
 
-    expect(
-      (cookieHeader as string[]).find((cookie: string) =>
-        cookie.startsWith(JWTUtils.cookieKey)
-      )
-    ).toBeDefined();
+    expect(VendorTestUtils.getJWTFromHeader(res.header)).toBeDefined();
   });
 
   it("should send a verification email on successful registration", async () => {

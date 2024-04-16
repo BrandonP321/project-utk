@@ -1,32 +1,13 @@
 import request, { Response } from "supertest";
-import { app } from "../../server";
+import { app } from "../../app";
 import {
   APIErrResponse,
   APIErrorsMap,
 } from "@project-utk/shared/src/api/routes";
-import Vendor from "../../models/vendor/Vendor";
-import { noop } from "lodash";
 
 type TResponse<T> = Omit<Response, "body"> & { body: T };
 
 export class TestUtils {
-  static validPassword = "Password123!";
-  static invalidPassword = "password";
-  static invalidEmail = "testemail.com";
-
-  /** Only pass in a lowercase ID with words separate by periods */
-  static getTestEmail(id: string) {
-    return `utktest.${id}@example.com`;
-  }
-
-  static async deleteTestVendor(email: string) {
-    try {
-      return await Vendor.destroy({ where: { email } });
-    } catch (err) {
-      noop();
-    }
-  }
-
   static waitForServerToStart = async () =>
     new Promise((resolve) => setTimeout(resolve, 4000));
 

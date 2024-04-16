@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "test": "yarn run -T jest --forceExit",
+    "test": "yarn run -T jest --verbose",
     "test:unit": "yarn run -T jest --selectProjects unit",
     "test:integration": "yarn run -T jest --selectProjects integration",
     "test:watch": "yarn run -T jest --watch",

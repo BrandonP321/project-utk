@@ -90,7 +90,7 @@ export class Controller<
       const error = errors[errCode];
 
       errorMethods[errCode] = (msg, err) => {
-        Controller.logError(err);
+        err && Controller.logError(err);
 
         return error.getErrorWithNewMsg(msg ?? error.msg);
       };

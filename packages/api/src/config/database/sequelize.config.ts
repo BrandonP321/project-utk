@@ -1,7 +1,5 @@
 import { Sequelize, Options, Config } from "sequelize";
 import { SecretsManagerUtils } from "../../clients/aws/secretsManager";
-import Vendor, { initializeVendorModel } from "../../models/vendor/Vendor";
-import { assignVendorHooks } from "../../models/vendor/vendorHooks";
 import { DeepWriteable } from "sequelize/types/utils";
 
 const config: Options = {
@@ -15,7 +13,6 @@ const config: Options = {
 export const sequelize = new Sequelize(config);
 
 async function updateDBCredentials(config: DeepWriteable<Config>) {
-  console.log("\nUpdating DB credentials\n");
   const { password, username } = await SecretsManagerUtils.getDBCredentials();
 
   config.username = username;
@@ -29,23 +26,13 @@ sequelize.addHook("beforeConnect", async (config) => {
   // }
 });
 
-function initializeDBModels() {
-  initializeVendorModel(sequelize);
-}
-
-function assignModelHooks() {
-  assignVendorHooks(Vendor);
-}
-
-const syncDB = () => {
+const syncDB = async () => {
   const force = true;
-  sequelize.sync({ force }).then(() => {
+  return await sequelize.sync({ force }).then(() => {
     console.log("Database synced");
   });
 };
 
-export const connectToDB = () => {
-  initializeDBModels();
-  assignModelHooks();
-  syncDB();
+export const connectToDB = async () => {
+  await syncDB();
 };

@@ -14,6 +14,7 @@ const config: Config = {
 
   // Setup file or environmental setup can be placed here if needed
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
+  globalSetup: "<rootDir>/src/jestGlobalSetup.ts",
 
   // Coverage configuration
   collectCoverage: true,
@@ -28,7 +29,7 @@ const config: Config = {
     "^.+\\.(ts|tsx)$": "ts-jest",
     "^.+\\.(js|jsx)$": "babel-jest",
   },
-
+  preset: "ts-jest",
   // Test environment, if not using JSDOM (the default), specify Node or another environment
   testEnvironment: "node",
 };
