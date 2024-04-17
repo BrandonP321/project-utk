@@ -10,7 +10,9 @@ export namespace ResetVendorPassword {
     confirmPassword: string;
   };
 
-  export type ResBody = {};
+  export type ResBody = {
+    vendorId: string;
+  };
 
   export const Errors = getErrorsMap([
     new APIError({
