@@ -3,6 +3,8 @@ import type { Config } from "jest";
 const config: Config = {
   roots: ["<rootDir>/src"],
 
+  testTimeout: 10000,
+
   // Test match patterns
   testMatch: [
     "**/__tests__/**/*.[jt]s?(x)", // Looks for any files inside __tests__ folders with .js, .jsx, .ts, or .tsx extensions

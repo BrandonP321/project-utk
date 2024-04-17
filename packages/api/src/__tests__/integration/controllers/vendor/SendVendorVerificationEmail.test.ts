@@ -3,7 +3,9 @@ import { EmailVerificationUtils } from "../../../../utils";
 import { TAgent, TestUtils } from "../../../../utils/testUtils";
 import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
 
-const testEmail = VendorTestUtils.getTestEmail("vendor.email.verification");
+const testEmail = VendorTestUtils.getTestEmail(
+  "vendor.email.verification.send"
+);
 
 describe("Endpoint to send vendor email verification email", () => {
   let agent: TAgent;
