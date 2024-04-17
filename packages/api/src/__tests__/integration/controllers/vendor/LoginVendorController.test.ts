@@ -16,32 +16,34 @@ describe("Login Vendor Endpoint", () => {
   });
 
   it("should return a new vendor id after successful login", async () => {
-    const res = await VendorTestUtils.loginTestVendor(testEmail);
+    const res = await VendorTestUtils.loginTestVendor({ email: testEmail });
     expect(res.body.vendorId).toBeDefined();
   });
 
   it("should reject login attempts with incorrect passwords", async () => {
-    const res = await VendorTestUtils.loginTestVendor(
-      testEmail,
-      VendorTestUtils.incorrectPassword
-    );
+    const res = await VendorTestUtils.loginTestVendor({
+      email: testEmail,
+      password: VendorTestUtils.incorrectPassword,
+    });
     expect(res.body.errCode).toBe(invalidCredentialsCode);
   });
 
   it("should reject logins with non-existent emails", async () => {
-    const res = await VendorTestUtils.loginTestVendor("incorrect@example.com");
+    const res = await VendorTestUtils.loginTestVendor({
+      email: "incorrect@example.com",
+    });
     expect(res.body.errCode).toBe(invalidCredentialsCode);
   });
 
   it("should reject logins with invalid email formats", async () => {
-    const res = await VendorTestUtils.loginTestVendor(
-      VendorTestUtils.invalidEmail
-    );
+    const res = await VendorTestUtils.loginTestVendor({
+      email: VendorTestUtils.invalidEmail,
+    });
     expect(res.body.errCode).toBe(invalidInputCode);
   });
 
   it("should return a JWT on successful login", async () => {
-    const res = await VendorTestUtils.loginTestVendor(testEmail);
+    const res = await VendorTestUtils.loginTestVendor({ email: testEmail });
     expect(VendorTestUtils.getJWTFromHeader(res.header)).toBeDefined();
   });
 });

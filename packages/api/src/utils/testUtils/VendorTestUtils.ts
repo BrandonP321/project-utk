@@ -1,8 +1,13 @@
 import { noop } from "lodash";
 import Vendor from "../../models/vendor/Vendor";
 import { JWTUtils } from "../JWTUtils";
-import { TestUtils } from "./TestUtils";
+import { TAgent, TestUtils } from "./TestUtils";
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
+
+type LoginRequestParams = {
+  email: string;
+  password?: string;
+};
 
 export class VendorTestUtils {
   static correctPassword = "Password123!";
@@ -39,13 +44,28 @@ export class VendorTestUtils {
     });
   }
 
+  static async getTestVendor(email: string) {
+    return (await Vendor.findOne({ where: { email } }))!;
+  }
+
   static loginVendorRequest = TestUtils.getRequestFunc<
     LoginVendor.ReqBody,
     LoginVendor.ResBody,
     typeof LoginVendor.Errors
   >(LoginVendor.Path);
 
-  static async loginTestVendor(email: string, password = this.correctPassword) {
-    return this.loginVendorRequest({ email, password });
+  static async loginTestVendor(
+    { email, password = this.correctPassword }: LoginRequestParams,
+    agent?: TAgent
+  ) {
+    return this.loginVendorRequest({ email, password }, agent);
   }
+
+  static createAndLoginTestVendor = async (email: string) => {
+    const agent = TestUtils.agent();
+    await VendorTestUtils.createTestVendor(email);
+    await VendorTestUtils.loginTestVendor({ email }, agent);
+
+    return agent;
+  };
 }

@@ -7,15 +7,20 @@ import {
 
 type TResponse<T> = Omit<Response, "body"> & { body: T };
 
+export type TAgent = ReturnType<typeof TestUtils.agent>;
+
 export class TestUtils {
+  static agent = () => request.agent(app);
+
   static waitForServerToStart = async () =>
     new Promise((resolve) => setTimeout(resolve, 4000));
 
   static request<Req extends {}, Res extends {}>(
     path: string,
-    req: Req
+    req: Req,
+    agent?: TAgent
   ): Promise<TResponse<Partial<Res>>> {
-    return request(app).post(path).send(req);
+    return (agent ?? request(app)).post(path).send(req);
   }
 
   static getRequestFunc<
@@ -23,7 +28,7 @@ export class TestUtils {
     Res extends {},
     Errors extends APIErrorsMap<string>
   >(path: string) {
-    return (req: Req) =>
-      this.request<Req, Res & APIErrResponse<Errors>>(path, req);
+    return (req: Req, agent?: TAgent) =>
+      this.request<Req, Res & APIErrResponse<Errors>>(path, req, agent);
   }
 }

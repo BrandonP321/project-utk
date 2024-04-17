@@ -8,10 +8,16 @@ const loginAttemptLimit = apiConfig.vendor.auth.loginAttemptLimit;
 const lockoutDurationMs = apiConfig.vendor.auth.accountLockoutDurationMs;
 
 const attemptInvalidLogin = () =>
-  VendorTestUtils.loginTestVendor(testEmail, VendorTestUtils.incorrectPassword);
+  VendorTestUtils.loginTestVendor({
+    email: testEmail,
+    password: VendorTestUtils.incorrectPassword,
+  });
 
 const attemptValidLogin = () =>
-  VendorTestUtils.loginTestVendor(testEmail, VendorTestUtils.correctPassword);
+  VendorTestUtils.loginTestVendor({
+    email: testEmail,
+    password: VendorTestUtils.correctPassword,
+  });
 
 const lockAcount = async () => {
   for (let i = 0; i < loginAttemptLimit; i++) {
