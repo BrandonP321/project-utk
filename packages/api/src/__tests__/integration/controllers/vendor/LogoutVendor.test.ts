@@ -1,11 +1,11 @@
 import { LogoutVendor } from "@project-utk/shared/src/api/routes";
-import { TestUtils } from "../../../../utils/testUtils";
+import { TAgent, TestUtils } from "../../../../utils/testUtils";
 import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.logout");
 
 describe("Logout Vendor Endpoint", () => {
-  let agent = TestUtils.agent();
+  let agent: TAgent;
 
   const logoutTestVendor = () =>
     TestUtils.request<LogoutVendor.ReqBody, LogoutVendor.ResBody>(
