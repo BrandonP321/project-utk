@@ -38,13 +38,20 @@ const DefaultAPIErrorsList = [
     msg: "Account locked",
     statusCode: 403,
   }),
+  new APIError({
+    code: "RESOURCE_NOT_FOUND",
+    msg: "Resource not found",
+    statusCode: 404,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);
 
 type DefaultAPIErrorCode = (typeof DefaultAPIErrorsList)[number]["code"];
 
-export function getErrorsMap<K extends string>(errors: APIError<K>[]) {
+export function getErrorsMap<
+  K extends string = (typeof DefaultAPIErrorsList)[number]["code"]
+>(errors: APIError<K>[]) {
   return [...errors, ...DefaultAPIErrorsList].reduce((acc, error) => {
     return {
       ...acc,

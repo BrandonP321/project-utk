@@ -1,4 +1,6 @@
-export type TypedExtract<T, K extends T> = Extract<T, K>;
+import { TypedExtract } from "../../../utils";
+
+export const VendorIdForeignKey = "vendorId" as const;
 
 export interface VendorBaseProperties {
   email: string;

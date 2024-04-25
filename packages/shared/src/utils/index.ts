@@ -5,3 +5,4 @@ export * from "./SchemaUtils";
 export * from "./TimeUtils";
 export * from "./ConfigUtils";
 export * from "./Helpers";
+export * from "./UtilityTypes";

@@ -34,5 +34,36 @@ const syncDB = async () => {
 };
 
 export const connectToDB = async () => {
+  await import("../../models/modelAssociations").then(
+    ({ default: createAssociations }) => {
+      createAssociations();
+    }
+  );
   await syncDB();
+
+  // Can run asynchronously so server can start up
+  if (process.env.STAGE === "local") {
+    useSeeders();
+  }
 };
+
+function useSeeders() {
+  // useVendorListingSeeder();
+  useVendorListingWithPricingInfoSeeder();
+}
+
+function useVendorListingSeeder() {
+  import("../../seeders/vendorListingSeeder").then(
+    ({ default: VendorListingSeeder }) => {
+      VendorListingSeeder.createVendorWithListingSeeder();
+    }
+  );
+}
+
+function useVendorListingWithPricingInfoSeeder() {
+  import("../../seeders/vendorListingSeeder").then(
+    ({ default: VendorListingSeeder }) => {
+      VendorListingSeeder.createVendorListingWithPricingInfoSeeder();
+    }
+  );
+}
