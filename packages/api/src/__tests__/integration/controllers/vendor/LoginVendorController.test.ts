@@ -1,10 +1,10 @@
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
 import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { TestUtils } from "../../../../utils/testUtils";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.login");
 
 const invalidCredentialsCode = LoginVendor.Errors.INVALID_CREDENTIALS.code;
-const invalidInputCode = LoginVendor.Errors.INVALID_INPUT.code;
 
 describe("Login Vendor Endpoint", () => {
   beforeEach(async () => {
@@ -14,6 +14,10 @@ describe("Login Vendor Endpoint", () => {
   afterEach(async () => {
     await VendorTestUtils.deleteTestVendor(testEmail);
   });
+
+  TestUtils.itShouldRejectInvalidInput(() =>
+    VendorTestUtils.loginTestVendor({ email: VendorTestUtils.invalidEmail })
+  );
 
   it("should return a new vendor id after successful login", async () => {
     const res = await VendorTestUtils.loginTestVendor({ email: testEmail });
@@ -33,13 +37,6 @@ describe("Login Vendor Endpoint", () => {
       email: "incorrect@example.com",
     });
     expect(res.body.errCode).toBe(invalidCredentialsCode);
-  });
-
-  it("should reject logins with invalid email formats", async () => {
-    const res = await VendorTestUtils.loginTestVendor({
-      email: VendorTestUtils.invalidEmail,
-    });
-    expect(res.body.errCode).toBe(invalidInputCode);
   });
 
   it("should return a JWT on successful login", async () => {

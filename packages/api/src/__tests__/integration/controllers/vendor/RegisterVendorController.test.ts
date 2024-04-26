@@ -30,16 +30,12 @@ describe("Register Vendor Endpoint", () => {
     await VendorTestUtils.deleteTestVendor(testEmail);
   });
 
+  TestUtils.itShouldRejectInvalidInput(() => registerVendorRequest(invalidReq));
+
   it("should return a new vendor id after successful registration", async () => {
     const res = await registerVendorRequest(validReq);
 
     expect(res.body.vendorId).toBeDefined();
-  });
-
-  it("should reject registration wth invalid input", async () => {
-    const res = await registerVendorRequest(invalidReq);
-
-    expect(res.body.errCode).toBe(RegisterVendor.Errors.INVALID_INPUT.code);
   });
 
   it("should reject registration if the email is already in use", async () => {

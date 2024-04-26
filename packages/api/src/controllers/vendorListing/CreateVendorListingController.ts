@@ -16,10 +16,8 @@ export const CreateVendorListingController = controller.handler(
   async (req, res, errors) => {
     const { vendorId } = res.locals;
 
-    // TODO: Add integration test to ensure req.body does not contain any unexpected fields
     req.body = await validateAndFilterCreateVendorListingInput(req.body);
 
-    // Create vendor listing
     const listing = await VendorListing.create({
       ...req.body,
       vendorId,

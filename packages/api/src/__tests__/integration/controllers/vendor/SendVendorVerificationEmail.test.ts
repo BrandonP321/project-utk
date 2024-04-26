@@ -21,6 +21,8 @@ describe("Endpoint to send vendor email verification email", () => {
     await VendorTestUtils.deleteTestVendor(testEmail);
   });
 
+  TestUtils.itShouldRequireAuth(sendEmailRequest, (a) => (agent = a));
+
   it("should send a verification email", async () => {
     jest
       .spyOn(EmailVerificationUtils, "sendVerificationEmail")

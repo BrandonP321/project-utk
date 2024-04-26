@@ -22,6 +22,8 @@ describe("Logout Vendor Endpoint", () => {
     await VendorTestUtils.deleteTestVendor(testEmail);
   });
 
+  TestUtils.itShouldRequireAuth(logoutTestVendor, (a) => (agent = a));
+
   it("should remove the JWT cookie", async () => {
     const res = await logoutTestVendor();
     const authCookie = VendorTestUtils.getJWTFromHeader(res.header);

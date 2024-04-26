@@ -3,6 +3,9 @@ import Vendor from "../../models/vendor/Vendor";
 import { JWTUtils } from "../JWTUtils";
 import { TAgent, TestUtils } from "./TestUtils";
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
+import VendorListing from "../../models/vendorListing/VendorListing";
+import PricingOptionGroup from "../../models/PricingOptionGroup/PricingOptionGroup";
+import PricingOption from "../../models/PricingOption/PricingOption";
 
 type LoginRequestParams = {
   email: string;
@@ -25,13 +28,37 @@ export class VendorTestUtils {
 
   /** Only pass in a lowercase ID with words separate by periods */
   static getTestEmail(id: string) {
-    return `utktest.${id}@example.com`;
+    return `utktest.${id.toLowerCase()}@example.com`;
   }
 
   static async deleteTestVendor(email: string) {
     try {
-      await Vendor.destroy({ where: { email } });
+      const vendor = await Vendor.findOne({ where: { email } });
+      const listings = await VendorListing.findAll({
+        where: { vendorId: vendor?.id },
+      });
+      const optionGroups = (
+        await Promise.all(
+          listings.map((l) =>
+            PricingOptionGroup.findAll({ where: { listingId: l.id } })
+          )
+        )
+      ).flat();
+
+      await Promise.all([
+        Vendor.destroy({ where: { id: vendor?.id } }),
+        VendorListing.destroy({ where: { vendorId: vendor?.id } }),
+        PricingOptionGroup.destroy({
+          where: { id: optionGroups.map((o) => o.id) },
+        }),
+        PricingOption.destroy({
+          where: { groupId: optionGroups.map((o) => o.id) },
+        }),
+      ]);
+
+      await Vendor.destroy({ where: { id: vendor?.id } });
     } catch (err) {
+      console.log("Error deleting test vendor", err);
       noop();
     }
   }
@@ -46,6 +73,10 @@ export class VendorTestUtils {
 
   static async getTestVendor(email: string) {
     return (await Vendor.findOne({ where: { email } }))!;
+  }
+
+  static async getTestVendorListing(listingId: string) {
+    return (await VendorListing.findOne({ where: { id: listingId } }))!;
   }
 
   static loginVendorRequest = TestUtils.getRequestFunc<
