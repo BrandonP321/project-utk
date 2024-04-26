@@ -43,6 +43,11 @@ const DefaultAPIErrorsList = [
     msg: "Resource not found",
     statusCode: 404,
   }),
+  new APIError({
+    code: "UNAUTHORIZED",
+    msg: "Unauthorized",
+    statusCode: 403,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);

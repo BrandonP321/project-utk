@@ -1,11 +1,12 @@
 import { GetVendorListing } from "@project-utk/shared/src/api/routes/vendorListing/GetVendorListing";
 import { Controller } from "../../utils";
 import { VendorListingLocals } from "../../middleware/getVendorListing.middleware";
+import { VendorJWTLocals } from "../../middleware";
 
 const controller = new Controller<
   GetVendorListing.ReqBody,
   GetVendorListing.ResBody,
-  VendorListingLocals,
+  Partial<VendorJWTLocals> & VendorListingLocals,
   {},
   typeof GetVendorListing.Errors
 >(GetVendorListing.Errors);

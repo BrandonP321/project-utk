@@ -17,6 +17,7 @@ class PricingOptionGroup
   public [VendorListingIdForeignKey]!: string;
   public groupType!: string;
   public groupLabel!: string;
+  public isLive!: boolean;
 
   public convertPopulatedToJSON() {
     const unknownThis = this as unknown;
@@ -57,6 +58,11 @@ PricingOptionGroup.init(
     groupLabel: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    isLive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {

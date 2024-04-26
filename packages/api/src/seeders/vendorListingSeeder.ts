@@ -28,12 +28,14 @@ namespace VendorListingSeeder {
       listingId: vendorListing.id,
       groupLabel: "Test Pricing Option Group",
       groupType: "radio",
+      isLive: true,
     });
 
     const group2 = await PricingOptionGroup.create({
       listingId: vendorListing.id,
       groupLabel: "Test Pricing Option Group 2",
       groupType: "checkbox",
+      isLive: true,
     });
 
     await Promise.all([

@@ -14,11 +14,12 @@ export type PricingOptionGroupBaseProperties = {
 } & {
   groupType: string;
   groupLabel: string;
+  isLive: boolean;
 };
 
 export type PricingOptionGroupCreationAttributes = Pick<
   PricingOptionGroupBaseProperties,
-  ListingIdFK | "groupType" | "groupLabel"
+  ListingIdFK | "groupType" | "groupLabel" | "isLive"
 >;
 
 export interface IPricingOptionGroup extends PricingOptionGroupBaseProperties {
@@ -27,7 +28,7 @@ export interface IPricingOptionGroup extends PricingOptionGroupBaseProperties {
 
 export type SensitivePricingOptionGroupProperties = TypedExtract<
   keyof IPricingOptionGroup,
-  ListingIdFK
+  ListingIdFK | "isLive"
 >;
 
 export type PublicPricingOptionGroupProperties = TypedOmit<
@@ -42,7 +43,7 @@ export const PricingOptionGroupPublicProps: TupleUnion<
 export namespace PricingOptionGroupAPI {
   export type CreateRequest = TypedOmit<
     PricingOptionGroupBaseProperties,
-    ListingIdFK
+    ListingIdFK | "isLive"
   > & {
     [PricingOptionAPI.PopulatedQueryResponseKey]: PricingOptionAPI.CreateRequest[];
   };

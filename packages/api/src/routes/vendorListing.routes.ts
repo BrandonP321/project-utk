@@ -9,6 +9,8 @@ import { GetListingPricingInfoController } from "../controllers/vendorListing/Ge
 import { GetVendorListing } from "@project-utk/shared/src/api/routes/vendorListing/GetVendorListing";
 import { GetVendorListingController } from "../controllers/vendorListing/GetVendorListingController";
 import { getVendorListingMiddleware } from "../middleware/getVendorListing.middleware";
+import { UpdateVendorListingPricing } from "@project-utk/shared/src/api/routes/vendorListing/UpdateVendorListingPricing";
+import { UpdateVendorListingPricingController } from "../controllers/vendorListing/UpdateVendorListingPricingController";
 
 const router = express.Router();
 
@@ -33,6 +35,15 @@ router.post(
   GetVendorListing.Path,
   getVendorListingMiddleware(),
   GetVendorListingController
+);
+
+// Update listing pricing info
+router.post(
+  UpdateVendorListingPricing.Path,
+  authenticateJWT,
+  getAuthVendor,
+  getVendorListingMiddleware(undefined, true),
+  UpdateVendorListingPricingController
 );
 
 // Get listing Pricing Info
