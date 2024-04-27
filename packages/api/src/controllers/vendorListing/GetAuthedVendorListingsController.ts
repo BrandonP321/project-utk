@@ -21,6 +21,6 @@ export const GetAuthedVendorListingsController = controller.handler(
       attributes: VendorListingPublicProps,
     });
 
-    return res.json({ listings });
+    return res.json({ listings }).end();
   }
 );

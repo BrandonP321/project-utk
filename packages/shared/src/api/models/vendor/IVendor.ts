@@ -23,16 +23,32 @@ export interface IVendor extends VendorBaseProperties {
   id: string;
 }
 
-export type SensitiveVendorProperties = TypedExtract<keyof IVendor, "password">;
+export type SensitiveVendorProperties = TypedExtract<
+  keyof IVendor,
+  | "password"
+  | "emailVerificationToken"
+  | "failedLoginAttempts"
+  | "isEmailVerified"
+  | "lockUntil"
+  | "refreshToken"
+  | "resetToken"
+>;
 
 export type PublicVendorProperties = Omit<IVendor, SensitiveVendorProperties>;
+
+export type UpdatableVendorProperties = TypedExtract<
+  keyof PublicVendorProperties,
+  "name"
+>;
 
 export namespace VendorAPI {
   export type CreateRequest = VendorBaseProperties;
 
   export type CreateResponse = { vendorId: string } & VendorBaseProperties;
 
-  export type UpdateRequest = Partial<VendorBaseProperties>;
+  export type UpdateRequest = Partial<
+    Pick<PublicVendorProperties, UpdatableVendorProperties>
+  >;
 
   export type UpdateResponse = VendorBaseProperties;
 }

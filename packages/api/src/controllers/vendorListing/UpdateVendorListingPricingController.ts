@@ -50,7 +50,7 @@ export const UpdateVendorListingPricingController = controller.handler(
       );
     });
 
-    return res.json({ success: true });
+    return res.json({ success: true }).end();
   }
 );
 

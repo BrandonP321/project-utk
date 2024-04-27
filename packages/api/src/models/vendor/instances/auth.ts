@@ -1,3 +1,4 @@
+import { PublicVendorProperties } from "@project-utk/shared/src/api/models/vendor/IVendor";
 import { apiConfig } from "../../../config";
 import Vendor from "../Vendor";
 
@@ -29,6 +30,14 @@ function hasReachedLoginAttemptLimit(this: Vendor) {
   return this.failedLoginAttempts >= apiConfig.vendor.auth.loginAttemptLimit;
 }
 
+function toPublicJSON(this: Vendor): PublicVendorProperties {
+  return {
+    id: this.id,
+    name: this.name,
+    email: this.email,
+  };
+}
+
 export const authInstanceMethods = {
   isAccountLocked,
   incrementFailedLoginAttempts,
@@ -36,4 +45,5 @@ export const authInstanceMethods = {
   lockAccount,
   hasReachedLoginAttemptLimit,
   isAccountReadyForUnlock,
+  toPublicJSON,
 };

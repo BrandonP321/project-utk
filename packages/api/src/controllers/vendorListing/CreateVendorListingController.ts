@@ -23,6 +23,6 @@ export const CreateVendorListingController = controller.handler(
       vendorId,
     });
 
-    return res.json({ listingId: listing.id });
+    return res.json({ listingId: listing.id }).end();
   }
 );

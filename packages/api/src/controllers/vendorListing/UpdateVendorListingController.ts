@@ -20,6 +20,6 @@ export const UpdateVendorListingController = controller.handler(
 
     await listing.update(req.body.listing);
 
-    return res.json({});
+    return res.json({}).end();
   }
 );

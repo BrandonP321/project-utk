@@ -16,6 +16,6 @@ export const sendVendorVerificationEmailController = controller.handler(
   async (req, res) => {
     await EmailVerificationUtils.sendVerificationEmail(res.locals.vendor);
 
-    return res.json({});
+    return res.json({}).end();
   }
 );

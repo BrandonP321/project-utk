@@ -15,6 +15,6 @@ export const GetVendorListingController = controller.handler(
   async (req, res, errors) => {
     const { listing } = res.locals;
 
-    return res.json({ listing });
+    return res.json({ listing }).end();
   }
 );

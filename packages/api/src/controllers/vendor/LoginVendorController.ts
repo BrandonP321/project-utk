@@ -47,6 +47,6 @@ export const LoginVendorController = controller.handler(
     // Reset failed login attempts and lockUntil on successful login
     await vendor.resetFailedLoginAttempts();
 
-    return res.json({ vendorId: vendor.id });
+    return res.json({ vendorId: vendor.id }).end();
   }
 );

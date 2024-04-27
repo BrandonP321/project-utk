@@ -24,6 +24,10 @@ import {
   SendVendorVerificationEmail,
   VerifyVendorEmail,
 } from "@project-utk/shared/src/api/routes/vendor";
+import { UpdateVendor } from "@project-utk/shared/src/api/routes/vendor/UpdateVendor";
+import { UpdateVendorController } from "../controllers/vendor/UpdateVendorController";
+import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
+import { GetAuthenticatedVendorController } from "../controllers/vendor/GetAuthenticatedVendorController";
 
 const router = express.Router();
 
@@ -62,6 +66,20 @@ router.post(
   ResetVendorPassword.Path,
   ResetVendorPasswordLimiter,
   ResetVendorPasswordController
+);
+// Update vendor
+router.post(
+  UpdateVendor.Path,
+  authenticateJWT,
+  getAuthVendor,
+  UpdateVendorController
+);
+// Get Authenticated Vendor
+router.post(
+  GetAuthenticatedVendor.Path,
+  authenticateJWT,
+  getAuthVendor,
+  GetAuthenticatedVendorController
 );
 
 export const vendorRouter = router;

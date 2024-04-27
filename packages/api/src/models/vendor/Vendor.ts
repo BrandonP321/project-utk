@@ -36,6 +36,7 @@ class Vendor
   lockAccount = vendorInstanceMethods.lockAccount;
   hasReachedLoginAttemptLimit =
     vendorInstanceMethods.hasReachedLoginAttemptLimit;
+  toPublicJSON = vendorInstanceMethods.toPublicJSON;
 }
 
 Vendor.init(

@@ -31,6 +31,6 @@ export const RegisterVendorController = controller.handler(
     // Send verification email
     await EmailVerificationUtils.sendVerificationEmail(newVendor);
 
-    return res.json({ vendorId: newVendor.id });
+    return res.json({ vendorId: newVendor.id }).end();
   }
 );
