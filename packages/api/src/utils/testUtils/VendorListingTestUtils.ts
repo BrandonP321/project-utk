@@ -1,4 +1,7 @@
-import { CreateVendorListing } from "@project-utk/shared/src/api/routes/vendorListing";
+import {
+  CreateVendorListing,
+  GetVendorListing,
+} from "@project-utk/shared/src/api/routes/vendorListing";
 import { TAgent, TestUtils } from "./TestUtils";
 
 export class VendorListingTestUtils {
@@ -22,4 +25,11 @@ export class VendorListingTestUtils {
 
   static createInvalidListing = (agent?: TAgent) =>
     this.createListingRequest(this.invalidCreationReqBody, agent);
+
+  static getTestListing = (listingId: string, agent?: TAgent) =>
+    TestUtils.getRequestFunc<
+      GetVendorListing.ReqBody,
+      GetVendorListing.ResBody,
+      typeof GetVendorListing.Errors
+    >(GetVendorListing.Path)({ listingId }, agent);
 }

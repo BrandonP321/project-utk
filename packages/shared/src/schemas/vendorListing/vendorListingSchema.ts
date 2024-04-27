@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { SchemaUtils } from "../../utils/SchemaUtils";
 import { CreateVendorListing } from "../../api/routes/vendorListing/CreateVendorListing";
+import { VendorListingAPI } from "../../api/models/vendorListing/IVendorListing";
 
 export function vendorListingSchema<R extends boolean>(allPropsOptional: R) {
   return yup.object().shape({
@@ -19,4 +20,9 @@ export const validateCreateVendorListingInput =
 export const validateAndFilterCreateVendorListingInput =
   SchemaUtils.getValidationAndFilterFunc<CreateVendorListing.ReqBody>(
     vendorListingCreationSchema
+  );
+
+export const validateUpdateVendorListingInput =
+  SchemaUtils.getValidationFunc<VendorListingAPI.UpdateRequest>(
+    vendorListingUpdateSchema
   );
