@@ -1,0 +1,81 @@
+@import "../../styles/uiBase.scss";
+
+.spaceBetween {
+  display: flex;
+
+  @include generateSizeClassNamesForProperty(gap);
+  //   @include generateSizeClassNamesForProperty($listFlexGapVar);
+
+  &.stretch {
+    width: 100%;
+  }
+
+  &.vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &.align-start {
+    align-items: flex-start;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-n {
+    align-items: initial;
+  }
+
+  &.justify-start {
+    justify-content: flex-start;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+
+  &.justify-space-between {
+    justify-content: space-between;
+  }
+
+  &.justify-n {
+    justify-content: initial;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.stretchChildren {
+    & > * {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}
+
+// $maxItemsPerRow: 10;
+
+// .listSpaceBetween {
+//   gap: $listFlexGap;
+
+//   @for $i from 1 through $maxItemsPerRow {
+//     &.items-#{$i} {
+//       #{$listCardsPerRowVar}: $i;
+//     }
+//   }
+// }
+
+// .listItem {
+//   width: GetListItemWidth();
+//   flex-shrink: 0;
+// }

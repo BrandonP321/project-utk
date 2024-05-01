@@ -1,11 +1,16 @@
-import React from "react";
 import "./App.module.scss";
-import { test } from "@project-utk/shared/src/myTest";
+import { useResponsiveSetup } from "./features/responsive/useResponsiveSetup";
+import styles from "./App.module.scss";
+import Navigation from "./components/Navigation/Navigation";
+import Notifications from "./components/Notifications/Notifications";
 
 function App() {
+  useResponsiveSetup();
+
   return (
     <div className="App">
-      <h1>{test}</h1>
+      <Navigation />
+      <Notifications />
     </div>
   );
 }

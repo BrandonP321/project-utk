@@ -1,0 +1,86 @@
+$maxVW: 1664px;
+$largeVW: 1200px;
+$mediumVW: 992px;
+$mobileVW: 768px;
+$tinyVW: 480px;
+$picoVW: 350px;
+
+@mixin breakpoint($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin maxVW() {
+  @include breakpoint($maxVW) {
+    @content;
+  }
+}
+
+@mixin largeVW() {
+  @include breakpoint($largeVW) {
+    @content;
+  }
+}
+
+@mixin mediumVW() {
+  @include breakpoint($mediumVW) {
+    @content;
+  }
+}
+
+@mixin mobileVW() {
+  @include breakpoint($mobileVW) {
+    @content;
+  }
+}
+
+@mixin notMobileVW() {
+  @media screen and (min-width: #{$mobileVW + 1}) {
+    @content;
+  }
+}
+
+@mixin tinyVW() {
+  @include breakpoint($tinyVW) {
+    @content;
+  }
+}
+
+@mixin picoVW() {
+  @include breakpoint($picoVW) {
+    @content;
+  }
+}
+
+@mixin touchDevice() {
+  :global(html.touch) & {
+    @content;
+  }
+}
+
+@mixin mobileTouchDevice() {
+  :global(html.touch) & {
+    @include mobileVW() {
+      @content;
+    }
+  }
+}
+
+@mixin nonMobileNonTouchDevice() {
+  @include notMobileVW() {
+    @content;
+  }
+
+  @include mobileVW() {
+    @include nonTouchDevice() {
+      @content;
+    }
+  }
+}
+
+@mixin nonTouchDevice() {
+  :global(html.no-touch) & {
+    @content;
+  }
+}

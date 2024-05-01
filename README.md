@@ -24,3 +24,15 @@ It is recommended to have completed the nvm and node version setups before doing
 1. Make sure yarn is not installed globally with `npm uninstall -g yarn`.
 
 2. Now reinstall yarn globally to get on the latest version `npm i -g yarn`.
+
+## VS Code setup
+
+### VS Code Extensions
+
+1. SCSS Intellisense
+2. Path Intellisense
+3. GitHub Copilot
+4. GitHub Copilot Chat
+5. ESLint
+6. CSS Modules
+7. Better Comments

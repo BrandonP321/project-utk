@@ -48,7 +48,7 @@ export const connectToDB = async () => {
 };
 
 function useSeeders() {
-  useVendorListingSeeder();
+  // useVendorListingSeeder();
   // useVendorListingWithPricingInfoSeeder();
 }
 

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import Vendor from "../models/vendor/Vendor";
 import { DefaultAPIErrors } from "@project-utk/shared/src/api/routes/routeErrors";
 import { v4 as uuid } from "uuid";
+import { apiConfig } from "../config";
 
 type VendorJWTPayload = {
   vendorId: string;
@@ -16,13 +17,13 @@ export class JWTUtils {
 
   static generateAccessToken<P extends {}>(payload: P) {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
-      expiresIn: "15m",
+      expiresIn: apiConfig.vendor.auth.accessTokenExpirationSec,
     });
   }
 
   static generateRefreshToken<P extends {}>(payload: P) {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: "7d",
+      expiresIn: apiConfig.vendor.auth.refreshTokenExpirationSec,
     });
   }
 

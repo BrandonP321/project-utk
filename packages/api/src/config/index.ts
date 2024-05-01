@@ -8,6 +8,14 @@ export const apiConfig = {
         TimeUtils.minutesToMilliseconds(60),
         { test: 2000 }
       ),
+      accessTokenExpirationSec: ConfigUtils.getConfigValue<number>(
+        TimeUtils.minutesToSeconds(15),
+        {}
+      ),
+      refreshTokenExpirationSec: ConfigUtils.getConfigValue<number>(
+        TimeUtils.daysToSeconds(7),
+        {}
+      ),
     },
   },
 };

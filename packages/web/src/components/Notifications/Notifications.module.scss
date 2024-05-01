@@ -1,0 +1,18 @@
+@import "../../styles/uiBase.scss";
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.toast {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  pointer-events: all;
+  animation: FadeInRightToLeft 0.5s ease-in-out;
+}

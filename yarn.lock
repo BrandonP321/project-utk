@@ -2133,6 +2133,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.21.0":
+  version: 7.24.5
+  resolution: "@babel/runtime@npm:7.24.5"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/05730e43e8ba6550eae9fd4fb5e7d9d3cb91140379425abcb2a1ff9cebad518a280d82c4c4b0f57ada26a863106ac54a748d90c775790c0e2cd0ddd85ccdf346
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.24.0, @babel/template@npm:^7.3.3":
   version: 7.24.0
   resolution: "@babel/template@npm:7.24.0"
@@ -2177,6 +2186,25 @@ __metadata:
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
   checksum: 10c0/6b80ae4cb3db53f486da2dc63b6e190a74c8c3cca16bb2733f234a0b6a9382b09b146488ae08e2b22cf00f6c83e20f3e040a2f7894f05c045c946d6a090b1d52
+  languageName: node
+  linkType: hard
+
+"@craco/craco@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@craco/craco@npm:7.1.0"
+  dependencies:
+    autoprefixer: "npm:^10.4.12"
+    cosmiconfig: "npm:^7.0.1"
+    cosmiconfig-typescript-loader: "npm:^1.0.0"
+    cross-spawn: "npm:^7.0.3"
+    lodash: "npm:^4.17.21"
+    semver: "npm:^7.3.7"
+    webpack-merge: "npm:^5.8.0"
+  peerDependencies:
+    react-scripts: ^5.0.0
+  bin:
+    craco: dist/bin/craco.js
+  checksum: 10c0/cd9b2e49676e75b0776265acfb5d0f632547d2e3e5653b1de7972196e5c507e5105e231ae2444528857d9702368c2a316f5f48b2cf2209bd6cb643cc94c48ee4
   languageName: node
   linkType: hard
 
@@ -3175,6 +3203,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@project-utk/web@workspace:packages/web"
   dependencies:
+    "@craco/craco": "npm:^7.1.0"
     "@project-utk/shared": "workspace:^"
     "@reduxjs/toolkit": "npm:^2.2.3"
     "@testing-library/jest-dom": "npm:^5.17.0"
@@ -3187,11 +3216,14 @@ __metadata:
     "@types/react-dom": "npm:^18.2.24"
     axios: "npm:^1.6.8"
     classnames: "npm:^2.5.1"
+    craco-alias: "npm:^3.0.1"
     destyle.css: "npm:^4.0.1"
     formik: "npm:^2.4.5"
     js-cookie: "npm:^3.0.5"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    react-redux: "npm:^9.1.1"
+    react-router-dom: "npm:^6.23.0"
     react-scripts: "npm:5.0.1"
     sass: "npm:^1.74.1"
     typescript: "npm:^4.9.5"
@@ -3216,6 +3248,13 @@ __metadata:
     react-redux:
       optional: true
   checksum: 10c0/f10f2c8f4b6c5c7a65d8d60246bdfde86b6cd2f542210ebdda8002223c7f4e99ed32964825e63f37345d9d12532671150fcec2809a40690931ae44afe8aba7f8
+  languageName: node
+  linkType: hard
+
+"@remix-run/router@npm:1.16.0":
+  version: 1.16.0
+  resolution: "@remix-run/router@npm:1.16.0"
+  checksum: 10c0/234e66b4d7266aff6d111a43f5560f00ffdc91de0b5cd447f1fdf1de1a8b3a6ac326eb52302356e23b095e71a8f4da914e40239af5f121de2ec2994f101b8db0
   languageName: node
   linkType: hard
 
@@ -4566,6 +4605,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/use-sync-external-store@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@types/use-sync-external-store@npm:0.0.3"
+  checksum: 10c0/82824c1051ba40a00e3d47964cdf4546a224e95f172e15a9c62aa3f118acee1c7518b627a34f3aa87298a2039f982e8509f92bfcc18bea7c255c189c293ba547
+  languageName: node
+  linkType: hard
+
 "@types/uuid@npm:^9":
   version: 9.0.8
   resolution: "@types/uuid@npm:9.0.8"
@@ -5448,7 +5494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.13":
+"autoprefixer@npm:^10.4.12, autoprefixer@npm:^10.4.13":
   version: 10.4.19
   resolution: "autoprefixer@npm:10.4.19"
   dependencies:
@@ -6167,6 +6213,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clone-deep@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "clone-deep@npm:4.0.1"
+  dependencies:
+    is-plain-object: "npm:^2.0.4"
+    kind-of: "npm:^6.0.2"
+    shallow-clone: "npm:^3.0.0"
+  checksum: 10c0/637753615aa24adf0f2d505947a1bb75e63964309034a1cf56ba4b1f30af155201edd38d26ffe26911adaae267a3c138b344a4947d39f5fc1b6d6108125aa758
+  languageName: node
+  linkType: hard
+
 "co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
@@ -6343,6 +6400,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"concurrently@npm:^8.2.2":
+  version: 8.2.2
+  resolution: "concurrently@npm:8.2.2"
+  dependencies:
+    chalk: "npm:^4.1.2"
+    date-fns: "npm:^2.30.0"
+    lodash: "npm:^4.17.21"
+    rxjs: "npm:^7.8.1"
+    shell-quote: "npm:^1.8.1"
+    spawn-command: "npm:0.0.2"
+    supports-color: "npm:^8.1.1"
+    tree-kill: "npm:^1.2.2"
+    yargs: "npm:^17.7.2"
+  bin:
+    conc: dist/bin/concurrently.js
+    concurrently: dist/bin/concurrently.js
+  checksum: 10c0/0e9683196fe9c071d944345d21d8f34aa6c0cc50c0dd897e95619f2f1c9eb4871dca851b2569da17888235b7335b4c821ca19deed35bebcd9a131ee5d247f34c
+  languageName: node
+  linkType: hard
+
 "confusing-browser-globals@npm:^1.0.11":
   version: 1.0.11
   resolution: "confusing-browser-globals@npm:1.0.11"
@@ -6472,6 +6549,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cosmiconfig-typescript-loader@npm:^1.0.0":
+  version: 1.0.9
+  resolution: "cosmiconfig-typescript-loader@npm:1.0.9"
+  dependencies:
+    cosmiconfig: "npm:^7"
+    ts-node: "npm:^10.7.0"
+  peerDependencies:
+    "@types/node": "*"
+    cosmiconfig: ">=7"
+    typescript: ">=3"
+  checksum: 10c0/cabad4f74654db12fa0623544956415b5d25ded8d6108ac56c8e6fc76cc00b0260d7e62c098078c153932a1d395f01e5e99c42309e61d585df9fac8eafc817d2
+  languageName: node
+  linkType: hard
+
 "cosmiconfig@npm:^6.0.0":
   version: 6.0.0
   resolution: "cosmiconfig@npm:6.0.0"
@@ -6485,7 +6576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^7.0.0":
+"cosmiconfig@npm:^7, cosmiconfig@npm:^7.0.0, cosmiconfig@npm:^7.0.1":
   version: 7.1.0
   resolution: "cosmiconfig@npm:7.1.0"
   dependencies:
@@ -6495,6 +6586,13 @@ __metadata:
     path-type: "npm:^4.0.0"
     yaml: "npm:^1.10.0"
   checksum: 10c0/b923ff6af581638128e5f074a5450ba12c0300b71302398ea38dbeabd33bbcaa0245ca9adbedfcf284a07da50f99ede5658c80bb3e39e2ce770a99d28a21ef03
+  languageName: node
+  linkType: hard
+
+"craco-alias@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "craco-alias@npm:3.0.1"
+  checksum: 10c0/238aa77d41d43b44d6ffe4bc0bcd4b5731add47753698a59f7d8572056d07d648a4fc40890333ddaad6d551a62b768494280db07510743bdd7c80e087fea3e8b
   languageName: node
   linkType: hard
 
@@ -6872,6 +6970,15 @@ __metadata:
     es-errors: "npm:^1.3.0"
     is-data-view: "npm:^1.0.1"
   checksum: 10c0/21b0d2e53fd6e20cc4257c873bf6d36d77bd6185624b84076c0a1ddaa757b49aaf076254006341d35568e89f52eecd1ccb1a502cfb620f2beca04f48a6a62a8f
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.30.0":
+  version: 2.30.0
+  resolution: "date-fns@npm:2.30.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+  checksum: 10c0/e4b521fbf22bc8c3db332bbfb7b094fd3e7627de0259a9d17c7551e2d2702608a7307a449206065916538e384f37b181565447ce2637ae09828427aed9cb5581
   languageName: node
   linkType: hard
 
@@ -8361,6 +8468,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flat@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "flat@npm:5.0.2"
+  bin:
+    flat: cli.js
+  checksum: 10c0/f178b13482f0cd80c7fede05f4d10585b1f2fdebf26e12edc138e32d3150c6ea6482b7f12813a1091143bad52bb6d3596bca51a162257a21163c0ff438baa5fe
+  languageName: node
+  linkType: hard
+
 "flatted@npm:^3.2.9":
   version: 3.3.1
   resolution: "flatted@npm:3.3.1"
@@ -9552,6 +9668,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-object@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "is-plain-object@npm:2.0.4"
+  dependencies:
+    isobject: "npm:^3.0.1"
+  checksum: 10c0/f050fdd5203d9c81e8c4df1b3ff461c4bc64e8b5ca383bcdde46131361d0a678e80bcf00b5257646f6c636197629644d53bd8e2375aea633de09a82d57e942f4
+  languageName: node
+  linkType: hard
+
 "is-potential-custom-element-name@npm:^1.0.1":
   version: 1.0.1
   resolution: "is-potential-custom-element-name@npm:1.0.1"
@@ -9700,6 +9825,13 @@ __metadata:
   version: 3.1.1
   resolution: "isexe@npm:3.1.1"
   checksum: 10c0/9ec257654093443eb0a528a9c8cbba9c0ca7616ccb40abd6dde7202734d96bb86e4ac0d764f0f8cd965856aacbff2f4ce23e730dc19dfb41e3b0d865ca6fdcc7
+  languageName: node
+  linkType: hard
+
+"isobject@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "isobject@npm:3.0.1"
+  checksum: 10c0/03344f5064a82f099a0cd1a8a407f4c0d20b7b8485e8e816c39f249e9416b06c322e8dec5b842b6bb8a06de0af9cb48e7bc1b5352f0fadc2f0abac033db3d4db
   languageName: node
   linkType: hard
 
@@ -13533,6 +13665,7 @@ __metadata:
     "@types/lodash": "npm:^4"
     "@types/yup": "npm:^0.32.0"
     babel-jest: "npm:^29.7.0"
+    concurrently: "npm:^8.2.2"
     jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
     ts-jest: "npm:^29.1.2"
@@ -13795,10 +13928,56 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-redux@npm:^9.1.1":
+  version: 9.1.1
+  resolution: "react-redux@npm:9.1.1"
+  dependencies:
+    "@types/use-sync-external-store": "npm:^0.0.3"
+    use-sync-external-store: "npm:^1.0.0"
+  peerDependencies:
+    "@types/react": ^18.2.25
+    react: ^18.0
+    react-native: ">=0.69"
+    redux: ^5.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react-native:
+      optional: true
+    redux:
+      optional: true
+  checksum: 10c0/40ccdc8d48aefeed02c025f46e4a2e6641a2996fe985feb70d25feaaf8f101f6ef937cd1420909cad4c8869a8c79323ee071f5b090b011b950e5ae09100f5767
+  languageName: node
+  linkType: hard
+
 "react-refresh@npm:^0.11.0":
   version: 0.11.0
   resolution: "react-refresh@npm:0.11.0"
   checksum: 10c0/cbb5616c7ba670bbd2f37ddadcdfefa66e727ea188e89733ccb8184d3b874631104b0bc016d5676a7ade4d9c79100b99b46b6ed10cd117ab5d1ddcbf8653a9f2
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^6.23.0":
+  version: 6.23.0
+  resolution: "react-router-dom@npm:6.23.0"
+  dependencies:
+    "@remix-run/router": "npm:1.16.0"
+    react-router: "npm:6.23.0"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 10c0/c249f3ca44a9e73cb931665563273c7d69709e9dbc9532f145cb6d9a3b3874f18c0752e2d949090b6d139d915ae14a3cbdfedb351c731a8202e20bbcfc800fd4
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.23.0":
+  version: 6.23.0
+  resolution: "react-router@npm:6.23.0"
+  dependencies:
+    "@remix-run/router": "npm:1.16.0"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 10c0/567eb764d0814a9af2ea83c7d0bcf8a0a49d7070b4a7fffbbe8a4e4a376ca4e6adaa762b47760b110993eb2773fc617da7e26ab564d59cfd768130671a1b990e
   languageName: node
   linkType: hard
 
@@ -14289,6 +14468,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^7.8.1":
+  version: 7.8.1
+  resolution: "rxjs@npm:7.8.1"
+  dependencies:
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/3c49c1ecd66170b175c9cacf5cef67f8914dcbc7cd0162855538d365c83fea631167cacb644b3ce533b2ea0e9a4d0b12175186985f89d75abe73dbd8f7f06f68
+  languageName: node
+  linkType: hard
+
 "safe-array-concat@npm:^1.1.2":
   version: 1.1.2
   resolution: "safe-array-concat@npm:1.1.2"
@@ -14648,6 +14836,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"shallow-clone@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "shallow-clone@npm:3.0.1"
+  dependencies:
+    kind-of: "npm:^6.0.2"
+  checksum: 10c0/7bab09613a1b9f480c85a9823aebec533015579fa055ba6634aa56ba1f984380670eaf33b8217502931872aa1401c9fcadaa15f9f604d631536df475b05bcf1e
+  languageName: node
+  linkType: hard
+
 "shebang-command@npm:^2.0.0":
   version: 2.0.0
   resolution: "shebang-command@npm:2.0.0"
@@ -14831,6 +15028,13 @@ __metadata:
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: 10c0/f099279fdaae070ff156df7414bbe39aad69cdd615454947ed3e19136bfdfcb4544952685ee73f56e17038f4578091e12b17b283ed8ac013882916594d95b9e6
+  languageName: node
+  linkType: hard
+
+"spawn-command@npm:0.0.2":
+  version: 0.0.2
+  resolution: "spawn-command@npm:0.0.2"
+  checksum: 10c0/b22f2d71239e6e628a400831861ba747750bbb40c0a53323754cf7b84330b73d81e40ff1f9055e6d1971818679510208a9302e13d9ff3b32feb67e74d7a1b3ef
   languageName: node
   linkType: hard
 
@@ -15232,7 +15436,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:
@@ -15583,6 +15787,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tree-kill@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "tree-kill@npm:1.2.2"
+  bin:
+    tree-kill: cli.js
+  checksum: 10c0/7b1b7c7f17608a8f8d20a162e7957ac1ef6cd1636db1aba92f4e072dc31818c2ff0efac1e3d91064ede67ed5dc57c565420531a8134090a12ac10cf792ab14d2
+  languageName: node
+  linkType: hard
+
 "tryer@npm:^1.0.1":
   version: 1.0.1
   resolution: "tryer@npm:1.0.1"
@@ -15630,7 +15843,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.9.2":
+"ts-node@npm:^10.7.0, ts-node@npm:^10.9.2":
   version: 10.9.2
   resolution: "ts-node@npm:10.9.2"
   dependencies:
@@ -15687,7 +15900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.3.1, tslib@npm:^2.6.2":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.2":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
@@ -16001,6 +16214,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:^1.0.0":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/23b1597c10adf15b26ade9e8c318d8cc0abc9ec0ab5fc7ca7338da92e89c2536abd150a5891bf076836c352fdfa104fc7231fb48f806fd9960e0cbe03601abaf
+  languageName: node
+  linkType: hard
+
 "util-deprecate@npm:^1.0.1, util-deprecate@npm:^1.0.2, util-deprecate@npm:~1.0.1":
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
@@ -16250,6 +16472,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"webpack-merge@npm:^5.8.0":
+  version: 5.10.0
+  resolution: "webpack-merge@npm:5.10.0"
+  dependencies:
+    clone-deep: "npm:^4.0.1"
+    flat: "npm:^5.0.2"
+    wildcard: "npm:^2.0.0"
+  checksum: 10c0/b607c84cabaf74689f965420051a55a08722d897bdd6c29cb0b2263b451c090f962d41ecf8c9bf56b0ab3de56e65476ace0a8ecda4f4a4663684243d90e0512b
+  languageName: node
+  linkType: hard
+
 "webpack-sources@npm:^1.4.3":
   version: 1.4.3
   resolution: "webpack-sources@npm:1.4.3"
@@ -16484,6 +16717,13 @@ __metadata:
   dependencies:
     string-width: "npm:^1.0.2 || 2 || 3 || 4"
   checksum: 10c0/1d9c2a3e36dfb09832f38e2e699c367ef190f96b82c71f809bc0822c306f5379df87bab47bed27ea99106d86447e50eb972d3c516c2f95782807a9d082fbea95
+  languageName: node
+  linkType: hard
+
+"wildcard@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "wildcard@npm:2.0.1"
+  checksum: 10c0/08f70cd97dd9a20aea280847a1fe8148e17cae7d231640e41eb26d2388697cbe65b67fd9e68715251c39b080c5ae4f76d71a9a69fa101d897273efdfb1b58bf7
   languageName: node
   linkType: hard
 
@@ -16876,7 +17116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1":
+"yargs@npm:^17.3.1, yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:

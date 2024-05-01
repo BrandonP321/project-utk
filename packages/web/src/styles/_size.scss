@@ -1,0 +1,46 @@
+// ======================================================================================================
+// SIZE
+// ======================================================================================================
+// XXL
+$sizeXXLVar: --size-xxl;
+$sizeXXL: var(#{$sizeXXLVar});
+// XL
+$sizeXLVar: --size-xl;
+$sizeXL: var(#{$sizeXLVar});
+// L
+$sizeLVar: --size-l;
+$sizeL: var(#{$sizeLVar});
+// M
+$sizeMVar: --size-m;
+$sizeM: var(#{$sizeMVar});
+// S
+$sizeSVar: --size-s;
+$sizeS: var(#{$sizeSVar});
+// XS
+$sizeXSVar: --size-xs;
+$sizeXS: var(#{$sizeXSVar});
+// XXS
+$sizeXXSVar: --size-xxs;
+$sizeXXS: var(#{$sizeXXSVar});
+
+$sizeMap: (
+  "xxl": $sizeXXL,
+  "xl": $sizeXL,
+  "l": $sizeL,
+  "m": $sizeM,
+  "s": $sizeS,
+  "xs": $sizeXS,
+  "xxs": $sizeXXS,
+);
+
+@mixin SetSizePartialValues() {
+  :root {
+    #{$sizeXXLVar}: 3rem;
+    #{$sizeXLVar}: 2.5rem;
+    #{$sizeLVar}: 2rem;
+    #{$sizeMVar}: 1.5rem;
+    #{$sizeSVar}: 1rem;
+    #{$sizeXSVar}: 0.5rem;
+    #{$sizeXXSVar}: 0.25rem;
+  }
+}

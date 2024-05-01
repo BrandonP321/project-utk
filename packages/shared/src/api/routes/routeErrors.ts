@@ -48,6 +48,11 @@ const DefaultAPIErrorsList = [
     msg: "Unauthorized",
     statusCode: 403,
   }),
+  new APIError({
+    code: "NETWORK_ERROR",
+    msg: "Network error",
+    statusCode: 500,
+  }),
 ];
 
 export const DefaultAPIErrors = getErrorsMap(DefaultAPIErrorsList);

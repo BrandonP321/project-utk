@@ -1,0 +1,33 @@
+@import "../../styles/uiBase.scss";
+
+.toast {
+  padding: 1rem;
+  width: 20rem;
+  height: 10rem;
+  border: 2px solid blue;
+  border-radius: 1rem;
+  background-color: white;
+  transition: all 0.5s;
+
+  &.success {
+    border-color: green;
+  }
+
+  &.error {
+    border-color: red;
+  }
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.msg {
+}
+
+.exitIcon {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+}

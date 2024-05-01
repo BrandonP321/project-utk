@@ -1,0 +1,44 @@
+// @mixin ScrollbarWidth($width: 10px) {
+//   &::-webkit-scrollbar {
+//     width: $width;
+//   }
+// }
+
+// @mixin ScrollbarThumb(
+//   $bgColor: rgba($baseColorDarkGrey, 0.7),
+//   $bgColorHover: $baseColorDarkGrey,
+//   $trackColor: $colorBackground,
+//   $borderRadius: $sizeS
+// ) {
+//   &::-webkit-scrollbar-thumb {
+//     background-color: $bgColor;
+//     transition: all 0.2s;
+//     border-radius: $borderRadius;
+//     border: 2px solid $trackColor;
+
+//     &:hover {
+//       background-color: $bgColorHover;
+//     }
+//   }
+// }
+
+// @mixin ScrollbarTrack($bgColor: transparent) {
+//   &::-webkit-scrollbar-track {
+//     background-color: $bgColor;
+//     @content;
+//   }
+// }
+
+@mixin SetRootValue($name, $value) {
+  :root {
+    #{$name}: $value;
+  }
+}
+
+@mixin generateSizeClassNamesForProperty($property) {
+  @each $sizeName, $sizeValue in $sizeMap {
+    &.#{$sizeName} {
+      #{$property}: $sizeValue;
+    }
+  }
+}

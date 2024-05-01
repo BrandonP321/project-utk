@@ -9,10 +9,10 @@ type ConfigValueOverrides<V extends AllowedConfigValueTypes> = {
 export class ConfigUtils {
   static getConfigValue<V extends AllowedConfigValueTypes>(
     defaultValue: V,
-    overrides: ConfigValueOverrides<V | string>
+    overrides?: ConfigValueOverrides<V | string>
   ) {
     const stage = EnvUtils.stage;
-    const overrideValueRaw = overrides[stage];
+    const overrideValueRaw = overrides?.[stage];
     const hasOverrideValue = overrideValueRaw !== undefined;
     const overrideNeedsParsing =
       typeof defaultValue !== "string" && typeof overrideValueRaw === "string";
