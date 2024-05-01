@@ -23,10 +23,10 @@ enum Field {
 export type Values = Record<Field, string>;
 
 export const initialValues: Values = {
-  [Field.Name]: "Brandon",
-  [Field.Email]: "test@email.com",
-  [Field.Password]: "Password@321",
-  [Field.ConfirmPassword]: "Password@321",
+  [Field.Name]: "",
+  [Field.Email]: "",
+  [Field.Password]: "",
+  [Field.ConfirmPassword]: "",
 };
 
 namespace RegisterVendorForm {
