@@ -7,8 +7,6 @@ import FormField from "../../../components/FormField/FormField";
 import TextInput from "../../../components/TextInput/TextInput";
 import { FormikSubmit } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
-import { RouteHelper, SearchParamKeys } from "../../../utils/RouteHelper";
-import { useURLSearchParams } from "../../../hooks/useURLSearchParams";
 import { useState } from "react";
 import { useAppDispatch } from "../../../hooks";
 import { Actions } from "../../../features";
@@ -20,9 +18,9 @@ enum Field {
   ConfirmPassword = "confirmPassword",
 }
 
-export type Values = Record<Field, string>;
+type Values = Record<Field, string>;
 
-export const initialValues: Values = {
+const initialValues: Values = {
   [Field.Name]: "",
   [Field.Email]: "",
   [Field.Password]: "",
@@ -30,12 +28,14 @@ export const initialValues: Values = {
 };
 
 namespace RegisterVendorForm {
-  export type Props = {};
+  export type Props = { onAuthSuccess: () => void; toggleForm: () => void };
 }
 
-function RegisterVendorForm(props: RegisterVendorForm.Props) {
+function RegisterVendorForm({
+  onAuthSuccess,
+  toggleForm,
+}: RegisterVendorForm.Props) {
   const dispatch = useAppDispatch();
-  const { redirectTo } = useURLSearchParams<SearchParamKeys.RedirectTo>();
 
   const [formEmailError, setFormEmailError] = useState("");
 
@@ -43,9 +43,7 @@ function RegisterVendorForm(props: RegisterVendorForm.Props) {
     setFormEmailError("");
 
     return await VendorAPI.RegisterVendor(values, {
-      onSuccess: (res) => {
-        window.location.href = redirectTo ?? RouteHelper.Home();
-      },
+      onSuccess: onAuthSuccess,
       onFailure: (err) => {
         switch (err.errCode) {
           case "EMAIL_ALREADY_EXISTS":
@@ -65,6 +63,8 @@ function RegisterVendorForm(props: RegisterVendorForm.Props) {
     >
       <Form>
         <SpaceBetween vertical stretch align="center">
+          <h1>Register</h1>
+
           <FormField name={Field.Name} label="Name">
             <TextInput name={Field.Name} />
           </FormField>
@@ -79,6 +79,13 @@ function RegisterVendorForm(props: RegisterVendorForm.Props) {
           </FormField>
 
           <SubmitButton>Register</SubmitButton>
+
+          <p>
+            Already have an account?{" "}
+            <button type="button" onClick={toggleForm}>
+              Login
+            </button>
+          </p>
         </SpaceBetween>
       </Form>
     </CustomFormik>

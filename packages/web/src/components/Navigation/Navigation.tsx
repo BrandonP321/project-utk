@@ -15,7 +15,7 @@ function Navigation(props: Navigation.Props) {
           <Route path={RouteHelper.Home()} element={<div>Home</div>} />
           <Route
             path={RouteHelper.VendorLogin()}
-            element={<VendorAuthentication />}
+            element={<VendorAuthentication isLoginPage />}
           />
           <Route
             path={RouteHelper.VendorRegistration()}

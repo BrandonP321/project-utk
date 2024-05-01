@@ -15,9 +15,13 @@ namespace Button {
   };
 }
 
-function Button({ classes, ...rest }: Button.Props) {
+function Button({ classes, type = "button", ...rest }: Button.Props) {
   return (
-    <button className={classNames(styles.button, classes?.root)} {...rest} />
+    <button
+      className={classNames(styles.button, classes?.root)}
+      type={type}
+      {...rest}
+    />
   );
 }
 

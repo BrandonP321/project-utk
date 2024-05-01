@@ -1,4 +1,5 @@
 import {
+  LoginVendor,
   RegisterVendor,
   SendVendorVerificationEmail,
 } from "@project-utk/shared/src/api/routes";
@@ -10,6 +11,12 @@ export class VendorAPI extends APIHelpers {
     RegisterVendor.ResBody,
     typeof RegisterVendor.Errors
   >(RegisterVendor.Path, { displayError: false });
+
+  static LoginVendor = this.req<
+    LoginVendor.ReqBody,
+    LoginVendor.ResBody,
+    typeof LoginVendor.Errors
+  >(LoginVendor.Path);
 
   static SendVerificationEmail = this.req<
     SendVendorVerificationEmail.ReqBody,
