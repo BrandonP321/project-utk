@@ -12,6 +12,7 @@ import { Actions } from "../features";
 type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
   onSuccess?: (res: Res) => any;
   onFailure?: (err: APIErrResponse<Errors>) => any;
+  onFinally?: () => any;
 };
 
 export class APIHelpers {
@@ -22,7 +23,7 @@ export class APIHelpers {
     options: { displayError?: boolean } = {}
   ) {
     return async (req: Req, params?: ReqParams<Res, Errors>) => {
-      const { onFailure, onSuccess } = params ?? {};
+      const { onFailure, onSuccess, onFinally } = params ?? {};
       const { displayError = true } = options;
 
       // Add leading '/' to path if not present
@@ -45,10 +46,8 @@ export class APIHelpers {
           error.response?.data?.errCode ===
           DefaultAPIErrors.UNAUTHENTICATED.code
         ) {
-          return this.handleUnauthenticated();
-        }
-
-        if (displayError) {
+          this.handleUnauthenticated();
+        } else if (displayError) {
           store.dispatch(
             Actions.Notifications.addError({ msg: errorResponse.msg })
           );
@@ -56,6 +55,8 @@ export class APIHelpers {
 
         onFailure?.(errorResponse);
       }
+
+      onFinally?.();
     };
   }
 

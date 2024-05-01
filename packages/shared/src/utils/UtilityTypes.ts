@@ -7,3 +7,5 @@ export type TupleUnion<U extends string, R extends any[] = []> = {
     ? [...R, S]
     : TupleUnion<Exclude<U, S>, [...R, S]>;
 }[U];
+
+export type ValueOf<T> = T[keyof T];

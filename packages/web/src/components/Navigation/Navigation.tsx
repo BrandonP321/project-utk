@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { RouteHelper } from "../../utils/RouteHelper";
 import VendorAuthentication from "../../pages/VendorAuthentication/VendorAuthentication";
+import VendorAccount from "../../pages/VendorAccount/VendorAccount";
 
 namespace Navigation {
   export type Props = {};
@@ -20,6 +21,10 @@ function Navigation(props: Navigation.Props) {
           <Route
             path={RouteHelper.VendorRegistration()}
             element={<VendorAuthentication />}
+          />
+          <Route
+            path={RouteHelper.VendorAccount()}
+            element={<VendorAccount />}
           />
         </Routes>
       </Suspense>

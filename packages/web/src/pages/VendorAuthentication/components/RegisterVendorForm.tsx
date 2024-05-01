@@ -5,7 +5,7 @@ import SubmitButton from "../../../components/SubmitButton/SubmitButton";
 import { Form } from "formik";
 import FormField from "../../../components/FormField/FormField";
 import TextInput from "../../../components/TextInput/TextInput";
-import { FormikSubmit } from "../../../utils/FormikUtils";
+import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import { useState } from "react";
 import { useAppDispatch } from "../../../hooks";
@@ -20,12 +20,7 @@ enum Field {
 
 type Values = Record<Field, string>;
 
-const initialValues: Values = {
-  [Field.Name]: "",
-  [Field.Email]: "",
-  [Field.Password]: "",
-  [Field.ConfirmPassword]: "",
-};
+const initialValues: Values = FormikUtils.enumToTextInputInitialValues(Field);
 
 namespace RegisterVendorForm {
   export type Props = { onAuthSuccess: () => void; toggleForm: () => void };

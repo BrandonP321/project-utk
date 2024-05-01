@@ -8,12 +8,16 @@ namespace CustomFormik {
 function CustomFormik<Values extends {}>({
   validateOnBlur = false,
   validateOnChange = false,
+  enableReinitialize = true,
   children,
   ...rest
 }: CustomFormik.Props<Values>) {
   return (
     <CustomFormikProvider>
-      <Formik {...rest} {...{ validateOnChange, validateOnBlur }}>
+      <Formik
+        {...rest}
+        {...{ validateOnChange, validateOnBlur, enableReinitialize }}
+      >
         <>{children}</>
       </Formik>
     </CustomFormikProvider>

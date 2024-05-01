@@ -14,6 +14,8 @@ export class RouteHelper {
     undefined,
     typeof SearchParamKeys.RedirectTo
   >("/vendor/register");
+
+  static VendorAccount = createRoute("/vendor/account");
 }
 
 type RouteParams<T extends string | undefined> = T extends string

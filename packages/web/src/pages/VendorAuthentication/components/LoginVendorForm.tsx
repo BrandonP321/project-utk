@@ -5,7 +5,7 @@ import { SpaceBetween } from "../../../components/SpaceBetween/SpaceBetween";
 import FormField from "../../../components/FormField/FormField";
 import TextInput from "../../../components/TextInput/TextInput";
 import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-import { FormikSubmit } from "../../../utils/FormikUtils";
+import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import PasswordInput from "../../../components/PasswordInput/PasswordInput";
 
@@ -16,10 +16,7 @@ enum Field {
 
 type Values = Record<Field, string>;
 
-const initialValues: Values = {
-  [Field.Email]: "",
-  [Field.Password]: "",
-};
+const initialValues: Values = FormikUtils.enumToTextInputInitialValues(Field);
 
 namespace LoginVendorForm {
   export type Props = { onAuthSuccess: () => void; toggleForm: () => void };
