@@ -5,4 +5,7 @@ export const webConfig = {
     autoHideDurationMs: ConfigUtils.getConfigValue(5000),
     fadeOutTransitionDurationMs: ConfigUtils.getConfigValue(500),
   },
+  api: {
+    defaultMaxRetries: ConfigUtils.getConfigValue(2),
+  },
 };

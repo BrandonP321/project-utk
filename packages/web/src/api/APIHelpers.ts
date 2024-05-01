@@ -5,9 +5,11 @@ import {
 } from "@project-utk/shared/src/api/routes";
 import { URLUtils } from "@project-utk/shared/src/utils/URLUtils";
 import axios, { AxiosError } from "axios";
+import axiosRetry from "axios-retry";
 import { RouteHelper } from "../utils/RouteHelper";
 import store from "../store/configureStore";
 import { Actions } from "../features";
+import { webConfig } from "../config";
 
 type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
   onSuccess?: (res: Res) => any;
@@ -15,16 +17,35 @@ type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
   onFinally?: () => any;
 };
 
+type ReqOptions = {
+  displayError?: boolean;
+  redirectOnUnauthenticated?: boolean;
+  retries?: number;
+};
 export class APIHelpers {
   protected static apiDomain = "http://localhost:8000";
 
   protected static req<Req, Res, Errors extends APIErrorsMap<string>>(
     path: string,
-    options: { displayError?: boolean } = {}
+    options: ReqOptions = {}
   ) {
     return async (req: Req, params?: ReqParams<Res, Errors>) => {
       const { onFailure, onSuccess, onFinally } = params ?? {};
-      const { displayError = true } = options;
+      const {
+        displayError = true,
+        redirectOnUnauthenticated = true,
+        retries = webConfig.api.defaultMaxRetries,
+      } = options;
+
+      axiosRetry(axios, {
+        retries,
+        retryDelay: axiosRetry.exponentialDelay,
+        retryCondition: (err) => {
+          const statusCode = err.response?.status ?? 500;
+
+          return JSON.stringify(statusCode).startsWith("5");
+        },
+      });
 
       // Add leading '/' to path if not present
       if (!path.startsWith("/")) {
@@ -44,9 +65,10 @@ export class APIHelpers {
 
         if (
           error.response?.data?.errCode ===
-          DefaultAPIErrors.UNAUTHENTICATED.code
+            DefaultAPIErrors.UNAUTHENTICATED.code &&
+          redirectOnUnauthenticated
         ) {
-          this.handleUnauthenticated();
+          this.redirectToVendorLogin();
         } else if (displayError) {
           store.dispatch(
             Actions.Notifications.addError({ msg: errorResponse.msg })
@@ -60,7 +82,7 @@ export class APIHelpers {
     };
   }
 
-  private static handleUnauthenticated() {
+  public static redirectToVendorLogin() {
     const currentPath = URLUtils.url().pathWithQueryAndHash;
 
     window.location.href = RouteHelper.VendorLogin({

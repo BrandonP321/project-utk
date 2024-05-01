@@ -29,8 +29,10 @@ function VendorAccount() {
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     return await VendorAPI.UpdateVendor(values, {
-      onSuccess: () =>
-        dispatch(Actions.Notifications.addSuccess({ msg: "Account updated" })),
+      onSuccess: () => {
+        dispatch(Actions.Notifications.addSuccess({ msg: "Account updated" }));
+        dispatch(Actions.AuthVendor.updateVendor({ vendor: values }));
+      },
     });
   };
 

@@ -18,6 +18,14 @@ const authVendorSlice = createSlice({
     setVendor: (state, action: PayloadAction<{ vendor: AuthVendor }>) => {
       state.vendor = action.payload.vendor;
     },
+    updateVendor: (
+      state,
+      action: PayloadAction<{ vendor: Partial<AuthVendor> }>
+    ) => {
+      if (state.vendor) {
+        state.vendor = { ...state.vendor, ...action.payload.vendor };
+      }
+    },
     clearVendor: (state) => {
       state.vendor = null;
     },

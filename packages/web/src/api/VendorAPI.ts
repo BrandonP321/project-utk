@@ -58,7 +58,10 @@ export class VendorAPI extends APIHelpers {
     GetAuthenticatedVendor.ReqBody,
     GetAuthenticatedVendor.ResBody,
     typeof GetAuthenticatedVendor.Errors
-  >(GetAuthenticatedVendor.Path, { displayError: false });
+  >(GetAuthenticatedVendor.Path, {
+    displayError: false,
+    redirectOnUnauthenticated: false,
+  });
 
   static UpdateVendor = this.req<
     UpdateVendor.ReqBody,
