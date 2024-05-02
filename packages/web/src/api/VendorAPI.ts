@@ -10,6 +10,7 @@ import {
 import { APIHelpers } from "./APIHelpers";
 import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
 import { UpdateVendor } from "@project-utk/shared/src/api/routes/vendor/UpdateVendor";
+import { GetAuthedVendorListings } from "@project-utk/shared/src/api/routes/vendorListing";
 
 export class VendorAPI extends APIHelpers {
   static RegisterVendor = this.req<
@@ -68,4 +69,10 @@ export class VendorAPI extends APIHelpers {
     UpdateVendor.ResBody,
     typeof UpdateVendor.Errors
   >(UpdateVendor.Path);
+
+  static GetAuthVendorListings = this.req<
+    GetAuthedVendorListings.ReqBody,
+    GetAuthedVendorListings.ResBody,
+    typeof GetAuthedVendorListings.Errors
+  >(GetAuthedVendorListings.Path);
 }

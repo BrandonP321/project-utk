@@ -28,7 +28,7 @@ function MainNav(props: MainNav.Props) {
       {vendor && (
         <>
           <p>Hi {vendor.name}</p>
-          <a href={RouteHelper.VendorAccount()}>Account</a>
+          <a href={RouteHelper.VendorDashboard()}>Dashboard</a>
           <button onClick={logout}>Logout</button>
         </>
       )}

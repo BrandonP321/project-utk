@@ -1,7 +1,7 @@
 import Vendor from "../models/vendor/Vendor";
 
 const vendorEmail = "brandon.phillips976@gmail.com";
-const vendorPassword = "Password@1234";
+const vendorPassword = "Password@321";
 const vendorName = "Test Account";
 
 namespace VendorSeeder {

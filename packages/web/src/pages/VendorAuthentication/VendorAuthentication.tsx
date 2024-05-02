@@ -16,7 +16,7 @@ function VendorAuthentication({ isLoginPage }: VendorAuthentication.Props) {
   const { redirectTo } = useURLSearchParams<SearchParamKeys.RedirectTo>();
 
   const onAuthSuccess = () => {
-    window.location.href = redirectTo ?? RouteHelper.Home();
+    window.location.href = redirectTo ?? RouteHelper.VendorDashboard();
   };
 
   const toggleForm = () => setShowLoginForm(!showLoginForm);

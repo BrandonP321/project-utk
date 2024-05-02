@@ -16,6 +16,8 @@ export class RouteHelper {
   >("/vendor/register");
 
   static VendorAccount = createRoute("/vendor/account");
+
+  static VendorDashboard = createRoute("/vendor/dashboard");
 }
 
 type RouteParams<T extends string | undefined> = T extends string
