@@ -1,0 +1,27 @@
+{
+  "Component Story": {
+    "prefix": "story",
+    "scope": "typescript, typescriptreact",
+    "body": [
+      "import { Meta, StoryObj } from \"@storybook/react\";",
+      "import ${1:ComponentName} from \"./${1:ComponentName}\";",
+      "",
+      "const meta: Meta<typeof ${1:ComponentName}> = {",
+      "\ttitle: \"UI Components/${1:ComponentName}\",",
+      "\tcomponent: ${1:ComponentName},",
+      "\tparameters: {",
+      "\t\tlayout: \"centered\",",
+      "\t},",
+      "\ttags: [\"autodocs\"],",
+      "\targTypes: {},",
+      "\targs: {},",
+      "};",
+      "",
+      "export default meta;",
+      "",
+      "type Story = StoryObj<typeof meta>;",
+      "",
+      "export const Default: Story = {};",
+    ],
+  },
+}

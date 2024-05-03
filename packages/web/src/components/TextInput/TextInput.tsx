@@ -22,7 +22,7 @@ function TextInput<F>(props: TextInput.Props<F>) {
 
   const { isFormDisabled } = useCustomFormik();
   const { name, id } = useFormField();
-  const [field, meta, helpers] = useField(name);
+  const [field, , helpers] = useField(name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

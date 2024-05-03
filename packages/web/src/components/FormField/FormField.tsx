@@ -16,14 +16,14 @@ namespace FormField {
 }
 
 function FormField<Values extends Record<string, string>>(
-  props: FormField.Props
+  props: FormField.Props,
 ) {
   const { name, children, label, classes, errorMsg } = props;
 
   const { errors } = useFormikContext<Record<string, string>>();
   const inputId = useUniqueId(name);
 
-  const error = errors[name] ?? errorMsg;
+  const error = errorMsg || errors[name];
 
   return (
     <SpaceBetween
