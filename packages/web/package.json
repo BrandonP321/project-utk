@@ -37,7 +37,8 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook:build": "storybook build",
+    "storybook:deploy": "npx chromatic --exit-once-uploaded --build-script-name storybook:build"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +71,7 @@
     "@storybook/react-webpack5": "^8.0.9",
     "@storybook/test": "^8.0.9",
     "@types/prop-types": "^15",
+    "chromatic": "^11.3.0",
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "15.8.1",
     "storybook": "^8.0.9",

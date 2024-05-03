@@ -3902,6 +3902,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.24"
     axios: "npm:^1.6.8"
     axios-retry: "npm:^4.1.0"
+    chromatic: "npm:^11.3.0"
     classnames: "npm:^2.5.1"
     craco-alias: "npm:^3.0.1"
     destyle.css: "npm:^4.0.1"
