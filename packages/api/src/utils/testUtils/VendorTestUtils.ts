@@ -22,7 +22,7 @@ export class VendorTestUtils {
     const cookieHeader = header["set-cookie"] as unknown;
 
     return (cookieHeader as string[]).find((cookie: string) =>
-      cookie.startsWith(JWTUtils.cookieKey)
+      cookie.startsWith(JWTUtils.cookieKey),
     );
   };
 
@@ -40,8 +40,8 @@ export class VendorTestUtils {
       const optionGroups = (
         await Promise.all(
           listings.map((l) =>
-            PricingOptionGroup.findAll({ where: { listingId: l.id } })
-          )
+            PricingOptionGroup.findAll({ where: { listingId: l.id } }),
+          ),
         )
       ).flat();
 
@@ -87,7 +87,7 @@ export class VendorTestUtils {
 
   static async loginTestVendor(
     { email, password = this.correctPassword }: LoginRequestParams,
-    agent?: TAgent
+    agent?: TAgent,
   ) {
     return this.loginVendorRequest({ email, password }, agent);
   }
@@ -98,5 +98,9 @@ export class VendorTestUtils {
     await VendorTestUtils.loginTestVendor({ email }, agent);
 
     return agent;
+  };
+
+  static verifyVendorEmail = async (email: string) => {
+    return await Vendor.update({ isEmailVerified: true }, { where: { email } });
   };
 }

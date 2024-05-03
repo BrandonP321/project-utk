@@ -10,6 +10,7 @@ export interface VendorBaseProperties {
   isEmailVerified: boolean;
   emailVerificationToken: string | null;
   resetToken: string | null;
+  emailUpdateToken: string | null;
   failedLoginAttempts: number;
   lockUntil: number | null;
 }
@@ -31,6 +32,7 @@ export type SensitiveVendorProperties = TypedExtract<
   | "lockUntil"
   | "refreshToken"
   | "resetToken"
+  | "emailUpdateToken"
 >;
 
 export type PublicVendorProperties = Omit<IVendor, SensitiveVendorProperties>;

@@ -22,6 +22,7 @@ class Vendor
   public resetToken!: string | null;
   public failedLoginAttempts!: number;
   public lockUntil!: number | null;
+  public emailUpdateToken!: string | null;
 
   // Statics
   static findByEmail = vendorStatics.findByEmail;
@@ -92,13 +93,18 @@ Vendor.init(
       allowNull: true,
       defaultValue: null,
     },
+    emailUpdateToken: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   {
     sequelize,
     modelName: "Vendor",
     tableName: "vendors",
     indexes: [{ unique: true, fields: ["email"] }],
-  }
+  },
 );
 
 assignVendorHooks(Vendor);

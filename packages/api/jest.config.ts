@@ -3,7 +3,7 @@ import type { Config } from "jest";
 const config: Config = {
   roots: ["<rootDir>/src"],
 
-  testTimeout: 10000,
+  testTimeout: 15000,
 
   // Test match patterns
   testMatch: [

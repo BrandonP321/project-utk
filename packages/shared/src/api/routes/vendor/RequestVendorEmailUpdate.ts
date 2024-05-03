@@ -1,11 +1,23 @@
+import { APIError } from "../../errors/APIError";
 import { getErrorsMap } from "../routeErrors";
 
 export namespace RequestVendorEmailUpdate {
   export const Path = "/vendor/request-email-update";
 
-  export type ReqBody = {};
+  export type ReqBody = {
+    email: string;
+  };
 
-  export type ResBody = {};
+  export type ResBody = {
+    /** True if email address was instantly updated; false if email was sent to new address */
+    updated: boolean;
+  };
 
-  export const Errors = getErrorsMap([]);
+  export const Errors = getErrorsMap([
+    new APIError({
+      code: "EMAIL_TAKEN",
+      msg: "Email is already taken",
+      statusCode: 400,
+    }),
+  ]);
 }

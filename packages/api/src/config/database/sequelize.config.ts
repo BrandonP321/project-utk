@@ -37,7 +37,7 @@ export const connectToDB = async () => {
   await import("../../models/modelAssociations").then(
     ({ default: createAssociations }) => {
       createAssociations();
-    }
+    },
   );
   await syncDB();
 
@@ -48,8 +48,8 @@ export const connectToDB = async () => {
 };
 
 function useSeeders() {
-  // useVendorSeeder();
-  useVendorListingSeeder();
+  useVendorSeeder();
+  // useVendorListingSeeder();
   // useVendorListingWithPricingInfoSeeder();
 }
 
@@ -63,7 +63,7 @@ function useVendorListingSeeder() {
   import("../../seeders/vendorListingSeeder").then(
     ({ default: VendorListingSeeder }) => {
       VendorListingSeeder.createVendorWithListingSeeder();
-    }
+    },
   );
 }
 
@@ -71,6 +71,6 @@ function useVendorListingWithPricingInfoSeeder() {
   import("../../seeders/vendorListingSeeder").then(
     ({ default: VendorListingSeeder }) => {
       VendorListingSeeder.createVendorListingWithPricingInfoSeeder();
-    }
+    },
   );
 }

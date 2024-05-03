@@ -4,20 +4,21 @@
     "prefix": "api-controller",
     "body": [
       "import { Controller } from \"../../utils/Controller\";",
+      "import { ${1} } from \"@project-utk/shared/src/api/routes/vendor/${1}\"",
       "",
       "const controller = new Controller<",
+      "\t${1}.ReqBody,",
+      "\t${1}.ResBody,",
       "\t{},",
       "\t{},",
-      "\t{},",
-      "\t{},",
-      "\t{}",
-      ">({});",
+      "\ttypeof ${1}.Errors",
+      ">(${1}.Errors);",
       "",
-      "export const ${TM_FILENAME_BASE} = controller.handler(",
+      "export const ${1}Controller = controller.handler(",
       "\tasync (req, res, errors) => {",
       "\t\t",
       "\t}",
-      ");"
-    ]
-  }
+      ");",
+    ],
+  },
 }

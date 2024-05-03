@@ -28,6 +28,10 @@ import { UpdateVendor } from "@project-utk/shared/src/api/routes/vendor/UpdateVe
 import { UpdateVendorController } from "../controllers/vendor/UpdateVendorController";
 import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
 import { GetAuthenticatedVendorController } from "../controllers/vendor/GetAuthenticatedVendorController";
+import { RequestVendorEmailUpdate } from "@project-utk/shared/src/api/routes/vendor/RequestVendorEmailUpdate";
+import { RequestVendorEmailUpdateController } from "../controllers/vendor/RequestVendorEmailUpdateController";
+import { UpdateVendorEmail } from "@project-utk/shared/src/api/routes/vendor/UpdateVendorEmail";
+import { UpdateVendorEmailController } from "../controllers/vendor/UpdateVendorEmailController";
 
 const router = express.Router();
 
@@ -40,46 +44,60 @@ router.post(
   LogoutVendor.Path,
   authenticateJWT,
   getAuthVendor,
-  LogoutVendorController
+  LogoutVendorController,
 );
 // Verify Email
 router.post(
   VerifyVendorEmail.Path,
   VerifyVendorEmailLimiter,
-  VerifyVendorEmailController
+  VerifyVendorEmailController,
 );
 // Send Verification Email
 router.post(
   SendVendorVerificationEmail.Path,
   authenticateJWT,
   getAuthVendor,
-  sendVendorVerificationEmailController
+  sendVendorVerificationEmailController,
 );
 // Request Password Reset
 router.post(
   RequestVendorPasswordReset.Path,
   RequestVendorPasswordResetLimiter,
-  RequestVendorPasswordResetController
+  RequestVendorPasswordResetController,
 );
 // Reset Password
 router.post(
   ResetVendorPassword.Path,
   ResetVendorPasswordLimiter,
-  ResetVendorPasswordController
+  ResetVendorPasswordController,
 );
 // Update vendor
 router.post(
   UpdateVendor.Path,
   authenticateJWT,
   getAuthVendor,
-  UpdateVendorController
+  UpdateVendorController,
 );
 // Get Authenticated Vendor
 router.post(
   GetAuthenticatedVendor.Path,
   authenticateJWT,
   getAuthVendor,
-  GetAuthenticatedVendorController
+  GetAuthenticatedVendorController,
+);
+// Request email update
+router.post(
+  RequestVendorEmailUpdate.Path,
+  authenticateJWT,
+  getAuthVendor,
+  RequestVendorEmailUpdateController,
+);
+// Update email
+router.post(
+  UpdateVendorEmail.Path,
+  authenticateJWT,
+  getAuthVendor,
+  UpdateVendorEmailController,
 );
 
 export const vendorRouter = router;
