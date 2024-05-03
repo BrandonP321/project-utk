@@ -35,6 +35,7 @@ function toPublicJSON(this: Vendor): PublicVendorProperties {
     id: this.id,
     name: this.name,
     email: this.email,
+    isEmailVerified: this.isEmailVerified,
   };
 }
 

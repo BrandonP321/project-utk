@@ -28,7 +28,6 @@ export type SensitiveVendorProperties = TypedExtract<
   | "password"
   | "emailVerificationToken"
   | "failedLoginAttempts"
-  | "isEmailVerified"
   | "lockUntil"
   | "refreshToken"
   | "resetToken"
