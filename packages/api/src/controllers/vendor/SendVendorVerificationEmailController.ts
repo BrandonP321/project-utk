@@ -14,8 +14,11 @@ const controller = new Controller<
 
 export const sendVendorVerificationEmailController = controller.handler(
   async (req, res) => {
-    await EmailVerificationUtils.sendVerificationEmail(res.locals.vendor);
+    await EmailVerificationUtils.sendVerificationEmail(
+      res.locals.vendor,
+      req.headers.referer!,
+    );
 
     return res.json({}).end();
-  }
+  },
 );

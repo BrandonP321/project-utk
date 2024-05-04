@@ -12,6 +12,7 @@ import FormField from "../../components/FormField/FormField";
 import TextInput from "../../components/TextInput/TextInput";
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
+import Button from "../../components/Button/Button";
 
 enum Field {
   Name = "name",
@@ -24,7 +25,7 @@ function VendorAccount() {
   const { vendor, fetchAndUpdateVendor, isFetchingAuthVendor } =
     useAuthVendor();
   const [initialValues, setInitialValues] = useState<Values>(
-    FormikUtils.enumToTextInputInitialValues(Field)
+    FormikUtils.enumToTextInputInitialValues(Field),
   );
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
@@ -46,8 +47,13 @@ function VendorAccount() {
     }
   }, [vendor]);
 
+  const sendVerificationEmail = async () => {
+    return await VendorAPI.SendVerificationEmail({});
+  };
+
   return (
     <div>
+      <Button onClick={sendVerificationEmail}>Send verification email</Button>
       <CustomFormik
         initialValues={initialValues}
         onSubmit={handleSubmit}

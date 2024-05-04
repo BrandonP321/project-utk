@@ -29,8 +29,11 @@ export const RegisterVendorController = controller.handler(
     await JWTUtils.generateAndSetVendorTokens(res, newVendor.id);
 
     // Send verification email
-    await EmailVerificationUtils.sendVerificationEmail(newVendor);
+    await EmailVerificationUtils.sendVerificationEmail(
+      newVendor,
+      req.headers.referer!,
+    );
 
     return res.json({ vendorId: newVendor.id }).end();
-  }
+  },
 );

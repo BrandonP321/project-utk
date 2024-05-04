@@ -4,6 +4,9 @@ import { getErrorsMap } from "../routeErrors";
 export namespace VerifyVendorEmail {
   export const Path = "/vendor/verify-email";
 
+  export const VerificationLinkSearchParamKey = "token";
+  export const WebPath = `/vendor/verify-email`;
+
   export type ReqBody = {
     token: string;
   };

@@ -4,6 +4,7 @@ import { RouteHelper } from "../../utils/RouteHelper";
 import VendorAuthentication from "../../pages/VendorAuthentication/VendorAuthentication";
 import VendorAccount from "../../pages/VendorAccount/VendorAccount";
 import VendorDashboard from "../../pages/VendorDashboard/VendorDashboard";
+import VerifyVendorEmail from "../../pages/VerifyVendorEmail/VerifyVendorEmail";
 
 namespace Navigation {
   export type Props = {};
@@ -30,6 +31,10 @@ function Navigation(props: Navigation.Props) {
           <Route
             path={RouteHelper.VendorDashboard()}
             element={<VendorDashboard />}
+          />
+          <Route
+            path={RouteHelper.VerifyVendorEmail()}
+            element={<VerifyVendorEmail />}
           />
         </Routes>
       </Suspense>

@@ -38,7 +38,7 @@ export class URLUtils {
   static url = (url = window.location.href) => new UrlHelper(url);
 
   static searchParamsToObject = <T extends string>(
-    searchParams: URLSearchParams
+    searchParams: URLSearchParams,
   ) => {
     const obj: Record<string, string> = {};
 
@@ -51,5 +51,9 @@ export class URLUtils {
 
   static updatePath = (path: string) => {
     return this.url().setPath(path).href;
-  }
+  };
+
+  static removeTrailingSlash = (url: string) => {
+    return url.endsWith("/") ? url.slice(0, -1) : url;
+  };
 }

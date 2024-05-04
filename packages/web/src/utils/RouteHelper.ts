@@ -1,5 +1,9 @@
+import { VerifyVendorEmail } from "@project-utk/shared/src/api/routes/vendor/VerifyVendorEmail";
+
 export enum SearchParamKeys {
   RedirectTo = "redirectTo",
+  // THIS MUST MATCH THE KEY IN VerifyVendorEmail.ts
+  Token = "token",
 }
 
 export class RouteHelper {
@@ -18,6 +22,11 @@ export class RouteHelper {
   static VendorAccount = createRoute("/vendor/account");
 
   static VendorDashboard = createRoute("/vendor/dashboard");
+
+  static VerifyVendorEmail = createRoute<
+    undefined,
+    typeof SearchParamKeys.Token
+  >(VerifyVendorEmail.WebPath);
 }
 
 type RouteParams<T extends string | undefined> = T extends string
@@ -26,7 +35,7 @@ type RouteParams<T extends string | undefined> = T extends string
 
 function createRoute<
   URLParams extends string | undefined,
-  SearchParams extends string = ""
+  SearchParams extends string = "",
 >(path: string) {
   return (params?: {
     urlParams?: RouteParams<URLParams>;
