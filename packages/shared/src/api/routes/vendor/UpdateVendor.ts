@@ -8,5 +8,7 @@ export namespace UpdateVendor {
 
   export type ResBody = {};
 
+  export const SuccessMsg = "Vendor updated successfully";
+
   export const Errors = getErrorsMap([]);
 }

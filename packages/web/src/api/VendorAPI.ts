@@ -41,7 +41,7 @@ export class VendorAPI extends APIHelpers {
     VerifyVendorEmail.ReqBody,
     VerifyVendorEmail.ResBody,
     typeof VerifyVendorEmail.Errors
-  >(VerifyVendorEmail.Path);
+  >(VerifyVendorEmail.Path, { successMsg: VerifyVendorEmail.SuccessMsg });
 
   static RequestPasswordReset = this.req<
     RequestVendorPasswordReset.ReqBody,
@@ -68,7 +68,7 @@ export class VendorAPI extends APIHelpers {
     UpdateVendor.ReqBody,
     UpdateVendor.ResBody,
     typeof UpdateVendor.Errors
-  >(UpdateVendor.Path);
+  >(UpdateVendor.Path, { successMsg: UpdateVendor.SuccessMsg });
 
   static GetAuthVendorListings = this.req<
     GetAuthedVendorListings.ReqBody,

@@ -21,6 +21,7 @@ type ReqOptions = {
   displayError?: boolean;
   redirectOnUnauthenticated?: boolean;
   retries?: number;
+  successMsg?: string;
 };
 
 export type APIRequest<Req, Res, Errors extends APIErrorsMap<string>> = (
@@ -41,6 +42,7 @@ export class APIHelpers {
         displayError = true,
         redirectOnUnauthenticated = true,
         retries = webConfig.api.defaultMaxRetries,
+        successMsg,
       } = options;
 
       axiosRetry(axios, {
@@ -62,6 +64,10 @@ export class APIHelpers {
         const res = await axios.post<Res>(`${this.apiDomain}${path}`, req, {
           withCredentials: true,
         });
+
+        if (successMsg) {
+          store.dispatch(Actions.Notifications.addSuccess({ msg: successMsg }));
+        }
 
         await onSuccess?.(res.data);
       } catch (err) {

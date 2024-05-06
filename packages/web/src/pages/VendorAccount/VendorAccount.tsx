@@ -28,11 +28,7 @@ function VendorAccount() {
     FormikUtils.enumToTextInputInitialValues(Field),
   );
 
-  const { fetchAPI: updateVendor } = useAPI(VendorAPI.UpdateVendor, {
-    onSuccess: () => {
-      dispatch(Actions.Notifications.addSuccess({ msg: "Account updated" }));
-    },
-  });
+  const { fetchAPI: updateVendor } = useAPI(VendorAPI.UpdateVendor);
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     await updateVendor(values);

@@ -15,6 +15,8 @@ export namespace VerifyVendorEmail {
     vendorId: string;
   };
 
+  export const SuccessMsg = "Email verified";
+
   export const Errors = getErrorsMap([
     new APIError({
       code: "LINK_EXPIRED",
