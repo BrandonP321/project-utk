@@ -13,6 +13,7 @@ import TextInput from "../../components/TextInput/TextInput";
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import Button from "../../components/Button/Button";
+import { useAPI } from "../../hooks/useAPI";
 
 enum Field {
   Name = "name",
@@ -22,19 +23,20 @@ type Values = Record<Field, string>;
 
 function VendorAccount() {
   const dispatch = useAppDispatch();
-  const { vendor, fetchAndUpdateVendor, isFetchingAuthVendor } =
-    useAuthVendor();
+  const { vendor, fetchAndUpdateVendor } = useAuthVendor();
   const [initialValues, setInitialValues] = useState<Values>(
     FormikUtils.enumToTextInputInitialValues(Field),
   );
 
+  const { fetchAPI: updateVendor } = useAPI(VendorAPI.UpdateVendor, {
+    onSuccess: () => {
+      dispatch(Actions.Notifications.addSuccess({ msg: "Account updated" }));
+    },
+  });
+
   const handleSubmit: FormikSubmit<Values> = async (values) => {
-    return await VendorAPI.UpdateVendor(values, {
-      onSuccess: () => {
-        dispatch(Actions.Notifications.addSuccess({ msg: "Account updated" }));
-        dispatch(Actions.AuthVendor.updateVendor({ vendor: values }));
-      },
-    });
+    await updateVendor(values);
+    dispatch(Actions.AuthVendor.updateVendor({ vendor: values }));
   };
 
   useEffect(() => {

@@ -1,37 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { VendorAPI } from "../../api";
 import { Actions } from "..";
+import { useAPI } from "../../hooks/useAPI";
 
 let isFetching = false;
 
 export const useAuthVendorListings = () => {
   const dispatch = useAppDispatch();
-  const [isFetchingAuthVendorListings, setIsFetchingAuthVendorListings] =
-    useState(false);
   const { listings } = useAppSelector((state) => state.authVendorListings);
 
+  const { isLoading, fetchAPI } = useAPI(VendorAPI.GetAuthVendorListings, {
+    onSuccess: (data) => {
+      dispatch(Actions.AuthVendorListings.setListings(data));
+    },
+    onFailure: () => {
+      dispatch(Actions.AuthVendorListings.clearListings());
+    },
+    onFinally: () => {
+      isFetching = false;
+    },
+  });
+
   const fetchAndUpdateVendorListings = () => {
-    if (isFetchingAuthVendorListings) return;
+    if (isFetching) return;
 
     isFetching = true;
-    setIsFetchingAuthVendorListings(true);
-
-    VendorAPI.GetAuthVendorListings(
-      {},
-      {
-        onSuccess: (data) => {
-          dispatch(Actions.AuthVendorListings.setListings(data));
-        },
-        onFailure: () => {
-          dispatch(Actions.AuthVendorListings.clearListings());
-        },
-        onFinally: () => {
-          isFetching = false;
-          setIsFetchingAuthVendorListings(false);
-        },
-      }
-    );
+    fetchAPI({});
   };
 
   useEffect(() => {
@@ -43,6 +38,6 @@ export const useAuthVendorListings = () => {
   return {
     listings,
     fetchAndUpdateVendorListings,
-    isFetchingAuthVendorListings,
+    isFetchingAuthVendorListings: isLoading,
   };
 };

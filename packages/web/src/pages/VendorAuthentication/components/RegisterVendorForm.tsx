@@ -10,6 +10,7 @@ import { VendorAPI } from "../../../api";
 import { useState } from "react";
 import { useAppDispatch } from "../../../hooks";
 import { Actions } from "../../../features";
+import { useAPI } from "../../../hooks/useAPI";
 
 enum Field {
   Name = "name",
@@ -33,21 +34,22 @@ function RegisterVendorForm({
   const dispatch = useAppDispatch();
 
   const [formEmailError, setFormEmailError] = useState("");
+  const { fetchAPI: register } = useAPI(VendorAPI.RegisterVendor, {
+    onSuccess: onAuthSuccess,
+    onFailure: (err) => {
+      switch (err.errCode) {
+        case "EMAIL_ALREADY_EXISTS":
+          return setFormEmailError(err.msg);
+        default:
+          return dispatch(Actions.Notifications.addError({ msg: err.msg }));
+      }
+    },
+  });
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     setFormEmailError("");
 
-    return await VendorAPI.RegisterVendor(values, {
-      onSuccess: onAuthSuccess,
-      onFailure: (err) => {
-        switch (err.errCode) {
-          case "EMAIL_ALREADY_EXISTS":
-            return setFormEmailError(err.msg);
-          default:
-            return dispatch(Actions.Notifications.addError({ msg: err.msg }));
-        }
-      },
-    });
+    return await register(values);
   };
 
   return (

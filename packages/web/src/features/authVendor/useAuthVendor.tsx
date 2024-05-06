@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { VendorAPI } from "../../api";
 import { Actions } from "..";
 import { APIHelpers } from "../../api/APIHelpers";
+import { useAPI } from "../../hooks/useAPI";
 
 let isFetching = false;
 
@@ -14,33 +15,28 @@ export const useAuthVendor = (props: Props = {}) => {
   const { redirectOnUnauthenticated = true } = props;
 
   const dispatch = useAppDispatch();
-  const [isFetchingAuthVendor, setIsFetchingAuthVendor] = useState(false);
   const { vendor } = useAppSelector((state) => state.authVendor);
 
+  const { isLoading, fetchAPI } = useAPI(VendorAPI.GetAuthenticatedVendor, {
+    onSuccess: (data) => {
+      dispatch(Actions.AuthVendor.setVendor({ vendor: data }));
+    },
+    onFailure: () => {
+      dispatch(Actions.AuthVendor.clearVendor());
+      if (redirectOnUnauthenticated) {
+        APIHelpers.redirectToVendorLogin();
+      }
+    },
+    onFinally: () => {
+      isFetching = false;
+    },
+  });
+
   const fetchAndUpdateVendor = () => {
-    if (isFetchingAuthVendor) return;
+    if (isFetching) return;
 
     isFetching = true;
-    setIsFetchingAuthVendor(true);
-
-    VendorAPI.GetAuthenticatedVendor(
-      {},
-      {
-        onSuccess: (data) => {
-          dispatch(Actions.AuthVendor.setVendor({ vendor: data }));
-        },
-        onFailure: () => {
-          dispatch(Actions.AuthVendor.clearVendor());
-          if (redirectOnUnauthenticated) {
-            APIHelpers.redirectToVendorLogin();
-          }
-        },
-        onFinally: () => {
-          isFetching = false;
-          setIsFetchingAuthVendor(false);
-        },
-      }
-    );
+    fetchAPI({});
   };
 
   useEffect(() => {
@@ -49,5 +45,5 @@ export const useAuthVendor = (props: Props = {}) => {
     }
   }, [vendor]);
 
-  return { vendor, fetchAndUpdateVendor, isFetchingAuthVendor };
+  return { vendor, fetchAndUpdateVendor, isFetchingAuthVendor: isLoading };
 };

@@ -8,6 +8,7 @@ import SubmitButton from "../../../components/SubmitButton/SubmitButton";
 import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import PasswordInput from "../../../components/PasswordInput/PasswordInput";
+import { useAPI } from "../../../hooks/useAPI";
 
 enum Field {
   Email = "email",
@@ -23,11 +24,11 @@ namespace LoginVendorForm {
 }
 
 function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
-  const handleSubmit: FormikSubmit<Values> = async (values) => {
-    return await VendorAPI.LoginVendor(values, {
-      onSuccess: onAuthSuccess,
-    });
-  };
+  const { fetchAPI: login } = useAPI(VendorAPI.LoginVendor, {
+    onSuccess: onAuthSuccess,
+  });
+
+  const handleSubmit: FormikSubmit<Values> = login;
 
   return (
     <CustomFormik

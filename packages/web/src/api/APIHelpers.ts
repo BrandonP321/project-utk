@@ -11,10 +11,10 @@ import store from "../store/configureStore";
 import { Actions } from "../features";
 import { webConfig } from "../config";
 
-type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
-  onSuccess?: (res: Res) => any;
-  onFailure?: (err: APIErrResponse<Errors>) => any;
-  onFinally?: () => any;
+export type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
+  onSuccess?: (res: Res) => any | Promise<any>;
+  onFailure?: (err: APIErrResponse<Errors>) => any | Promise<any>;
+  onFinally?: () => any | Promise<any>;
 };
 
 type ReqOptions = {
@@ -22,14 +22,20 @@ type ReqOptions = {
   redirectOnUnauthenticated?: boolean;
   retries?: number;
 };
+
+export type APIRequest<Req, Res, Errors extends APIErrorsMap<string>> = (
+  req: Req,
+  params?: ReqParams<Res, Errors>,
+) => Promise<void>;
+
 export class APIHelpers {
   protected static apiDomain = "http://localhost:8000";
 
   protected static req<Req, Res, Errors extends APIErrorsMap<string>>(
     path: string,
-    options: ReqOptions = {}
-  ) {
-    return async (req: Req, params?: ReqParams<Res, Errors>) => {
+    options: ReqOptions = {},
+  ): APIRequest<Req, Res, Errors> {
+    return async (req, params) => {
       const { onFailure, onSuccess, onFinally } = params ?? {};
       const {
         displayError = true,
@@ -57,7 +63,7 @@ export class APIHelpers {
           withCredentials: true,
         });
 
-        onSuccess?.(res.data);
+        await onSuccess?.(res.data);
       } catch (err) {
         const error = err as AxiosError<APIErrResponse<Errors>>;
         const networkError = DefaultAPIErrors.NETWORK_ERROR.apiResponse;
@@ -71,14 +77,14 @@ export class APIHelpers {
           this.redirectToVendorLogin();
         } else if (displayError) {
           store.dispatch(
-            Actions.Notifications.addError({ msg: errorResponse.msg })
+            Actions.Notifications.addError({ msg: errorResponse.msg }),
           );
         }
 
-        onFailure?.(errorResponse);
+        await onFailure?.(errorResponse);
       }
 
-      onFinally?.();
+      await onFinally?.();
     };
   }
 

@@ -6,44 +6,42 @@ import { useAppDispatch } from "../../hooks";
 import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import { Actions } from "../../features";
 import { VendorAPI } from "../../api";
+import { useAPI } from "../../hooks/useAPI";
 
 namespace VerifyVendorEmail {
   export type Props = {};
 }
 
 function VerifyVendorEmail(props: VerifyVendorEmail.Props) {
-  const [isVerifying, setIsVerifying] = useState(true);
   const dispatch = useAppDispatch();
   const { token } = useURLSearchParams<SearchParamKeys.Token>();
 
+  const { fetchAPI: verifyEmail, isLoading: isVerifyingEmail } = useAPI(
+    VendorAPI.VerifyEmail,
+    {
+      onSuccess: () => {
+        dispatch(
+          Actions.Notifications.addSuccess({
+            msg: "Email verified",
+          }),
+        );
+      },
+    },
+  );
+
   useEffect(() => {
     if (token) {
-      VendorAPI.VerifyEmail(
-        { token },
-        {
-          onSuccess: () => {
-            dispatch(
-              Actions.Notifications.addSuccess({
-                msg: "Email verified",
-              }),
-            );
-          },
-          onFinally: () => {
-            setIsVerifying(false);
-          },
-        },
-      );
+      verifyEmail({ token });
     } else {
       dispatch(
         Actions.Notifications.addError({ msg: "Invalid verification link" }),
       );
-      setIsVerifying(false);
     }
   }, [token]);
 
   return (
     <SpaceBetween align="center" vertical>
-      {isVerifying ? <h1>Verifying...</h1> : <h1>Finished</h1>}
+      {isVerifyingEmail ? <h1>Verifying...</h1> : <h1>Finished</h1>}
     </SpaceBetween>
   );
 }
