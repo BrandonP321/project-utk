@@ -27,7 +27,11 @@ export const RequestVendorEmailUpdateController = controller.handler(
 
     if (vendor.isEmailVerified) {
       // Send email to new email address
-      await VendorEmailUpdateUtils.sendEmail(vendor, req.body.email);
+      await VendorEmailUpdateUtils.sendEmail(
+        vendor,
+        req.body.email,
+        req.headers.referer!,
+      );
     } else {
       // Update email instantly
       await vendor.update({ email: req.body.email });

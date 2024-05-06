@@ -1,4 +1,7 @@
-import { ResetVendorPassword } from "@project-utk/shared/src/api/routes";
+import {
+  RequestVendorEmailUpdate,
+  ResetVendorPassword,
+} from "@project-utk/shared/src/api/routes";
 import { VerifyVendorEmail } from "@project-utk/shared/src/api/routes/vendor/VerifyVendorEmail";
 
 export enum SearchParamKeys {
@@ -37,6 +40,11 @@ export class RouteHelper {
     undefined,
     typeof SearchParamKeys.Token
   >(ResetVendorPassword.WebPath);
+
+  static UpdateVendorEmail = createRoute<
+    undefined,
+    typeof SearchParamKeys.Token
+  >(RequestVendorEmailUpdate.WebPath);
 }
 
 type RouteParams<T extends string | undefined> = T extends string

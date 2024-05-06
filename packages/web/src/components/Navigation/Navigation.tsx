@@ -7,6 +7,7 @@ import VendorDashboard from "../../pages/VendorDashboard/VendorDashboard";
 import VerifyVendorEmail from "../../pages/VerifyVendorEmail/VerifyVendorEmail";
 import RequestVendorPasswordReset from "../../pages/RequestVendorPasswordReset/RequestVendorPasswordReset";
 import ResetVendorPassword from "../../pages/ResetVendorPassword/ResetVendorPassword";
+import UpdateVendorEmail from "../../pages/UpdateVendorEmail/UpdateVendorEmail";
 
 namespace Navigation {
   export type Props = {};
@@ -45,6 +46,10 @@ function Navigation(props: Navigation.Props) {
           <Route
             path={RouteHelper.ResetVendorPassword()}
             element={<ResetVendorPassword />}
+          />
+          <Route
+            path={RouteHelper.UpdateVendorEmail()}
+            element={<UpdateVendorEmail />}
           />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>

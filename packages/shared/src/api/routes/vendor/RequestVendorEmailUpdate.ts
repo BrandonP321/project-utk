@@ -4,6 +4,9 @@ import { getErrorsMap } from "../routeErrors";
 export namespace RequestVendorEmailUpdate {
   export const Path = "/vendor/request-email-update";
 
+  export const EmailUpdateLinkSearchParamKey = "token";
+  export const WebPath = "/vendor/account/email/update";
+
   export type ReqBody = {
     email: string;
   };

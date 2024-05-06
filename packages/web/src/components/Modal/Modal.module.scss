@@ -1,0 +1,52 @@
+@import "../../styles/uiBase.scss";
+
+.outerWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &.hide {
+    pointer-events: none;
+
+    .overlay,
+    .modal {
+      opacity: 0;
+    }
+
+    .modal {
+      transform: translate(50%, -50%) scale(0.9);
+    }
+  }
+}
+
+.overlay,
+.modal {
+  position: absolute;
+  transition: all 0.25s;
+}
+
+.overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(black, 0.5);
+}
+
+.modal {
+  padding: 1rem;
+  background-color: white;
+  width: 30rem;
+  height: 30rem;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}

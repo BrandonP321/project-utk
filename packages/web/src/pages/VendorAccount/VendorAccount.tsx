@@ -13,6 +13,8 @@ import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import Button from "../../components/Button/Button";
 import { useAPI } from "../../hooks/useAPI";
 import { useAuthVendorActions } from "../../features/authVendor/authVendorSlice";
+import { useModal } from "../../components/Modal/useModal";
+import VendorEmailUpdateModal from "./components/VendorEmailUpdateModal";
 
 enum Field {
   Name = "name",
@@ -22,6 +24,7 @@ type Values = Record<Field, string>;
 
 function VendorAccount() {
   const actions = useAuthVendorActions();
+  const { modalProps, toggleModal } = useModal();
   const { vendor, fetchAndUpdateVendor } = useAuthVendor();
   const [initialValues, setInitialValues] = useState<Values>(
     FormikUtils.enumToTextInputInitialValues(Field),
@@ -50,6 +53,10 @@ function VendorAccount() {
 
   return (
     <div>
+      <p>
+        Verification status:{" "}
+        {vendor?.isEmailVerified ? "verified" : "not verified"}
+      </p>
       <Button onClick={sendVerificationEmail}>Send verification email</Button>
       <CustomFormik
         initialValues={initialValues}
@@ -68,6 +75,13 @@ function VendorAccount() {
           </SpaceBetween>
         </Form>
       </CustomFormik>
+
+      <p>
+        <strong>Email:</strong> {vendor?.email}
+      </p>
+      <Button onClick={toggleModal}>Update Email</Button>
+
+      <VendorEmailUpdateModal {...modalProps} />
     </div>
   );
 }

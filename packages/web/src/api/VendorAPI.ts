@@ -83,7 +83,5 @@ export class VendorAPI extends APIHelpers {
     RequestVendorEmailUpdate.ReqBody,
     RequestVendorEmailUpdate.ResBody,
     typeof RequestVendorEmailUpdate.Errors
-  >(RequestVendorEmailUpdate.Path, {
-    successMsg: RequestVendorEmailUpdate.SuccessMsg,
-  });
+  >(RequestVendorEmailUpdate.Path, { displayError: false });
 }

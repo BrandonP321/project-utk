@@ -3,6 +3,8 @@ import { JWTUtils } from "./JWTUtils";
 import { apiConfig } from "../config";
 import Vendor from "../models/vendor/Vendor";
 import { NodeMailerUtils } from "./NodeMailerUtils";
+import { URLUtils } from "@project-utk/shared/src/utils/URLUtils";
+import { RequestVendorEmailUpdate } from "@project-utk/shared/src/api/routes";
 
 type TokenPayload = {
   vendorId: string;
@@ -26,17 +28,23 @@ export class VendorEmailUpdateUtils {
     return JWTUtils.verifyToken<TokenPayload>(token, this.tokenSecret);
   }
 
-  static async sendEmail(vendor: Vendor, newEmail: string) {
+  static async sendEmail(vendor: Vendor, newEmail: string, linkDomain: string) {
     const token = this.getToken(vendor.id, newEmail);
 
     vendor.emailUpdateToken = token;
     await vendor.save();
 
+    const link = URLUtils.url(URLUtils.removeTrailingSlash(linkDomain))
+      .updateSearchParams({
+        [RequestVendorEmailUpdate.EmailUpdateLinkSearchParamKey]: token,
+      })
+      .setPath(RequestVendorEmailUpdate.WebPath).href;
+
     await NodeMailerUtils.transporter().sendMail({
       from: NodeMailerUtils.email,
       to: vendor.email,
       subject: "Project UTK Email Update",
-      text: `Email Update Token: ${token}`,
+      html: `<p>Click <a href="${link}">here</a> to update your email address.</p>`,
     });
   }
 }
