@@ -4,8 +4,6 @@ import styles from "./VendorAccount.module.scss";
 import { FormikSubmit, FormikUtils } from "../../utils/FormikUtils";
 import { useEffect, useState } from "react";
 import { VendorAPI } from "../../api";
-import { useAppDispatch } from "../../hooks";
-import { Actions } from "../../features";
 import { useAuthVendor } from "../../features/authVendor/useAuthVendor";
 import { Form } from "formik";
 import FormField from "../../components/FormField/FormField";
@@ -14,6 +12,7 @@ import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import Button from "../../components/Button/Button";
 import { useAPI } from "../../hooks/useAPI";
+import { useAuthVendorActions } from "../../features/authVendor/authVendorSlice";
 
 enum Field {
   Name = "name",
@@ -22,7 +21,7 @@ enum Field {
 type Values = Record<Field, string>;
 
 function VendorAccount() {
-  const dispatch = useAppDispatch();
+  const actions = useAuthVendorActions();
   const { vendor, fetchAndUpdateVendor } = useAuthVendor();
   const [initialValues, setInitialValues] = useState<Values>(
     FormikUtils.enumToTextInputInitialValues(Field),
@@ -32,7 +31,7 @@ function VendorAccount() {
 
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     await updateVendor(values);
-    dispatch(Actions.AuthVendor.updateVendor({ vendor: values }));
+    actions.updateVendor({ vendor: values });
   };
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 import { VendorAPI } from "../../api";
 import { Actions } from "..";
 import { APIHelpers } from "../../api/APIHelpers";
 import { useAPI } from "../../hooks/useAPI";
+import { useAuthVendorActions } from "./authVendorSlice";
 
 let isFetching = false;
 
@@ -14,15 +15,15 @@ type Props = {
 export const useAuthVendor = (props: Props = {}) => {
   const { redirectOnUnauthenticated = true } = props;
 
-  const dispatch = useAppDispatch();
+  const { setVendor, clearVendor } = useAuthVendorActions();
   const { vendor } = useAppSelector((state) => state.authVendor);
 
   const { isLoading, fetchAPI } = useAPI(VendorAPI.GetAuthenticatedVendor, {
     onSuccess: (data) => {
-      dispatch(Actions.AuthVendor.setVendor({ vendor: data }));
+      setVendor({ vendor: data });
     },
     onFailure: () => {
-      dispatch(Actions.AuthVendor.clearVendor());
+      clearVendor();
       if (redirectOnUnauthenticated) {
         APIHelpers.redirectToVendorLogin();
       }

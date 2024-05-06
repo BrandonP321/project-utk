@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useActions } from "../../hooks/useActions";
 
 export enum ResponsiveBreakpoint {
   Max = "max",
@@ -35,7 +36,7 @@ const responsiveSlice = createSlice({
   reducers: {
     setBreakpoint: (
       state,
-      action: PayloadAction<ResponsiveBreakpointUpdate>
+      action: PayloadAction<ResponsiveBreakpointUpdate>,
     ) => {
       state[action.payload.breakpoint] = action.payload.matches;
     },
@@ -43,4 +44,6 @@ const responsiveSlice = createSlice({
 });
 
 export const responsiveActions = responsiveSlice.actions;
+export const useResponsiveActions = () => useActions(responsiveActions);
+
 export default responsiveSlice;

@@ -8,9 +8,8 @@ import TextInput from "../../../components/TextInput/TextInput";
 import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import { useState } from "react";
-import { useAppDispatch } from "../../../hooks";
-import { Actions } from "../../../features";
 import { useAPI } from "../../../hooks/useAPI";
+import { useNotificationsActions } from "../../../features/notifications/notificationsSlice";
 
 enum Field {
   Name = "name",
@@ -31,17 +30,17 @@ function RegisterVendorForm({
   onAuthSuccess,
   toggleForm,
 }: RegisterVendorForm.Props) {
-  const dispatch = useAppDispatch();
-
+  const { addError } = useNotificationsActions();
   const [formEmailError, setFormEmailError] = useState("");
-  const { fetchAPI: register } = useAPI(VendorAPI.RegisterVendor, {
+
+  const { fetchAPI: registerVendor } = useAPI(VendorAPI.RegisterVendor, {
     onSuccess: onAuthSuccess,
     onFailure: (err) => {
       switch (err.errCode) {
         case "EMAIL_ALREADY_EXISTS":
           return setFormEmailError(err.msg);
         default:
-          return dispatch(Actions.Notifications.addError({ msg: err.msg }));
+          return addError({ msg: err.msg });
       }
     },
   });
@@ -49,7 +48,7 @@ function RegisterVendorForm({
   const handleSubmit: FormikSubmit<Values> = async (values) => {
     setFormEmailError("");
 
-    return await register(values);
+    return await registerVendor(values);
   };
 
   return (

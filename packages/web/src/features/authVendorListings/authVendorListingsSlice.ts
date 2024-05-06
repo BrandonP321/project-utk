@@ -1,5 +1,6 @@
 import { GetAuthedVendorListings } from "@project-utk/shared/src/api/routes/vendorListing";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { useActions } from "../../hooks/useActions";
 
 type AuthVendorListings = GetAuthedVendorListings.ResBody["listings"];
 
@@ -17,7 +18,7 @@ const authVendorListingsSlice = createSlice({
   reducers: {
     setListings: (
       state,
-      action: PayloadAction<{ listings: AuthVendorListings }>
+      action: PayloadAction<{ listings: AuthVendorListings }>,
     ) => {
       state.listings = action.payload.listings;
     },
@@ -28,4 +29,7 @@ const authVendorListingsSlice = createSlice({
 });
 
 export const authVendorListingsActions = authVendorListingsSlice.actions;
+export const useAuthVendorListingsActions = () =>
+  useActions(authVendorListingsActions);
+
 export default authVendorListingsSlice;

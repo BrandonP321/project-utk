@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Actions } from "..";
 import { useAppDispatch } from "../../hooks";
-import { ResponsiveBreakpoint } from "./responsiveSlice";
+import { ResponsiveBreakpoint, useResponsiveActions } from "./responsiveSlice";
 import { ResponsiveUtils } from "../../utils/ResponsiveUtils";
 
 const breakpointWidths: Record<ResponsiveBreakpoint, number> = {
@@ -14,7 +14,7 @@ const breakpointWidths: Record<ResponsiveBreakpoint, number> = {
 };
 
 export const useResponsiveSetup = () => {
-  const dispatch = useAppDispatch();
+  const { setBreakpoint } = useResponsiveActions();
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,7 +22,7 @@ export const useResponsiveSetup = () => {
 
       ResponsiveUtils.breakpointsLargeToSmall.forEach((breakpoint) => {
         const matches = width <= breakpointWidths[breakpoint];
-        dispatch(Actions.Responsive.setBreakpoint({ breakpoint, matches }));
+        setBreakpoint({ breakpoint, matches });
       });
     };
 
@@ -31,5 +31,5 @@ export const useResponsiveSetup = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [dispatch]);
+  }, [setBreakpoint]);
 };

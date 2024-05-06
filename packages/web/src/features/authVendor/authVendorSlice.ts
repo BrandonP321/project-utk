@@ -1,5 +1,6 @@
 import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { useActions } from "../../hooks/useActions";
 
 type AuthVendor = GetAuthenticatedVendor.ResBody;
 
@@ -20,7 +21,7 @@ const authVendorSlice = createSlice({
     },
     updateVendor: (
       state,
-      action: PayloadAction<{ vendor: Partial<AuthVendor> }>
+      action: PayloadAction<{ vendor: Partial<AuthVendor> }>,
     ) => {
       if (state.vendor) {
         state.vendor = { ...state.vendor, ...action.payload.vendor };
@@ -33,4 +34,6 @@ const authVendorSlice = createSlice({
 });
 
 export const authVendorActions = authVendorSlice.actions;
+export const useAuthVendorActions = () => useActions(authVendorActions);
+
 export default authVendorSlice;

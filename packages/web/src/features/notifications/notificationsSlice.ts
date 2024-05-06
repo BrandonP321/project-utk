@@ -1,5 +1,6 @@
 import { TypedOmit } from "@project-utk/shared/src/utils";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { useActions } from "../../hooks/useActions";
 
 type NotificationType = "error" | "info" | "success";
 
@@ -23,7 +24,7 @@ let lastId = 0;
 
 const addNotification = (
   state: NotificationsState,
-  payload: AddNotificationPayload
+  payload: AddNotificationPayload,
 ) => {
   lastId++;
 
@@ -60,11 +61,13 @@ const notificationsSlice = createSlice({
     },
     removeNotification: (state, action: PayloadAction<{ id: string }>) => {
       state.notifications = state.notifications.filter(
-        (n) => n.id !== action.payload.id
+        (n) => n.id !== action.payload.id,
       );
     },
   },
 });
 
 export const notificationsActions = notificationsSlice.actions;
+export const useNotificationsActions = () => useActions(notificationsActions);
+
 export default notificationsSlice;
