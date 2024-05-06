@@ -9,5 +9,7 @@ export namespace RequestVendorPasswordReset {
 
   export type ResBody = {};
 
+  export const SuccessMsg = "Password reset email sent";
+
   export const Errors = getErrorsMap([]);
 }

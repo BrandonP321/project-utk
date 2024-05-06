@@ -3,6 +3,8 @@ import Vendor from "../models/vendor/Vendor";
 import { JWTUtils } from "./JWTUtils";
 import { NodeMailerUtils } from "./NodeMailerUtils";
 import jwt from "jsonwebtoken";
+import { URLUtils } from "@project-utk/shared/src/utils/URLUtils";
+import { ResetVendorPassword } from "@project-utk/shared/src/api/routes";
 
 type JWTPayload = {
   vendorId: string;
@@ -21,16 +23,22 @@ export class PasswordResetUtils {
     });
   };
 
-  static sendResetEmail = async (vendor: Vendor) => {
+  static sendResetEmail = async (vendor: Vendor, linkDomain: string) => {
     const verificationToken = this.generateResetToken(vendor);
     vendor.resetToken = verificationToken;
     await vendor.save();
+
+    const link = URLUtils.url(URLUtils.removeTrailingSlash(linkDomain))
+      .updateSearchParams({
+        [ResetVendorPassword.ResetLinkSearchParamKey]: vendor.resetToken,
+      })
+      .setPath(ResetVendorPassword.WebPath).href;
 
     await NodeMailerUtils.transporter().sendMail({
       from: NodeMailerUtils.email,
       to: vendor.email,
       subject: "Project UTK Password Reset",
-      text: `Reset Token: ${verificationToken}`,
+      html: `<p>Click <a href="${link}">here</a> to reset your password.</p>`,
     });
   };
 

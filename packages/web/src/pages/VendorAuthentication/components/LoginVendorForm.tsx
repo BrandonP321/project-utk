@@ -9,6 +9,8 @@ import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import PasswordInput from "../../../components/PasswordInput/PasswordInput";
 import { useAPI } from "../../../hooks/useAPI";
+import { Link } from "react-router-dom";
+import { RouteHelper } from "../../../utils/RouteHelper";
 
 enum Field {
   Email = "email",
@@ -41,10 +43,10 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
           <h1>Login</h1>
 
           <FormField name={Field.Email} label="Email">
-            <TextInput name={Field.Email} />
+            <TextInput />
           </FormField>
           <FormField name={Field.Password} label="Password">
-            <PasswordInput name={Field.Password} />
+            <PasswordInput />
           </FormField>
 
           <SubmitButton>Login</SubmitButton>
@@ -54,6 +56,11 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
             <button type="button" onClick={toggleForm}>
               Register
             </button>
+          </p>
+          <p>
+            <Link to={RouteHelper.RequestVendorPasswordReset()}>
+              Forgot your password?
+            </Link>
           </p>
         </SpaceBetween>
       </Form>

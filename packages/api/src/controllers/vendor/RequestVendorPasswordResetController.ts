@@ -22,7 +22,7 @@ export const RequestVendorPasswordResetController = controller.handler(
       const vendor = await Vendor.findByEmail(req.body.email);
 
       if (vendor) {
-        await PasswordResetUtils.sendResetEmail(vendor);
+        await PasswordResetUtils.sendResetEmail(vendor, req.headers.referer!);
       }
     } catch (err) {
       // noop on error so we don't leak information
@@ -30,5 +30,5 @@ export const RequestVendorPasswordResetController = controller.handler(
     }
 
     return res.json({}).end();
-  }
+  },
 );

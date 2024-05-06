@@ -13,6 +13,8 @@ export namespace RequestVendorEmailUpdate {
     updated: boolean;
   };
 
+  export const SuccessMsg = "Email update request sent";
+
   export const Errors = getErrorsMap([
     new APIError({
       code: "EMAIL_TAKEN",

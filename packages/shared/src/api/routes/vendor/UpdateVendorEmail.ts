@@ -11,6 +11,8 @@ export namespace UpdateVendorEmail {
 
   export type ResBody = {};
 
+  export const SuccessMsg = "Email updated successfully";
+
   export const Errors = getErrorsMap([
     new APIError({
       code: "EMAIL_TAKEN",

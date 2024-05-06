@@ -6,11 +6,12 @@ import {
   ResetVendorPassword,
   SendVendorVerificationEmail,
   VerifyVendorEmail,
-} from "@project-utk/shared/src/api/routes";
+  GetAuthenticatedVendor,
+  RequestVendorEmailUpdate,
+  UpdateVendor,
+  UpdateVendorEmail,
+} from "@project-utk/shared/src/api/routes/vendor";
 import { APIHelpers } from "./APIHelpers";
-import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
-import { UpdateVendor } from "@project-utk/shared/src/api/routes/vendor/UpdateVendor";
-import { GetAuthedVendorListings } from "@project-utk/shared/src/api/routes/vendorListing";
 
 export class VendorAPI extends APIHelpers {
   static RegisterVendor = this.req<
@@ -47,13 +48,15 @@ export class VendorAPI extends APIHelpers {
     RequestVendorPasswordReset.ReqBody,
     RequestVendorPasswordReset.ResBody,
     typeof RequestVendorPasswordReset.Errors
-  >(RequestVendorPasswordReset.Path);
+  >(RequestVendorPasswordReset.Path, {
+    successMsg: RequestVendorPasswordReset.SuccessMsg,
+  });
 
   static ResetPassword = this.req<
     ResetVendorPassword.ReqBody,
     ResetVendorPassword.ResBody,
     typeof ResetVendorPassword.Errors
-  >(ResetVendorPassword.Path);
+  >(ResetVendorPassword.Path, { successMsg: ResetVendorPassword.SuccessMsg });
 
   static GetAuthenticatedVendor = this.req<
     GetAuthenticatedVendor.ReqBody,
@@ -70,9 +73,17 @@ export class VendorAPI extends APIHelpers {
     typeof UpdateVendor.Errors
   >(UpdateVendor.Path, { successMsg: UpdateVendor.SuccessMsg });
 
-  static GetAuthVendorListings = this.req<
-    GetAuthedVendorListings.ReqBody,
-    GetAuthedVendorListings.ResBody,
-    typeof GetAuthedVendorListings.Errors
-  >(GetAuthedVendorListings.Path);
+  static UpdateVendorEmail = this.req<
+    UpdateVendorEmail.ReqBody,
+    UpdateVendorEmail.ResBody,
+    typeof UpdateVendorEmail.Errors
+  >(UpdateVendorEmail.Path, { successMsg: UpdateVendorEmail.SuccessMsg });
+
+  static RequestEmailUpdate = this.req<
+    RequestVendorEmailUpdate.ReqBody,
+    RequestVendorEmailUpdate.ResBody,
+    typeof RequestVendorEmailUpdate.Errors
+  >(RequestVendorEmailUpdate.Path, {
+    successMsg: RequestVendorEmailUpdate.SuccessMsg,
+  });
 }

@@ -5,3 +5,7 @@ export * from "./RequestVendorPasswordReset";
 export * from "./ResetVendorPassword";
 export * from "./SendVendorVerificationEmail";
 export * from "./VerifyVendorEmail";
+export * from "./UpdateVendor";
+export * from "./UpdateVendorEmail";
+export * from "./GetAuthenticatedVendor";
+export * from "./RequestVendorEmailUpdate";
