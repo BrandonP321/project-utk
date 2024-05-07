@@ -36,7 +36,9 @@ export class VendorAPI extends APIHelpers {
     SendVendorVerificationEmail.ReqBody,
     SendVendorVerificationEmail.ResBody,
     typeof SendVendorVerificationEmail.Errors
-  >(SendVendorVerificationEmail.Path);
+  >(SendVendorVerificationEmail.Path, {
+    successMsg: SendVendorVerificationEmail.SuccessMsg,
+  });
 
   static VerifyEmail = this.req<
     VerifyVendorEmail.ReqBody,

@@ -7,5 +7,7 @@ export namespace SendVendorVerificationEmail {
 
   export type ResBody = {};
 
+  export const SuccessMsg = "Email sent successfully";
+
   export const Errors = getErrorsMap([]);
 }
