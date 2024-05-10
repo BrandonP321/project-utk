@@ -3,25 +3,25 @@
 // ======================================================================================================
 // XXL
 $sizeXXLVar: --size-xxl;
-$sizeXXL: var(#{$sizeXXLVar});
+$sizeXXL: var(#{$sizeXXLVar}, 3rem);
 // XL
 $sizeXLVar: --size-xl;
-$sizeXL: var(#{$sizeXLVar});
+$sizeXL: var(#{$sizeXLVar}, 2.5rem);
 // L
 $sizeLVar: --size-l;
-$sizeL: var(#{$sizeLVar});
+$sizeL: var(#{$sizeLVar}, 2rem);
 // M
 $sizeMVar: --size-m;
-$sizeM: var(#{$sizeMVar});
+$sizeM: var(#{$sizeMVar}, 1.5rem);
 // S
 $sizeSVar: --size-s;
-$sizeS: var(#{$sizeSVar});
+$sizeS: var(#{$sizeSVar}, 1rem);
 // XS
 $sizeXSVar: --size-xs;
-$sizeXS: var(#{$sizeXSVar});
+$sizeXS: var(#{$sizeXSVar}, 0.5rem);
 // XXS
 $sizeXXSVar: --size-xxs;
-$sizeXXS: var(#{$sizeXXSVar});
+$sizeXXS: var(#{$sizeXXSVar}, 0.25rem);
 
 $sizeMap: (
   "xxl": $sizeXXL,
@@ -32,15 +32,3 @@ $sizeMap: (
   "xs": $sizeXS,
   "xxs": $sizeXXS,
 );
-
-@mixin SetSizePartialValues() {
-  :root {
-    #{$sizeXXLVar}: 3rem;
-    #{$sizeXLVar}: 2.5rem;
-    #{$sizeLVar}: 2rem;
-    #{$sizeMVar}: 1.5rem;
-    #{$sizeSVar}: 1rem;
-    #{$sizeXSVar}: 0.5rem;
-    #{$sizeXXSVar}: 0.25rem;
-  }
-}

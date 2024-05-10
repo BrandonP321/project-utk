@@ -1,0 +1,38 @@
+/* Font Size */
+$fontSizeNormalVar: --font-size-normal;
+$fontSizeNormal: var($fontSizeNormalVar, 1.05rem);
+
+$fontSizeSVar: --font-size-s;
+$fontSizeS: var($fontSizeSVar, 1rem);
+
+$fontSizeXSVar: --font-size-xs;
+$fontSizeXS: var($fontSizeXSVar, 0.9rem);
+
+$fontSizeXXSVar: --font-size-xxs;
+$fontSizeXXS: var($fontSizeXXSVar, 0.8rem);
+
+$fontSizeHeading1Var: --font-size-heading1;
+$fontSizeHeading1: var($fontSizeHeading1Var, 2.5rem);
+
+$fontSizeHeading2Var: --font-size-heading2;
+$fontSizeHeading2: var($fontSizeHeading2Var, 2rem);
+
+$fontSizeHeading3Var: --font-size-heading3;
+$fontSizeHeading3: var($fontSizeHeading3Var, 1.75rem);
+
+$fontSizeHeading4Var: --font-size-heading4;
+$fontSizeHeading4: var($fontSizeHeading4Var, 1.5rem);
+
+$fontSizeHeading5Var: --font-size-heading5;
+$fontSizeHeading5: var($fontSizeHeading5Var, 1.25rem);
+
+$fontSizeHeading6Var: --font-size-heading6;
+$fontSizeHeading6: var($fontSizeHeading6Var, 1.25rem);
+
+/* Font Family */
+$fontFamilyPrimaryVar: --font-family-primary;
+$fontFamilyPrimary: var($fontFamilyPrimaryVar, Arial, Helvetica, sans-serif);
+
+/* Input */
+$fontSizeInputLabelVar: --font-size-input-label;
+$fontSizeInputLabel: var($fontSizeInputLabelVar, $fontSizeS);

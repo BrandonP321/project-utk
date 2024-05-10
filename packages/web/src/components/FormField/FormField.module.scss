@@ -1,9 +1,17 @@
 @import "../../styles/uiBase.scss";
 
 .field {
+  width: 100%;
+  max-width: $inputDefaultMaxWidth;
+}
+
+.label,
+.helpLink {
+  font-size: $fontSizeInputLabel;
 }
 
 .label {
+  color: $colorInputLabel;
 }
 
 .error {

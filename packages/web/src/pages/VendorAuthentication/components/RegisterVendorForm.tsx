@@ -10,6 +10,9 @@ import { VendorAPI } from "../../../api";
 import { useState } from "react";
 import { useAPI } from "../../../hooks/useAPI";
 import { useNotificationsActions } from "../../../features/notifications/notificationsSlice";
+import InlineLink from "../../../components/InlineLink/InlineLink";
+import PasswordInput from "../../../components/PasswordInput/PasswordInput";
+import Text from "../../../components/Text/Text";
 
 enum Field {
   Name = "name",
@@ -62,26 +65,26 @@ function RegisterVendorForm({
           <h1>Register</h1>
 
           <FormField name={Field.Name} label="Name">
-            <TextInput name={Field.Name} />
+            <TextInput />
           </FormField>
           <FormField name={Field.Email} label="Email" errorMsg={formEmailError}>
-            <TextInput name={Field.Email} />
+            <TextInput />
           </FormField>
           <FormField name={Field.Password} label="Password">
-            <TextInput name={Field.Password} type="password" />
+            <PasswordInput />
           </FormField>
           <FormField name={Field.ConfirmPassword} label="Confirm Password">
-            <TextInput name={Field.ConfirmPassword} type="password" />
+            <PasswordInput />
           </FormField>
 
-          <SubmitButton>Register</SubmitButton>
+          <SubmitButton>Create account</SubmitButton>
 
-          <p>
+          <Text align="center">
             Already have an account?{" "}
-            <button type="button" onClick={toggleForm}>
+            <InlineLink role="button" onClick={toggleForm}>
               Login
-            </button>
-          </p>
+            </InlineLink>
+          </Text>
         </SpaceBetween>
       </Form>
     </CustomFormik>

@@ -1,0 +1,15 @@
+@import "../../styles/uiBase.scss";
+
+.link {
+  color: $colorTextLink;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.allowWrap {
+    white-space: normal;
+  }
+}

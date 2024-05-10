@@ -1,0 +1,15 @@
+@import "../../styles/uiBase.scss";
+
+.text {
+  &.align-center {
+    text-align: center;
+  }
+
+  &.align-right {
+    text-align: right;
+  }
+
+  &.stretch {
+    width: 100%;
+  }
+}

@@ -1,14 +1,49 @@
 @import "./uiBase.scss";
 
-@include SetSizePartialValues();
-
 * {
   font-family: Arial, Helvetica, sans-serif;
+  color: $colorTextNormal;
+  font-family: $fontFamilyPrimary;
+  font-size: $fontSizeNormal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: $fontSizeHeading1;
+  color: $colorTextHeading1;
+}
+
+h2 {
+  font-size: $fontSizeHeading2;
+  color: $colorTextHeading2;
+}
+
+h3 {
+  font-size: $fontSizeHeading3;
+  color: $colorTextHeading3;
+}
+
+h4 {
+  font-size: $fontSizeHeading4;
+  color: $colorTextHeading4;
+}
+
+h5 {
+  font-size: $fontSizeHeading5;
+  color: $colorTextHeading5;
+}
+
+h6 {
+  font-size: $fontSizeHeading6;
+  color: $colorTextHeading6;
 }
 
 input:-webkit-autofill,

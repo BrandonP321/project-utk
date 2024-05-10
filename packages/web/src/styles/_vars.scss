@@ -1,0 +1,38 @@
+/* Border Radius */
+$borderRadiusXLVar: --border-radius-xl;
+$borderRadiusXL: var($borderRadiusXLVar, 1rem);
+
+$borderRadiusLVar: --border-radius-l;
+$borderRadiusL: var($borderRadiusLVar, 0.75rem);
+
+$borderRadiusMVar: --border-radius-m;
+$borderRadiusM: var($borderRadiusMVar, 0.5rem);
+
+$borderRadiusSVar: --border-radius-s;
+$borderRadiusS: var($borderRadiusSVar, 0.25rem);
+
+/* Input */
+$inputPaddingVerticalVar: --input-padding-vertical;
+$inputPaddingVertical: var($inputPaddingVerticalVar, 0.5rem);
+
+$inputPaddingHorizontalVar: --input-padding-horizontal;
+$inputPaddingHorizontal: var($inputPaddingHorizontalVar, 0.75rem);
+
+$inputBorderWidthVar: --input-border-width;
+$inputBorderWidth: var($inputBorderWidthVar, 2px);
+
+$inputBorderRadiusVar: --input-border-radius;
+$inputBorderRadius: var($inputBorderRadiusVar, $borderRadiusM);
+
+$inputDefaultMaxWidthVar: --input-default-max-width;
+$inputDefaultMaxWidth: var($inputDefaultMaxWidthVar, 20rem);
+
+/* Transition */
+$transitionDurationDefaultVar: --transition-duration-default;
+$transitionDurationDefault: var($transitionDurationDefaultVar, 0.15s);
+
+$transitionDefaultVar: --transition-default;
+$transitionDefault: var(
+  $transitionDefaultVar,
+  all $transitionDurationDefault ease-in-out
+);

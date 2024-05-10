@@ -1,5 +1,33 @@
 @import "../../styles/uiBase.scss";
 
+.inputWrapper {
+  border: $inputBorderWidth solid $colorInputBorder;
+  border-radius: $inputBorderRadius;
+  background-color: $colorInputBg;
+  padding: $inputPaddingVertical $inputPaddingHorizontal;
+  width: 100%;
+  transition: $transitionDefault;
+
+  &.focus {
+    border-color: $colorInputFocusBorder;
+  }
+
+  &.error {
+    border-color: $colorStatusDanger;
+  }
+}
+
 .input {
-  border: 1px solid black;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.rightIconBtn {
+  padding-left: $inputPaddingHorizontal;
+
+  .icon {
+  }
 }

@@ -1,14 +1,10 @@
-import { SomeRequired, TypedOmit } from "@project-utk/shared/src/utils";
+import { SomeRequired } from "@project-utk/shared/src/utils";
 import styles from "./ButtonLink.module.scss";
 import React from "react";
 import { ClassesProp } from "../../utils/UtilityTypes";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-
-type HTMLAnchorProps = TypedOmit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  "className"
->;
+import { HTMLAnchorProps } from "../../utils/HTMLAttributes";
 
 namespace ButtonLink {
   export type Props = SomeRequired<HTMLAnchorProps, "href"> & {

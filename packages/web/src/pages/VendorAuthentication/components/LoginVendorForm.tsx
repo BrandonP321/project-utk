@@ -9,8 +9,9 @@ import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
 import { VendorAPI } from "../../../api";
 import PasswordInput from "../../../components/PasswordInput/PasswordInput";
 import { useAPI } from "../../../hooks/useAPI";
-import { Link } from "react-router-dom";
-import { RouteHelper } from "../../../utils/RouteHelper";
+import { loginVendorSchema } from "@project-utk/shared/src/schemas/vendor/loginVendorSchema";
+import InlineLink from "../../../components/InlineLink/InlineLink";
+import Text from "../../../components/Text/Text";
 
 enum Field {
   Email = "email",
@@ -36,32 +37,31 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
     <CustomFormik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={null}
+      validationSchema={loginVendorSchema}
     >
       <Form>
         <SpaceBetween vertical stretch align="center">
           <h1>Login</h1>
 
           <FormField name={Field.Email} label="Email">
-            <TextInput />
+            <TextInput placeholder="Enter your email" />
           </FormField>
-          <FormField name={Field.Password} label="Password">
-            <PasswordInput />
+          <FormField
+            name={Field.Password}
+            label="Password"
+            helpLink={PasswordInput.FormFieldHelpLink}
+          >
+            <PasswordInput placeholder="Enter your password" />
           </FormField>
 
           <SubmitButton>Login</SubmitButton>
 
-          <p>
+          <Text align="center">
             Don't have an account?{" "}
-            <button type="button" onClick={toggleForm}>
-              Register
-            </button>
-          </p>
-          <p>
-            <Link to={RouteHelper.RequestVendorPasswordReset()}>
-              Forgot your password?
-            </Link>
-          </p>
+            <InlineLink role="button" onClick={toggleForm}>
+              Create an account
+            </InlineLink>
+          </Text>
         </SpaceBetween>
       </Form>
     </CustomFormik>

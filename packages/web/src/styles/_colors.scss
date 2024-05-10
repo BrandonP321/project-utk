@@ -1,0 +1,58 @@
+/* Background */
+$colorBgPrimaryVar: --color-bg-primary;
+$colorBgPrimary: var($colorBgPrimaryVar, #ffffff);
+
+/* Accents */
+$colorAccentPrimaryVar: --color-accent-primary;
+$colorAccentPrimary: var($colorAccentPrimaryVar, #007bff);
+
+/* Text */
+$colorTextNormalVar: --color-text-normal;
+$colorTextNormal: var($colorTextNormalVar, #000);
+
+$colorTextHeading1Var: --color-text-heading1;
+$colorTextHeading1: var($colorTextHeading1Var, #000);
+
+$colorTextHeading2Var: --color-text-heading2;
+$colorTextHeading2: var($colorTextHeading2Var, #2f2f2f);
+
+$colorTextHeading3Var: --color-text-heading3;
+$colorTextHeading3: var($colorTextHeading3Var, #494949);
+
+$colorTextHeading4Var: --color-text-heading4;
+$colorTextHeading4: var($colorTextHeading4Var, #6b6b6b);
+
+$colorTextHeading5Var: --color-text-heading5;
+$colorTextHeading5: var($colorTextHeading5Var, #8c8c8c);
+
+$colorTextHeading6Var: --color-text-heading6;
+$colorTextHeading6: var($colorTextHeading6Var, #b4b4b4);
+
+$colorTextLinkVar: --color-text-link;
+$colorTextLink: var($colorTextLinkVar, #007bff);
+
+/* Status */
+$colorStatusSuccessVar: --color-status-success;
+$colorStatusSuccess: var($colorStatusSuccessVar, #28a745);
+
+$colorStatusDangerVar: --color-status-danger;
+$colorStatusDanger: var($colorStatusDangerVar, #dc3545);
+
+$colorStatusInfoVar: --color-status-info;
+$colorStatusInfo: var($colorStatusInfoVar, #17a2b8);
+
+/* Input */
+$colorInputBgVar: --color-input-bg;
+$colorInputBg: var($colorInputBgVar, $colorBgPrimary);
+
+$colorInputBorderVar: --color-input-border;
+$colorInputBorder: var($colorInputBorderVar, #ced4da);
+
+$colorInputFocusBorderVar: --color-input-focus-border;
+$colorInputFocusBorder: var($colorInputFocusBorderVar, $colorAccentPrimary);
+
+$colorInputPlaceholderVar: --color-input-placeholder;
+$colorInputPlaceholder: var($colorInputPlaceholderVar, #6c757d);
+
+$colorInputLabelVar: --color-input-label;
+$colorInputLabel: var($colorInputLabelVar, #495057);
