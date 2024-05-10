@@ -56,3 +56,22 @@ $colorInputPlaceholder: var($colorInputPlaceholderVar, #6c757d);
 
 $colorInputLabelVar: --color-input-label;
 $colorInputLabel: var($colorInputLabelVar, #495057);
+
+/* Button - Primary */
+$colorButtonBgPrimaryVar: --color-button-bg-primary;
+$colorButtonBgPrimary: var($colorButtonBgPrimaryVar, $colorAccentPrimary);
+
+$colorButtonBgPrimaryTextVar: --color-button-bg-primary-text;
+$colorButtonBgPrimaryText: var($colorButtonBgPrimaryTextVar, #ffffff);
+
+$colorButtonBgPrimaryDisabledVar: --color-button-bg-primary-disabled;
+$colorButtonBgPrimaryDisabled: var($colorButtonBgPrimaryDisabledVar, #007bff);
+
+$colorButtonBgPrimaryDisabledTextVar: --color-button-bg-primary-disabled-text;
+$colorButtonBgPrimaryDisabledText: var(
+  $colorButtonBgPrimaryDisabledTextVar,
+  #ffffff
+);
+
+$colorButtonBgPrimaryHoverVar: --color-button-bg-primary-hover;
+$colorButtonBgPrimaryHover: var($colorButtonBgPrimaryHoverVar, #0056b3);

@@ -2,9 +2,13 @@
 
 * {
   font-family: Arial, Helvetica, sans-serif;
-  color: $colorTextNormal;
   font-family: $fontFamilyPrimary;
   font-size: $fontSizeNormal;
+  color: inherit;
+}
+
+html {
+  color: $colorTextNormal;
 }
 
 h1,

@@ -1,20 +1,40 @@
 @import "../../styles/uiBase.scss";
 
+$btnColors: (
+  primary: (
+    bg: $colorButtonBgPrimary,
+    text: $colorButtonBgPrimaryText,
+    disabled: $colorButtonBgPrimaryDisabled,
+    disabledText: $colorButtonBgPrimaryDisabledText,
+    hover: $colorButtonBgPrimaryHover,
+  ),
+);
+
+@mixin ButtonVariants() {
+  @each $variant, $colors in $btnColors {
+    &.#{$variant} {
+      background-color: map-get($colors, bg);
+      color: map-get($colors, text);
+
+      &:disabled {
+        background-color: map-get($colors, disabled);
+        color: map-get($colors, disabledText);
+      }
+
+      &:hover:not(:disabled) {
+        background-color: map-get($colors, hover);
+      }
+    }
+  }
+}
+
 .button {
   position: relative;
-  border: 1px solid black;
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
+  padding: $inputPaddingVertical $inputPaddingHorizontal;
+  border-radius: $buttonBorderRadius;
   transition: all 0.15s;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  &:disabled {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
+  @include ButtonVariants();
 
   &.loading {
     .spinnerWrapper {

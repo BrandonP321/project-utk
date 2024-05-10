@@ -15,6 +15,7 @@ namespace Button {
   export type Props = HTMLButtonProps & {
     classes?: ClassesProp<"root">;
     loading?: boolean;
+    variant?: "primary" | "secondary";
   };
 }
 
@@ -24,6 +25,7 @@ function Button({
   children,
   loading,
   disabled,
+  variant = "primary",
   ...rest
 }: Button.Props) {
   return (
@@ -32,6 +34,7 @@ function Button({
         styles.button,
         classes?.root,
         loading && styles.loading,
+        styles[variant],
       )}
       type={type}
       disabled={disabled || loading}

@@ -12,6 +12,7 @@ import { useAPI } from "../../../hooks/useAPI";
 import { loginVendorSchema } from "@project-utk/shared/src/schemas/vendor/loginVendorSchema";
 import InlineLink from "../../../components/InlineLink/InlineLink";
 import Text from "../../../components/Text/Text";
+import FormActions from "../../../components/FormActions/FormActions";
 
 enum Field {
   Email = "email",
@@ -39,7 +40,7 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
       onSubmit={handleSubmit}
       validationSchema={loginVendorSchema}
     >
-      <Form>
+      <Form style={{ maxWidth: "20rem", margin: "0 auto" }}>
         <SpaceBetween vertical stretch align="center">
           <h1>Login</h1>
 
@@ -54,7 +55,9 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
             <PasswordInput placeholder="Enter your password" />
           </FormField>
 
-          <SubmitButton>Login</SubmitButton>
+          <FormActions>
+            <SubmitButton>Login</SubmitButton>
+          </FormActions>
 
           <Text align="center">
             Don't have an account?{" "}

@@ -13,10 +13,10 @@ $borderRadiusS: var($borderRadiusSVar, 0.25rem);
 
 /* Input */
 $inputPaddingVerticalVar: --input-padding-vertical;
-$inputPaddingVertical: var($inputPaddingVerticalVar, 0.5rem);
+$inputPaddingVertical: var($inputPaddingVerticalVar, 0.6rem);
 
 $inputPaddingHorizontalVar: --input-padding-horizontal;
-$inputPaddingHorizontal: var($inputPaddingHorizontalVar, 0.75rem);
+$inputPaddingHorizontal: var($inputPaddingHorizontalVar, 1.35rem);
 
 $inputBorderWidthVar: --input-border-width;
 $inputBorderWidth: var($inputBorderWidthVar, 2px);
@@ -26,6 +26,19 @@ $inputBorderRadius: var($inputBorderRadiusVar, $borderRadiusM);
 
 $inputDefaultMaxWidthVar: --input-default-max-width;
 $inputDefaultMaxWidth: var($inputDefaultMaxWidthVar, 20rem);
+
+/* Button */
+$buttonPaddingVerticalVar: --button-padding-vertical;
+$buttonPaddingVertical: var($buttonPaddingVerticalVar, $inputPaddingVertical);
+
+$buttonPaddingHorizontalVar: --button-padding-horizontal;
+$buttonPaddingHorizontal: var(
+  $buttonPaddingHorizontalVar,
+  $inputPaddingHorizontal
+);
+
+$buttonBorderRadiusVar: --button-border-radius;
+$buttonBorderRadius: var($buttonBorderRadiusVar, $inputBorderRadius);
 
 /* Transition */
 $transitionDurationDefaultVar: --transition-duration-default;

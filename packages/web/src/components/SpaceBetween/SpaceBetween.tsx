@@ -12,20 +12,22 @@ import { ClassesProp } from "../../utils/UtilityTypes";
 type SpaceBetweenAlign = "start" | "center" | "end" | "n";
 type SpaceBetweenJustify = "start" | "center" | "end" | "space-between" | "n";
 
-export type SpaceBetweenProps = React.PropsWithChildren<{
-  classes?: ClassesProp<"root">;
-  style?: React.CSSProperties;
-  inputRef?: RefObject<HTMLDivElement>;
-}> &
-  ResponsiveProps<"size", Size> &
-  ResponsiveProps<
-    "vertical" | "stretchChildren" | "wrap" | "stretch",
-    boolean
-  > &
-  ResponsiveProps<"justify", SpaceBetweenJustify> &
-  ResponsiveProps<"align", SpaceBetweenAlign>;
+export namespace SpaceBetween {
+  export type Props = React.PropsWithChildren<{
+    classes?: ClassesProp<"root">;
+    style?: React.CSSProperties;
+    inputRef?: RefObject<HTMLDivElement>;
+  }> &
+    ResponsiveProps<"size", Size> &
+    ResponsiveProps<
+      "vertical" | "stretchChildren" | "wrap" | "stretch",
+      boolean
+    > &
+    ResponsiveProps<"justify", SpaceBetweenJustify> &
+    ResponsiveProps<"align", SpaceBetweenAlign>;
+}
 
-export const SpaceBetween = ({
+export function SpaceBetween({
   children,
   size = "s",
   inputRef,
@@ -44,47 +46,47 @@ export const SpaceBetween = ({
   responsiveJustify,
   responsiveWrap,
   style,
-}: SpaceBetweenProps) => {
+}: SpaceBetween.Props) {
   const responsive = useResponsive();
 
   const getMostSpecific = useCallback(
     ResponsiveUtils.createMostSpecificGetter(responsive),
-    [responsive]
+    [responsive],
   );
 
   const sizeToRender = useMemo(
     () => getMostSpecific(responsiveSize, size),
-    [responsiveSize, size, getMostSpecific]
+    [responsiveSize, size, getMostSpecific],
   );
 
   const isVertical = useMemo(
     () => getMostSpecific(responsiveVertical, vertical),
-    [responsiveVertical, vertical, getMostSpecific]
+    [responsiveVertical, vertical, getMostSpecific],
   );
 
   const isStretchChildren = useMemo(
     () => getMostSpecific(responsiveStretchChildren, stretchChildren),
-    [responsiveStretchChildren, stretchChildren, getMostSpecific]
+    [responsiveStretchChildren, stretchChildren, getMostSpecific],
   );
 
   const isWrap = useMemo(
     () => getMostSpecific(responsiveWrap, wrap),
-    [responsiveWrap, wrap, getMostSpecific]
+    [responsiveWrap, wrap, getMostSpecific],
   );
 
   const justifyToRender = useMemo(
     () => getMostSpecific(responsiveJustify, justify),
-    [responsiveJustify, justify, getMostSpecific]
+    [responsiveJustify, justify, getMostSpecific],
   );
 
   const alignToRender = useMemo(
     () => getMostSpecific(responsiveAlign, align),
-    [responsiveAlign, align, getMostSpecific]
+    [responsiveAlign, align, getMostSpecific],
   );
 
   const renderStretch = useMemo(
     () => getMostSpecific(responsiveStretch, stretch),
-    [responsiveStretch, stretch, getMostSpecific]
+    [responsiveStretch, stretch, getMostSpecific],
   );
 
   return (
@@ -99,11 +101,11 @@ export const SpaceBetween = ({
         isStretchChildren && styles.stretchChildren,
         renderStretch && styles.stretch,
         isWrap && styles.wrap,
-        styles[sizeToRender]
+        styles[sizeToRender],
       )}
       style={style}
     >
       {children}
     </div>
   );
-};
+}
