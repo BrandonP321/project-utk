@@ -1,0 +1,17 @@
+@import "../../styles/uiBase.scss";
+
+$formSizeMap: (
+  s: 25rem,
+  m: 35rem,
+  l: 45rem,
+);
+
+.form {
+  margin: 0 auto;
+
+  @each $sizeName, $sizeValue in $formSizeMap {
+    &.#{$sizeName} {
+      max-width: $sizeValue;
+    }
+  }
+}

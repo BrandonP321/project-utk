@@ -1,8 +1,6 @@
 import { registerVendorSchema } from "@project-utk/shared/src/schemas/vendor/registerVendorSchema";
 import CustomFormik from "../../../components/CustomFormik/CustomFormik";
-import { SpaceBetween } from "../../../components/SpaceBetween/SpaceBetween";
 import SubmitButton from "../../../components/SubmitButton/SubmitButton";
-import { Form } from "formik";
 import FormField from "../../../components/FormField/FormField";
 import TextInput from "../../../components/TextInput/TextInput";
 import { FormikSubmit, FormikUtils } from "../../../utils/FormikUtils";
@@ -13,6 +11,7 @@ import { useNotificationsActions } from "../../../features/notifications/notific
 import InlineLink from "../../../components/InlineLink/InlineLink";
 import PasswordInput from "../../../components/PasswordInput/PasswordInput";
 import Text from "../../../components/Text/Text";
+import VendorAuthForm from "./VendorAuthForm";
 
 enum Field {
   Name = "name",
@@ -60,33 +59,38 @@ function RegisterVendorForm({
       onSubmit={handleSubmit}
       validationSchema={registerVendorSchema}
     >
-      <Form>
-        <SpaceBetween vertical stretch align="center">
-          <h1>Register</h1>
-
-          <FormField name={Field.Name} label="Name">
-            <TextInput />
-          </FormField>
-          <FormField name={Field.Email} label="Email" errorMsg={formEmailError}>
-            <TextInput />
-          </FormField>
-          <FormField name={Field.Password} label="Password">
-            <PasswordInput />
-          </FormField>
-          <FormField name={Field.ConfirmPassword} label="Confirm Password">
-            <PasswordInput />
-          </FormField>
-
-          <SubmitButton>Create account</SubmitButton>
-
+      <VendorAuthForm
+        title="Create account"
+        formFields={
+          <>
+            <FormField name={Field.Name} label="Name">
+              <TextInput />
+            </FormField>
+            <FormField
+              name={Field.Email}
+              label="Email"
+              errorMsg={formEmailError}
+            >
+              <TextInput />
+            </FormField>
+            <FormField name={Field.Password} label="Password">
+              <PasswordInput />
+            </FormField>
+            <FormField name={Field.ConfirmPassword} label="Confirm Password">
+              <PasswordInput />
+            </FormField>
+          </>
+        }
+        formActions={<SubmitButton>Create account</SubmitButton>}
+        formToggle={
           <Text align="center">
             Already have an account?{" "}
             <InlineLink role="button" onClick={toggleForm}>
               Login
             </InlineLink>
           </Text>
-        </SpaceBetween>
-      </Form>
+        }
+      />
     </CustomFormik>
   );
 }
