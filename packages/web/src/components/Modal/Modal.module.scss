@@ -1,11 +1,8 @@
 @import "../../styles/uiBase.scss";
 
 .outerWrapper {
+  @include AbsoluteFill();
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 
   &.hide {
     pointer-events: none;
@@ -28,10 +25,7 @@
 }
 
 .overlay {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  @include AbsoluteFill();
   background-color: rgba(black, 0.5);
 }
 

@@ -1,6 +1,7 @@
 @import "../../styles/uiBase.scss";
 
 .button {
+  position: relative;
   border: 1px solid black;
   padding: 0.5rem 1.5rem;
   border-radius: 0.5rem;
@@ -14,4 +15,21 @@
   &:disabled {
     background-color: rgba(0, 0, 0, 0.1);
   }
+
+  &.loading {
+    .spinnerWrapper {
+      display: flex;
+    }
+
+    .text {
+      opacity: 0;
+    }
+  }
+}
+
+.spinnerWrapper {
+  @include AbsoluteFill();
+  pointer-events: none;
+  display: none;
+  transition: all 0s;
 }

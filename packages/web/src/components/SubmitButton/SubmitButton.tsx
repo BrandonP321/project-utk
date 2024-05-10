@@ -9,7 +9,7 @@ namespace SubmitButton {
 
 function SubmitButton({
   disabled = false,
-  children,
+  loading,
   ...rest
 }: SubmitButton.Props) {
   const { isFormDisabled } = useCustomFormik();
@@ -19,10 +19,9 @@ function SubmitButton({
     <Button
       {...rest}
       type={"submit"}
-      disabled={disabled || isFormDisabled || !dirty || isSubmitting}
-    >
-      {isSubmitting ? "Loading..." : children}
-    </Button>
+      disabled={disabled || isFormDisabled || !dirty}
+      loading={loading || isSubmitting}
+    />
   );
 }
 
