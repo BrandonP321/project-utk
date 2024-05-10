@@ -5,9 +5,11 @@ import { ClassesProp } from "../../utils/UtilityTypes";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { HTMLAnchorProps } from "../../utils/HTMLAttributes";
+import Button from "../Button/Button";
 
 namespace ButtonLink {
   export type Props = SomeRequired<HTMLAnchorProps, "href"> & {
+    variant?: Button.Variant;
     classes?: ClassesProp<"root">;
   };
 }
@@ -17,6 +19,7 @@ function ButtonLink(props: ButtonLink.Props) {
     children,
     referrerPolicy = "no-referrer",
     classes,
+    variant = "primary",
     href,
     ...rest
   } = props;
@@ -26,7 +29,12 @@ function ButtonLink(props: ButtonLink.Props) {
       {...rest}
       {...{ referrerPolicy }}
       to={href}
-      className={classNames(styles.button, classes?.root, styles.buttonLink)}
+      className={classNames(
+        styles.button,
+        classes?.root,
+        styles.buttonLink,
+        styles[variant],
+      )}
     >
       {children}
     </Link>

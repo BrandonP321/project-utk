@@ -12,10 +12,12 @@ type HTMLButtonProps = TypedOmit<
 >;
 
 namespace Button {
+  export type Variant = "primary" | "secondary";
+
   export type Props = HTMLButtonProps & {
     classes?: ClassesProp<"root">;
     loading?: boolean;
-    variant?: "primary" | "secondary";
+    variant?: Variant;
   };
 }
 
