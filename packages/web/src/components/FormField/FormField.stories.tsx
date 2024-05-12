@@ -3,17 +3,20 @@ import FormField from "./FormField";
 import CustomFormik from "../CustomFormik/CustomFormik";
 import TextInput from "../TextInput/TextInput";
 import PasswordInput from "../PasswordInput/PasswordInput";
+import CustomFormikProvider from "../CustomFormik/CustomFormikContext";
 
 const fieldName = "field" as const;
 
 const CustomFormikDecorator = (
   props: Partial<CustomFormik.Props<{ [fieldName]: string }>>,
 ) => (
-  <CustomFormik
-    initialValues={{ [fieldName]: "test@email.com" }}
-    onSubmit={() => {}}
-    {...props}
-  />
+  <CustomFormikProvider>
+    <CustomFormik
+      initialValues={{ [fieldName]: "test@email.com" }}
+      onSubmit={() => {}}
+      {...props}
+    />
+  </CustomFormikProvider>
 );
 
 const FieldChildren = {

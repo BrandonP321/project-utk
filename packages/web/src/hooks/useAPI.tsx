@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 
 export function useAPI<Req, Res, Errors extends APIErrorsMap<string>>(
   req: APIRequest<Req, Res, Errors>,
-  reqParams?: ReqParams<Res, Errors>,
+  reqParams?: ReqParams<Req, Res, Errors>,
 ) {
   const { onFailure, onFinally, onSuccess } = reqParams ?? {};
 
@@ -32,7 +32,7 @@ export function useAPI<Req, Res, Errors extends APIErrorsMap<string>>(
     return await req(reqBody, {
       onSuccess: async (res) => {
         setData(res);
-        await onSuccess?.(res);
+        await onSuccess?.(res, reqBody);
       },
       onFailure: async (err) => {
         setError(err);

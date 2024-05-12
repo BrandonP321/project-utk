@@ -1,0 +1,13 @@
+@import "../../../styles/uiBase.scss";
+
+.rightContent {
+  height: 100vh;
+  flex-grow: 1;
+}
+
+.main {
+  flex-grow: 1;
+  padding: $pageContentPaddingVertical $pagePaddingHorizontal;
+  background-color: rgb(226, 226, 226);
+  border-top-left-radius: $borderRadiusL;
+}

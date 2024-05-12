@@ -8,6 +8,13 @@ $btnColors: (
     disabledText: $colorButtonBgPrimaryDisabledText,
     hover: $colorButtonBgPrimaryHover,
   ),
+  secondary: (
+    bg: $colorButtonBgSecondary,
+    disabled: $colorButtonBgSecondaryDisabled,
+    disabledText: $colorButtonBgSecondaryDisabledText,
+    hover: $colorButtonBgSecondaryHover,
+    border: $colorButtonBgSecondaryBorder,
+  ),
 );
 
 @mixin ButtonVariants() {
@@ -15,6 +22,7 @@ $btnColors: (
     &.#{$variant} {
       background-color: map-get($colors, bg);
       color: map-get($colors, text);
+      border-color: map-get($colors, border);
 
       &:disabled {
         background-color: map-get($colors, disabled);
@@ -32,6 +40,7 @@ $btnColors: (
   position: relative;
   padding: $inputPaddingVertical $inputPaddingHorizontal;
   border-radius: $buttonBorderRadius;
+  border: 2px solid transparent;
   transition: all 0.15s;
 
   @include ButtonVariants();

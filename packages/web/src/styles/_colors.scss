@@ -1,14 +1,23 @@
+/* Base colors */
+$colorBaseInfoBlue: #03a9f4;
+$colorBaseSuccessGreen: #4caf50;
+$colorBaseDangerRed: #f44336;
+
 /* Background */
 $colorBgPrimaryVar: --color-bg-primary;
 $colorBgPrimary: var($colorBgPrimaryVar, #ffffff);
 
 /* Accents */
+$colorAccentPrimaryDefault: #007bff;
+
 $colorAccentPrimaryVar: --color-accent-primary;
-$colorAccentPrimary: var($colorAccentPrimaryVar, #007bff);
+$colorAccentPrimary: var($colorAccentPrimaryVar, $colorAccentPrimaryDefault);
 
 /* Text */
+$colorTextNormalDefault: #000;
+
 $colorTextNormalVar: --color-text-normal;
-$colorTextNormal: var($colorTextNormalVar, #000);
+$colorTextNormal: var($colorTextNormalVar, $colorTextNormalDefault);
 
 $colorTextHeading1Var: --color-text-heading1;
 $colorTextHeading1: var($colorTextHeading1Var, #000);
@@ -33,13 +42,49 @@ $colorTextLink: var($colorTextLinkVar, #007bff);
 
 /* Status */
 $colorStatusSuccessVar: --color-status-success;
-$colorStatusSuccess: var($colorStatusSuccessVar, #28a745);
+$colorStatusSuccess: var($colorStatusSuccessVar, $colorBaseSuccessGreen);
+
+$colorStatusSuccessTextVar: --color-status-success-text;
+$colorStatusSuccessText: var(
+  $colorStatusSuccessTextVar,
+  darken($colorBaseSuccessGreen, 40%)
+);
+
+$colorStatusSuccessTranslucentBgVar: --color-status-success-translucent-bg;
+$colorStatusSuccessTranslucentBg: var(
+  $colorStatusSuccessTranslucentBgVar,
+  rgba($colorBaseSuccessGreen, 2%)
+);
 
 $colorStatusDangerVar: --color-status-danger;
-$colorStatusDanger: var($colorStatusDangerVar, #dc3545);
+$colorStatusDanger: var($colorStatusDangerVar, $colorBaseDangerRed);
+
+$colorStatusDangerTextVar: --color-status-danger-text;
+$colorStatusDangerText: var(
+  $colorStatusDangerTextVar,
+  darken($colorBaseDangerRed, 40%)
+);
+
+$colorStatusDangerTranslucentBgVar: --color-status-danger-translucent-bg;
+$colorStatusDangerTranslucentBg: var(
+  $colorStatusDangerTranslucentBgVar,
+  rgba($colorBaseDangerRed, 2%)
+);
 
 $colorStatusInfoVar: --color-status-info;
-$colorStatusInfo: var($colorStatusInfoVar, #17a2b8);
+$colorStatusInfo: var($colorStatusInfoVar, $colorBaseInfoBlue);
+
+$colorStatusInfoTextVar: --color-status-info-text;
+$colorStatusInfoText: var(
+  $colorStatusInfoTextVar,
+  darken($colorBaseInfoBlue, 40%)
+);
+
+$colorStatusInfoTranslucentBgVar: --color-status-info-translucent-bg;
+$colorStatusInfoTranslucentBg: var(
+  $colorStatusInfoTranslucentBgVar,
+  rgba($colorBaseInfoBlue, 2%)
+);
 
 /* Input */
 $colorInputBgVar: --color-input-bg;
@@ -57,15 +102,27 @@ $colorInputPlaceholder: var($colorInputPlaceholderVar, #6c757d);
 $colorInputLabelVar: --color-input-label;
 $colorInputLabel: var($colorInputLabelVar, #495057);
 
+$colorInputBgDisabledVar: --color-input-bg-disabled;
+$colorInputBgDisabled: var($colorInputBgDisabledVar, #e9ecef);
+
+$colorInputTextDisabledVar: --color-input-text-disabled;
+$colorInputTextDisabled: var($colorInputTextDisabledVar, #6c757d);
+
 /* Button - Primary */
 $colorButtonBgPrimaryVar: --color-button-bg-primary;
-$colorButtonBgPrimary: var($colorButtonBgPrimaryVar, $colorAccentPrimary);
+$colorButtonBgPrimary: var(
+  $colorButtonBgPrimaryVar,
+  $colorAccentPrimaryDefault
+);
 
 $colorButtonBgPrimaryTextVar: --color-button-bg-primary-text;
 $colorButtonBgPrimaryText: var($colorButtonBgPrimaryTextVar, #ffffff);
 
 $colorButtonBgPrimaryDisabledVar: --color-button-bg-primary-disabled;
-$colorButtonBgPrimaryDisabled: var($colorButtonBgPrimaryDisabledVar, #007bff);
+$colorButtonBgPrimaryDisabled: var(
+  $colorButtonBgPrimaryDisabledVar,
+  lighten($colorAccentPrimaryDefault, 20%)
+);
 
 $colorButtonBgPrimaryDisabledTextVar: --color-button-bg-primary-disabled-text;
 $colorButtonBgPrimaryDisabledText: var(
@@ -74,4 +131,43 @@ $colorButtonBgPrimaryDisabledText: var(
 );
 
 $colorButtonBgPrimaryHoverVar: --color-button-bg-primary-hover;
-$colorButtonBgPrimaryHover: var($colorButtonBgPrimaryHoverVar, #0056b3);
+$colorButtonBgPrimaryHover: var(
+  $colorButtonBgPrimaryHoverVar,
+  darken($colorAccentPrimaryDefault, 10%)
+);
+
+/* Button - Secondary */
+$colorButtonSecondaryDefault: #d4d4d4;
+
+$colorButtonBgSecondaryVar: --color-button-bg-secondary;
+$colorButtonBgSecondary: var(
+  $colorButtonBgSecondaryVar,
+  $colorButtonSecondaryDefault
+);
+
+// $colorButtonBgSecondaryTextVar: --color-button-bg-secondary-text;
+// $colorButtonBgSecondaryText: var($colorButtonBgSecondaryTextVar, #ffffff);
+
+$colorButtonBgSecondaryDisabledVar: --color-button-bg-secondary-disabled;
+$colorButtonBgSecondaryDisabled: var(
+  $colorButtonBgSecondaryDisabledVar,
+  lighten($colorButtonSecondaryDefault, 10%)
+);
+
+$colorButtonBgSecondaryDisabledTextVar: --color-button-bg-secondary-disabled-text;
+$colorButtonBgSecondaryDisabledText: var(
+  $colorButtonBgSecondaryDisabledTextVar,
+  lighten($colorTextNormalDefault, 50%)
+);
+
+$colorButtonBgSecondaryHoverVar: --color-button-bg-secondary-hover;
+$colorButtonBgSecondaryHover: var(
+  $colorButtonBgSecondaryHoverVar,
+  darken($colorButtonSecondaryDefault, 10%)
+);
+
+$colorButtonBgSecondaryBorderVar: --color-button-bg-secondary-border;
+$colorButtonBgSecondaryBorder: var(
+  $colorButtonBgSecondaryBorderVar,
+  darken($colorButtonSecondaryDefault, 10%)
+);

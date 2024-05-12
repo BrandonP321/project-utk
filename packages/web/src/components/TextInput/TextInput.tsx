@@ -38,6 +38,7 @@ function TextInput<F>(props: TextInput.Props<F>) {
     classes,
     rightIcon,
     onRightIconClick,
+    disabled,
     ...rest
   } = props;
 
@@ -55,6 +56,7 @@ function TextInput<F>(props: TextInput.Props<F>) {
   };
 
   const value = parseValue ? parseValue(field.value) : field.value;
+  const isDisabled = disabled || isFormDisabled;
 
   return (
     <SpaceBetween
@@ -66,6 +68,7 @@ function TextInput<F>(props: TextInput.Props<F>) {
           classes?.root,
           hasError && styles.error,
           isFocused && styles.focus,
+          isDisabled && styles.disabled,
         ),
       }}
     >

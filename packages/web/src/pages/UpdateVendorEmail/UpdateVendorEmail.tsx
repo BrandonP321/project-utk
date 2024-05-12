@@ -13,6 +13,7 @@ import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { Form } from "formik";
 import { updateVendorEmailSchema } from "@project-utk/shared/src/schemas/vendor/updateVendorEmailSchema";
+import CustomFormikProvider from "../../components/CustomFormik/CustomFormikContext";
 
 enum Field {
   Password = "password",
@@ -45,23 +46,25 @@ function UpdateVendorEmail() {
 
   return (
     <SpaceBetween align="center" vertical>
-      <CustomFormik
-        initialValues={{ [Field.Password]: "" }}
-        onSubmit={handleSubmit}
-        validationSchema={updateVendorEmailSchema}
-      >
-        <Form>
-          <SpaceBetween vertical align="center">
-            <h1>Update email</h1>
+      <CustomFormikProvider>
+        <CustomFormik
+          initialValues={{ [Field.Password]: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={updateVendorEmailSchema}
+        >
+          <Form>
+            <SpaceBetween vertical align="center">
+              <h1>Update email</h1>
 
-            <FormField name={Field.Password} label="Password">
-              <PasswordInput />
-            </FormField>
+              <FormField name={Field.Password} label="Password">
+                <PasswordInput />
+              </FormField>
 
-            <SubmitButton>Update email</SubmitButton>
-          </SpaceBetween>
-        </Form>
-      </CustomFormik>
+              <SubmitButton>Update email</SubmitButton>
+            </SpaceBetween>
+          </Form>
+        </CustomFormik>
+      </CustomFormikProvider>
     </SpaceBetween>
   );
 }

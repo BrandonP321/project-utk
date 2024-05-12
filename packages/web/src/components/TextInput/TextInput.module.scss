@@ -15,6 +15,11 @@
   &.error {
     border-color: $colorStatusDanger;
   }
+
+  &.disabled {
+    background-color: $colorInputBgDisabled;
+    color: $colorInputTextDisabled;
+  }
 }
 
 .input {

@@ -11,6 +11,7 @@ import { loginVendorSchema } from "@project-utk/shared/src/schemas/vendor/loginV
 import InlineLink from "../../../components/InlineLink/InlineLink";
 import Text from "../../../components/Text/Text";
 import VendorAuthForm from "./VendorAuthForm";
+import CustomFormikProvider from "../../../components/CustomFormik/CustomFormikContext";
 
 enum Field {
   Email = "email",
@@ -33,38 +34,40 @@ function LoginVendorForm({ onAuthSuccess, toggleForm }: LoginVendorForm.Props) {
   const handleSubmit: FormikSubmit<Values> = login;
 
   return (
-    <CustomFormik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={loginVendorSchema}
-    >
-      <VendorAuthForm
-        title="Login"
-        formFields={
-          <>
-            <FormField name={Field.Email} label="Email">
-              <TextInput placeholder="Enter your email" />
-            </FormField>
-            <FormField
-              name={Field.Password}
-              label="Password"
-              helpLink={PasswordInput.FormFieldHelpLink}
-            >
-              <PasswordInput placeholder="Enter your password" />
-            </FormField>
-          </>
-        }
-        formActions={<SubmitButton>Login</SubmitButton>}
-        formToggle={
-          <Text align="center">
-            Don't have an account?{" "}
-            <InlineLink role="button" onClick={toggleForm}>
-              Create an account
-            </InlineLink>
-          </Text>
-        }
-      />
-    </CustomFormik>
+    <CustomFormikProvider>
+      <CustomFormik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={loginVendorSchema}
+      >
+        <VendorAuthForm
+          title="Login"
+          formFields={
+            <>
+              <FormField name={Field.Email} label="Email">
+                <TextInput placeholder="Enter your email" />
+              </FormField>
+              <FormField
+                name={Field.Password}
+                label="Password"
+                helpLink={PasswordInput.FormFieldHelpLink}
+              >
+                <PasswordInput placeholder="Enter your password" />
+              </FormField>
+            </>
+          }
+          formActions={<SubmitButton>Login</SubmitButton>}
+          formToggle={
+            <Text align="center">
+              Don't have an account?{" "}
+              <InlineLink role="button" onClick={toggleForm}>
+                Create an account
+              </InlineLink>
+            </Text>
+          }
+        />
+      </CustomFormik>
+    </CustomFormikProvider>
   );
 }
 

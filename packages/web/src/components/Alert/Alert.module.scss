@@ -1,0 +1,55 @@
+@import "../../styles/uiBase.scss";
+
+$titleAndIconFrontSize: $fontSizeHeading4;
+
+$alertColors: (
+  info: (
+    fill: $colorStatusInfo,
+    translucentBg: $colorStatusInfoTranslucentBg,
+    text: $colorStatusInfoText,
+  ),
+  success: (
+    fill: $colorStatusSuccess,
+    translucentBg: $colorStatusSuccessTranslucentBg,
+    text: $colorStatusSuccessText,
+  ),
+  error: (
+    fill: $colorStatusDanger,
+    translucentBg: $colorStatusDangerTranslucentBg,
+    text: $colorStatusDangerText,
+  ),
+);
+
+.alert {
+  padding: $sizeS;
+  border-radius: $borderRadiusM;
+
+  @each $status, $colors in $alertColors {
+    &.#{$status} {
+      background-color: map-get($colors, translucentBg);
+      border: 2px solid map-get($colors, fill);
+      color: map-get($colors, text);
+
+      .icon {
+        color: map-get($colors, fill);
+      }
+    }
+  }
+}
+
+.icon,
+.title {
+  font-size: $titleAndIconFrontSize;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.children {
+  width: 100%;
+}

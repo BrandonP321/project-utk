@@ -1,0 +1,10 @@
+@import "../../../styles/uiBase.scss";
+
+.nav {
+  padding: $navBarVerticalPadding $navBarHorizontalPadding;
+  align-self: start;
+}
+
+.pageTitle {
+  font-size: $fontSizeHeading2;
+}

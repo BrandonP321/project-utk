@@ -12,7 +12,7 @@ type HTMLButtonProps = TypedOmit<
 >;
 
 namespace Button {
-  export type Variant = "primary" | "secondary";
+  export type Variant = "primary" | "secondary" | "custom";
 
   export type Props = HTMLButtonProps & {
     classes?: ClassesProp<"root">;

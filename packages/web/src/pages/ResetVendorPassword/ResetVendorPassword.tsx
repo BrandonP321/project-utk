@@ -14,6 +14,7 @@ import FormField from "../../components/FormField/FormField";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { useNavigate } from "react-router-dom";
+import CustomFormikProvider from "../../components/CustomFormik/CustomFormikContext";
 
 enum Field {
   Password = "password",
@@ -51,25 +52,27 @@ function ResetVendorPassword() {
 
   return (
     <SpaceBetween align="center" vertical>
-      <CustomFormik
-        initialValues={{ [Field.Password]: "", [Field.ConfirmPassword]: "" }}
-        onSubmit={handleSubmit}
-        validationSchema={resetVendorPasswordSchema}
-      >
-        <Form>
-          <SpaceBetween vertical align="center">
-            <h1>Reset Password</h1>
+      <CustomFormikProvider>
+        <CustomFormik
+          initialValues={{ [Field.Password]: "", [Field.ConfirmPassword]: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={resetVendorPasswordSchema}
+        >
+          <Form>
+            <SpaceBetween vertical align="center">
+              <h1>Reset Password</h1>
 
-            <FormField name={Field.Password} label="Password">
-              <PasswordInput />
-            </FormField>
-            <FormField name={Field.ConfirmPassword} label="Confirm Password">
-              <PasswordInput />
-            </FormField>
-            <SubmitButton>Reset Password</SubmitButton>
-          </SpaceBetween>
-        </Form>
-      </CustomFormik>
+              <FormField name={Field.Password} label="Password">
+                <PasswordInput />
+              </FormField>
+              <FormField name={Field.ConfirmPassword} label="Confirm Password">
+                <PasswordInput />
+              </FormField>
+              <SubmitButton>Reset Password</SubmitButton>
+            </SpaceBetween>
+          </Form>
+        </CustomFormik>
+      </CustomFormikProvider>
     </SpaceBetween>
   );
 }

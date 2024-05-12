@@ -1,5 +1,4 @@
 import { Formik, FormikConfig } from "formik";
-import CustomFormikProvider from "./CustomFormikContext";
 
 namespace CustomFormik {
   export type Props<Values extends {}> = FormikConfig<Values>;
@@ -13,14 +12,12 @@ function CustomFormik<Values extends {}>({
   ...rest
 }: CustomFormik.Props<Values>) {
   return (
-    <CustomFormikProvider>
-      <Formik
-        {...rest}
-        {...{ validateOnChange, validateOnBlur, enableReinitialize }}
-      >
-        <>{children}</>
-      </Formik>
-    </CustomFormikProvider>
+    <Formik
+      {...rest}
+      {...{ validateOnChange, validateOnBlur, enableReinitialize }}
+    >
+      <>{children}</>
+    </Formik>
   );
 }
 

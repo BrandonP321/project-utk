@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "noFallthroughCasesInSwitch": true,
-    "paths": {}
+    "paths": {},
+    "typeRoots": ["./src/@types", "../shared/src/@types"]
   }
 }

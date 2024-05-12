@@ -13,3 +13,10 @@ export type ValueOf<T> = T[keyof T];
 /** Mark some props withing an object as required */
 export type SomeRequired<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
+
+/** Either all object props are required or all are undefined */
+export type AllOrNone<T> = {
+  [K in keyof T]?: T;
+} & {
+  [K in keyof T]-?: T;
+};

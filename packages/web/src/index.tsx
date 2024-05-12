@@ -5,6 +5,8 @@ import "./appSetup";
 import App from "./App";
 import store from "./store/configureStore";
 import "./index.scss";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { breakpointWidths } from "./features/responsive/useResponsiveSetup";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -12,7 +14,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider
+        theme={createTheme({
+          breakpoints: {
+            values: breakpointWidths,
+          },
+        })}
+      >
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 );

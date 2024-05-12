@@ -1,3 +1,10 @@
+/* Page */
+$pagePaddingHorizontalVar: --page-padding-horizontal;
+$pagePaddingHorizontal: var($pagePaddingHorizontalVar, 2rem);
+
+$pageContentPaddingVerticalVar: --page-content-padding-vertical;
+$pageContentPaddingVertical: var($pageContentPaddingVerticalVar, 2rem);
+
 /* Border Radius */
 $borderRadiusXLVar: --border-radius-xl;
 $borderRadiusXL: var($borderRadiusXLVar, 1rem);
@@ -48,4 +55,14 @@ $transitionDefaultVar: --transition-default;
 $transitionDefault: var(
   $transitionDefaultVar,
   all $transitionDurationDefault ease-in-out
+);
+
+/* Nav Bar */
+$navBarVerticalPaddingVar: --nav-bar-vertical-padding;
+$navBarVerticalPadding: var($navBarVerticalPaddingVar, 1rem);
+
+$navBarHorizontalPaddingVar: --nav-bar-horizontal-padding;
+$navBarHorizontalPadding: var(
+  $navBarHorizontalPaddingVar,
+  $pagePaddingHorizontal
 );

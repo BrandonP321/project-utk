@@ -1,0 +1,24 @@
+@import "../../styles/uiBase.scss";
+
+a.link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  transition: all 0s;
+
+  &:hover,
+  &.active {
+    background-color: #007bff3b;
+  }
+
+  &:hover {
+  }
+
+  &.active {
+    color: #007bff;
+  }
+}
+
+.icon {
+  margin-right: $sizeXS;
+}

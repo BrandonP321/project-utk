@@ -1,0 +1,21 @@
+@import "../../../styles/uiBase.scss";
+
+$containerContentPadding: $sizeM;
+
+.container {
+  background-color: $colorBgPrimary;
+  border-radius: $borderRadiusL;
+  padding: $containerContentPadding;
+}
+
+.header {
+}
+
+.title {
+  font-size: $fontSizeHeading4;
+  font-weight: bold;
+}
+
+.content {
+  padding-top: $containerContentPadding;
+}

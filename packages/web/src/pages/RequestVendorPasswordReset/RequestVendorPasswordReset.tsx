@@ -9,6 +9,7 @@ import FormField from "../../components/FormField/FormField";
 import TextInput from "../../components/TextInput/TextInput";
 import { requestVendorPasswordResetSchema } from "@project-utk/shared/src/schemas/vendor/requestVendorPasswordResetSchema";
 import styles from "./RequestVendorPasswordReset.module.scss";
+import CustomFormikProvider from "../../components/CustomFormik/CustomFormikContext";
 
 enum Field {
   Email = "email",
@@ -24,20 +25,22 @@ function RequestVendorPasswordReset() {
   return (
     <SpaceBetween vertical align="center">
       <h1>Request Password Reset</h1>
-      <CustomFormik
-        initialValues={{ [Field.Email]: "" }}
-        onSubmit={handleSubmit}
-        validationSchema={requestVendorPasswordResetSchema}
-      >
-        <Form>
-          <SpaceBetween vertical stretch>
-            <FormField name={Field.Email} label="Email">
-              <TextInput name={Field.Email} />
-            </FormField>
-            <SubmitButton>Request Reset</SubmitButton>
-          </SpaceBetween>
-        </Form>
-      </CustomFormik>
+      <CustomFormikProvider>
+        <CustomFormik
+          initialValues={{ [Field.Email]: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={requestVendorPasswordResetSchema}
+        >
+          <Form>
+            <SpaceBetween vertical stretch>
+              <FormField name={Field.Email} label="Email">
+                <TextInput name={Field.Email} />
+              </FormField>
+              <SubmitButton>Request Reset</SubmitButton>
+            </SpaceBetween>
+          </Form>
+        </CustomFormik>
+      </CustomFormikProvider>
     </SpaceBetween>
   );
 }

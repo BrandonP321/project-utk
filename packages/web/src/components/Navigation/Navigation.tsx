@@ -8,6 +8,7 @@ import VerifyVendorEmail from "../../pages/VerifyVendorEmail/VerifyVendorEmail";
 import RequestVendorPasswordReset from "../../pages/RequestVendorPasswordReset/RequestVendorPasswordReset";
 import ResetVendorPassword from "../../pages/ResetVendorPassword/ResetVendorPassword";
 import UpdateVendorEmail from "../../pages/UpdateVendorEmail/UpdateVendorEmail";
+import VendorDashboardLayout from "../VendorDashboard/VendorDashboardLayout/VendorDashboardLayout";
 
 namespace Navigation {
   export type Props = {};
@@ -28,14 +29,6 @@ function Navigation(props: Navigation.Props) {
             element={<VendorAuthentication />}
           />
           <Route
-            path={RouteHelper.VendorAccount()}
-            element={<VendorAccount />}
-          />
-          <Route
-            path={RouteHelper.VendorDashboard()}
-            element={<VendorDashboard />}
-          />
-          <Route
             path={RouteHelper.VerifyVendorEmail()}
             element={<VerifyVendorEmail />}
           />
@@ -51,6 +44,19 @@ function Navigation(props: Navigation.Props) {
             path={RouteHelper.UpdateVendorEmail()}
             element={<UpdateVendorEmail />}
           />
+
+          {/* Vendor Dashboard */}
+          <Route element={<VendorDashboardLayout />}>
+            <Route
+              path={RouteHelper.VendorAccount()}
+              element={<VendorAccount />}
+            />
+            <Route
+              path={RouteHelper.VendorDashboard()}
+              element={<VendorDashboard />}
+            />
+          </Route>
+
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </Suspense>

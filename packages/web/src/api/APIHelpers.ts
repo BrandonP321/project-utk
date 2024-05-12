@@ -11,8 +11,8 @@ import store from "../store/configureStore";
 import { Actions } from "../features";
 import { webConfig } from "../config";
 
-export type ReqParams<Res, Errors extends APIErrorsMap<string>> = {
-  onSuccess?: (res: Res) => any | Promise<any>;
+export type ReqParams<Req, Res, Errors extends APIErrorsMap<string>> = {
+  onSuccess?: (res: Res, req: Req) => any | Promise<any>;
   onFailure?: (err: APIErrResponse<Errors>) => any | Promise<any>;
   onFinally?: () => any | Promise<any>;
 };
@@ -26,7 +26,7 @@ type ReqOptions = {
 
 export type APIRequest<Req, Res, Errors extends APIErrorsMap<string>> = (
   req: Req,
-  params?: ReqParams<Res, Errors>,
+  params?: ReqParams<Req, Res, Errors>,
 ) => Promise<void>;
 
 export class APIHelpers {
@@ -69,7 +69,7 @@ export class APIHelpers {
           store.dispatch(Actions.Notifications.addSuccess({ msg: successMsg }));
         }
 
-        await onSuccess?.(res.data);
+        await onSuccess?.(res.data, req);
       } catch (err) {
         const error = err as AxiosError<APIErrResponse<Errors>>;
         const networkError = DefaultAPIErrors.NETWORK_ERROR.apiResponse;

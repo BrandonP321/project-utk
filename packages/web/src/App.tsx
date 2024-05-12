@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App">
-      <MainNav />
+      {/* <MainNav /> */}
       <Navigation />
       <Notifications />
     </div>
