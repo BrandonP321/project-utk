@@ -1,33 +1,35 @@
-// @mixin ScrollbarWidth($width: 10px) {
-//   &::-webkit-scrollbar {
-//     width: $width;
-//   }
-// }
+@import "size";
 
-// @mixin ScrollbarThumb(
-//   $bgColor: rgba($baseColorDarkGrey, 0.7),
-//   $bgColorHover: $baseColorDarkGrey,
-//   $trackColor: $colorBackground,
-//   $borderRadius: $sizeS
-// ) {
-//   &::-webkit-scrollbar-thumb {
-//     background-color: $bgColor;
-//     transition: all 0.2s;
-//     border-radius: $borderRadius;
-//     border: 2px solid $trackColor;
+@mixin ScrollbarWidth($width: 10px) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+}
 
-//     &:hover {
-//       background-color: $bgColorHover;
-//     }
-//   }
-// }
+@mixin ScrollbarThumb(
+  $bgColor: rgba(gray, 0.7),
+  $bgColorHover: gray,
+  $trackColor: transparent,
+  $borderRadius: $sizeS
+) {
+  &::-webkit-scrollbar-thumb {
+    background-color: $bgColor;
+    transition: all 0.2s;
+    border-radius: $borderRadius;
+    border: 2px solid $trackColor;
 
-// @mixin ScrollbarTrack($bgColor: transparent) {
-//   &::-webkit-scrollbar-track {
-//     background-color: $bgColor;
-//     @content;
-//   }
-// }
+    &:hover {
+      background-color: $bgColorHover;
+    }
+  }
+}
+
+@mixin ScrollbarTrack($bgColor: transparent) {
+  &::-webkit-scrollbar-track {
+    background-color: $bgColor;
+    @content;
+  }
+}
 
 @mixin SetRootValue($name, $value) {
   :root {

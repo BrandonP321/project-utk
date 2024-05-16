@@ -1,0 +1,12 @@
+@import "./uiBase.scss";
+
+@mixin mobileStyle($var, $value) {
+  @include mobileVW() {
+    #{$var}: $value;
+  }
+}
+
+:root {
+  @include mobileStyle($pagePaddingHorizontalVar, 1rem);
+  @include mobileStyle($pageContentPaddingVerticalVar, 1rem);
+}

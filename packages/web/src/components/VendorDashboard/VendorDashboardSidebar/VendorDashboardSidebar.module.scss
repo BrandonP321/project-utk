@@ -3,6 +3,8 @@
 $sidebarPadding: 0.75rem;
 
 .sidebarWrapper {
+  position: sticky;
+  top: 0;
   padding: $sidebarPadding $sidebarPadding 0 $sidebarPadding;
   height: 100vh;
   width: 20rem;

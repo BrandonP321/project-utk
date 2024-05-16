@@ -1,0 +1,46 @@
+@import "../../styles/uiBase.scss";
+
+.overlay,
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 100;
+  transition: $transitionSlow;
+}
+
+.overlay {
+  left: 0;
+  right: 0;
+  background-color: rgba(black, 0.75);
+  pointer-events: none;
+  opacity: 0;
+
+  &.show {
+    pointer-events: all;
+    opacity: 1;
+  }
+}
+
+.drawer {
+  background-color: $colorBgPrimary;
+  padding: 3rem 1rem;
+  max-width: 25rem;
+  width: 100%;
+
+  @include tinyVW() {
+    max-width: none;
+  }
+
+  &.show {
+    transform: translateX(-100%);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}

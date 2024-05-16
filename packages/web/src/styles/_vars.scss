@@ -57,6 +57,9 @@ $transitionDefault: var(
   all $transitionDurationDefault ease-in-out
 );
 
+$transitionSlowVar: --transition-slow;
+$transitionSlow: var($transitionSlowVar, all 0.3s ease-in-out);
+
 /* Nav Bar */
 $navBarVerticalPaddingVar: --nav-bar-vertical-padding;
 $navBarVerticalPadding: var($navBarVerticalPaddingVar, 1rem);

@@ -9,5 +9,7 @@
   flex-grow: 1;
   padding: $pageContentPaddingVertical $pagePaddingHorizontal;
   background-color: rgb(226, 226, 226);
+  border-top: 2px solid rgb(226, 226, 226);
   border-top-left-radius: $borderRadiusL;
+  overflow: auto;
 }

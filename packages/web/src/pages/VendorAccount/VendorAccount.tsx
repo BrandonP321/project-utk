@@ -5,7 +5,12 @@ import VendorBasicInfoContainer from "./components/VendorBasicInfoContainer";
 
 export default function VendorAccount() {
   return (
-    <SpaceBetween size="xl" vertical stretchChildren>
+    <SpaceBetween
+      size="l"
+      responsiveSize={{ mobile: "m" }}
+      vertical
+      stretchChildren
+    >
       <VendorEmailVerificationAlert />
       <VendorBasicInfoContainer />
       <VendorEmailUpdateContainer />
