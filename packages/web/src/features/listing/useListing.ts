@@ -3,12 +3,19 @@ import { useAppSelector } from "../../hooks";
 import { useListingActions } from "./listingSlice";
 import { useAPI } from "../../hooks/useAPI";
 import { VendorListingAPI } from "../../api/VendorListingAPI";
+import { useEffect } from "react";
 
 let isFetchingDetails = false;
 let isFetchingMedia = false;
 let isFetchingPricing = false;
 
-export const useListing = () => {
+type Props = {
+  fetchAllOnMount?: boolean;
+};
+
+export const useListing = (props?: Props) => {
+  const { fetchAllOnMount } = props ?? {};
+
   const actions = useListingActions();
   const { listingId } = useParams<"listingId">();
   const { details, media, pricing } = useAppSelector((state) => state.listing);
@@ -42,6 +49,14 @@ export const useListing = () => {
     isFetchingPricing = true;
     fetchPricingAPI({ listingId: listingId! });
   };
+
+  useEffect(() => {
+    !details && fetchAllOnMount && fetchListingDetails();
+  }, [details]);
+
+  useEffect(() => {
+    !pricing && fetchAllOnMount && fetchListingPricing();
+  }, [pricing]);
 
   return {
     details,

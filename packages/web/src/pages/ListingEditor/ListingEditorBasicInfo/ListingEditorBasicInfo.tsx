@@ -6,9 +6,9 @@ namespace ListingEditorBasicInfo {
 }
 
 function ListingEditorBasicInfo(props: ListingEditorBasicInfo.Props) {
-  const {} = useListingDetails();
+  const { isLoading, details } = useListingDetails();
 
-  return <div />;
+  return <div>Listing details</div>;
 }
 
 export default ListingEditorBasicInfo;

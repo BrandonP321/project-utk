@@ -7,6 +7,7 @@ import { useResponsive } from "../../../features/responsive/useResponsive";
 import VendorDashboardMobileDrawer from "../VendorDashboardMobileDrawer/VendorDashboardMobileDrawer";
 import SidebarLink from "../../SidebarLink/SidebarLink";
 import { useMemo } from "react";
+import LoadingContainer from "../../LoadingContainer/LoadingContainer";
 
 namespace VendorDashboardLayout {
   export type Props = {
@@ -45,7 +46,12 @@ function VendorDashboardLayout({ nav, links }: VendorDashboardLayout.Props) {
           {nav}
 
           <div className={styles.main}>
-            <Outlet />
+            <LoadingContainer
+              classes={{ root: styles.loadingOverlay }}
+              showOnLocationChange
+            >
+              <Outlet />
+            </LoadingContainer>
           </div>
         </SpaceBetween>
       </SpaceBetween>

@@ -1,0 +1,15 @@
+@import "../../styles/uiBase.scss";
+
+.overlay {
+  @include AbsoluteFill();
+  background-color: $colorBgPrimary;
+  pointer-events: none;
+  opacity: 0;
+  transition: $transitionDefault;
+
+  &.show {
+    pointer-events: all;
+    opacity: 1;
+    transition: all 0s;
+  }
+}
