@@ -15,6 +15,7 @@ import { listingEditorPages } from "../../hooks/vendorDashboard/useListingEditor
 import ListingEditorBasicInfo from "../../pages/ListingEditor/ListingEditorBasicInfo/ListingEditorBasicInfo";
 import ListingEditorPricing from "../../pages/ListingEditor/ListingEditorPricing/ListingEditorPricing";
 import ListingEditorMedia from "../../pages/ListingEditor/ListingEditorMedia/ListingEditorMedia";
+import CreateListing from "../../pages/CreateListing/CreateListing";
 
 namespace Navigation {
   export type Props = {};
@@ -67,6 +68,10 @@ function Navigation(props: Navigation.Props) {
             <Route
               path={RouteHelper.VendorDashboard()}
               element={<VendorDashboard />}
+            />
+            <Route
+              path={RouteHelper.CreateListing()}
+              element={<CreateListing />}
             />
           </Route>
 

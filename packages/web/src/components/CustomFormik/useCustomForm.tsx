@@ -10,5 +10,9 @@ export function useCustomFormik() {
     setIsFormDisabled(!isFormDisabled);
   };
 
-  return { ...context, toggleFormDisabled };
+  const disableForm = () => setIsFormDisabled(true);
+
+  const enableForm = () => setIsFormDisabled(false);
+
+  return { ...context, toggleFormDisabled, disableForm, enableForm };
 }

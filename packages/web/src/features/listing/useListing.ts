@@ -23,7 +23,7 @@ export const useListing = (props?: Props) => {
   const { isLoading: isLoadingDetails, fetchAPI: fetchDetailsAPI } = useAPI(
     VendorListingAPI.GetVendorListing,
     {
-      onSuccess: actions.setDetails,
+      onSuccess: ({ listing }) => actions.setDetails(listing),
       onFinally: () => (isFetchingDetails = false),
     },
   );

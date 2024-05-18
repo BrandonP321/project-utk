@@ -31,7 +31,7 @@ export class VendorListingAPI extends APIHelpers {
     UpdateVendorListing.ReqBody,
     UpdateVendorListing.ResBody,
     typeof UpdateVendorListing.Errors
-  >(UpdateVendorListing.Path);
+  >(UpdateVendorListing.Path, { successMsg: UpdateVendorListing.SuccessMsg });
 
   static GetListingPricingInfo = this.req<
     GetListingPricingInfo.ReqBody,

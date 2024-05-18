@@ -4,7 +4,9 @@ import { RouteHelper } from "../../utils/RouteHelper";
 import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 
-export const vendorDashboardPages: SidebarLink.Props[] = [
+export const vendorDashboardPages: (SidebarLink.Props & {
+  hideFromNav?: boolean;
+})[] = [
   {
     label: "Dashboard",
     href: RouteHelper.VendorDashboard(),
@@ -14,6 +16,12 @@ export const vendorDashboardPages: SidebarLink.Props[] = [
     label: "Account",
     href: RouteHelper.VendorAccount(),
     icon: faUser,
+  },
+  {
+    label: "Create Listing",
+    href: RouteHelper.CreateListing(),
+    icon: faUser,
+    hideFromNav: true,
   },
 ];
 

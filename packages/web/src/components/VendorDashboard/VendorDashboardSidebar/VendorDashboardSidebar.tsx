@@ -2,9 +2,13 @@ import { SpaceBetween } from "../../SpaceBetween/SpaceBetween";
 import styles from "./VendorDashboardSidebar.module.scss";
 import SidebarLink from "../../SidebarLink/SidebarLink";
 
+export type TSidebarLink = SidebarLink.Props & {
+  hideFromNav?: boolean;
+};
+
 namespace VendorDashboardSidebar {
   export type Props = {
-    links: SidebarLink.Props[];
+    links: TSidebarLink[];
   };
 }
 

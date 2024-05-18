@@ -57,6 +57,8 @@ export class RouteHelper {
   static ListingEditorPricing = createRoute<"listingId">(
     "/listing-editor/:listingId/pricing",
   );
+
+  static CreateListing = createRoute("/vendor/listing/create");
 }
 
 type RouteParams<T extends string | undefined> = T extends string

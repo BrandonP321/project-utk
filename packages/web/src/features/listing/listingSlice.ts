@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { useActions } from "../../hooks/useActions";
 import { PublicVendorListingProperties } from "@project-utk/shared/src/api/models/vendorListing/IVendorListing";
 
@@ -18,7 +18,10 @@ const listingSlice = createSlice({
   name: "listing",
   initialState,
   reducers: {
-    setDetails: (state, action) => {
+    setDetails: (
+      state,
+      action: PayloadAction<PublicVendorListingProperties>,
+    ) => {
       state.details = action.payload;
     },
     setMedia: (state, action) => {

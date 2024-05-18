@@ -3,11 +3,13 @@ import { useAppSelector } from "../../hooks";
 import { useAPI } from "../../hooks/useAPI";
 import { useAuthVendorListingsActions } from "./authVendorListingsSlice";
 import { VendorListingAPI } from "../../api/VendorListingAPI";
+import { useLoading } from "../../components/LoadingContainer/useLoading";
 
 let isFetching = false;
 
 export const useAuthVendorListings = () => {
   const { setListings, clearListings } = useAuthVendorListingsActions();
+  const { setLoading } = useLoading();
   const { listings } = useAppSelector((state) => state.authVendorListings);
 
   const { isLoading, fetchAPI } = useAPI(
@@ -31,6 +33,10 @@ export const useAuthVendorListings = () => {
       fetchAndUpdateVendorListings();
     }
   }, [listings]);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   return {
     listings,

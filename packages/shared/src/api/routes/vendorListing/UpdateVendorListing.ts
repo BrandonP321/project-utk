@@ -11,5 +11,7 @@ export namespace UpdateVendorListing {
 
   export type ResBody = {};
 
+  export const SuccessMsg = "Vendor listing updated successfully";
+
   export const Errors = getErrorsMap([]);
 }

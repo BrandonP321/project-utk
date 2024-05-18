@@ -1,7 +1,7 @@
 import { Formik, FormikConfig } from "formik";
 
 namespace CustomFormik {
-  export type Props<Values extends {}> = FormikConfig<Values>;
+  export type Props<Values extends {}> = FormikConfig<Values> & {};
 }
 
 function CustomFormik<Values extends {}>({

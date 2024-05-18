@@ -1,10 +1,11 @@
 import Drawer from "../../Drawer/Drawer";
 import SidebarLink from "../../SidebarLink/SidebarLink";
 import { SpaceBetween } from "../../SpaceBetween/SpaceBetween";
+import { TSidebarLink } from "../VendorDashboardSidebar/VendorDashboardSidebar";
 
 export namespace VendorDashboardMobileDrawer {
   export type Props = {
-    links: SidebarLink.Props[];
+    links: TSidebarLink[];
   };
 }
 
