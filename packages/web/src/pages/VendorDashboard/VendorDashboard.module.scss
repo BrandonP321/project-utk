@@ -10,17 +10,7 @@
   padding: $sizeS;
   border-radius: $borderRadiusM;
   border: 2px solid transparent;
-  opacity: 0.75;
   transition: $transitionDefault;
-
-  &.selected,
-  &:hover {
-    opacity: 1;
-  }
-
-  &.selected {
-    border-color: $colorAccentPrimary;
-  }
 }
 
 .divider {

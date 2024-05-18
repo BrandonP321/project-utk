@@ -45,6 +45,18 @@ export class RouteHelper {
     undefined,
     typeof SearchParamKeys.Token
   >(RequestVendorEmailUpdate.WebPath);
+
+  static ListingEditorBasicInfo = createRoute<"listingId">(
+    "/listing-editor/:listingId/basic-info",
+  );
+
+  static ListingEditorMedia = createRoute<"listingId">(
+    "/listing-editor/:listingId/media",
+  );
+
+  static ListingEditorPricing = createRoute<"listingId">(
+    "/listing-editor/:listingId/pricing",
+  );
 }
 
 type RouteParams<T extends string | undefined> = T extends string

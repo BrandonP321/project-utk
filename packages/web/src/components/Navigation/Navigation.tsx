@@ -9,6 +9,12 @@ import RequestVendorPasswordReset from "../../pages/RequestVendorPasswordReset/R
 import ResetVendorPassword from "../../pages/ResetVendorPassword/ResetVendorPassword";
 import UpdateVendorEmail from "../../pages/UpdateVendorEmail/UpdateVendorEmail";
 import VendorDashboardLayout from "../VendorDashboard/VendorDashboardLayout/VendorDashboardLayout";
+import VendorDashboardNav from "../VendorDashboard/VendorDashboardNav/VendorDashboardNav";
+import { vendorDashboardPages } from "../../hooks/vendorDashboard/useVendorDashboardPage";
+import { listingEditorPages } from "../../hooks/vendorDashboard/useListingEditorPage";
+import ListingEditorBasicInfo from "../../pages/ListingEditor/ListingEditorBasicInfo/ListingEditorBasicInfo";
+import ListingEditorPricing from "../../pages/ListingEditor/ListingEditorPricing/ListingEditorPricing";
+import ListingEditorMedia from "../../pages/ListingEditor/ListingEditorMedia/ListingEditorMedia";
 
 namespace Navigation {
   export type Props = {};
@@ -46,7 +52,14 @@ function Navigation(props: Navigation.Props) {
           />
 
           {/* Vendor Dashboard */}
-          <Route element={<VendorDashboardLayout />}>
+          <Route
+            element={
+              <VendorDashboardLayout
+                nav={<VendorDashboardNav />}
+                links={vendorDashboardPages}
+              />
+            }
+          >
             <Route
               path={RouteHelper.VendorAccount()}
               element={<VendorAccount />}
@@ -54,6 +67,29 @@ function Navigation(props: Navigation.Props) {
             <Route
               path={RouteHelper.VendorDashboard()}
               element={<VendorDashboard />}
+            />
+          </Route>
+
+          {/* Listing Editor */}
+          <Route
+            element={
+              <VendorDashboardLayout
+                nav={<VendorDashboardNav />}
+                links={listingEditorPages}
+              />
+            }
+          >
+            <Route
+              path={RouteHelper.ListingEditorBasicInfo()}
+              element={<ListingEditorBasicInfo />}
+            />
+            <Route
+              path={RouteHelper.ListingEditorMedia()}
+              element={<ListingEditorMedia />}
+            />
+            <Route
+              path={RouteHelper.ListingEditorPricing()}
+              element={<ListingEditorPricing />}
             />
           </Route>
 

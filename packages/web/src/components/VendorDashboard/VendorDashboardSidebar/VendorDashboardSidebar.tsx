@@ -1,14 +1,19 @@
 import { SpaceBetween } from "../../SpaceBetween/SpaceBetween";
 import styles from "./VendorDashboardSidebar.module.scss";
 import SidebarLink from "../../SidebarLink/SidebarLink";
-import { vendorDashboardPages } from "../../../hooks/vendorDashboard/useVendorDashboardPage";
 
-function VendorDashboardSidebar() {
+namespace VendorDashboardSidebar {
+  export type Props = {
+    links: SidebarLink.Props[];
+  };
+}
+
+function VendorDashboardSidebar({ links }: VendorDashboardSidebar.Props) {
   return (
     <div className={styles.sidebarWrapper}>
       <SpaceBetween classes={{ root: styles.sidebar }}>
         <SpaceBetween size="xs" vertical stretch>
-          {vendorDashboardPages.map((link) => (
+          {links.map((link) => (
             <SidebarLink key={link.href} {...link} />
           ))}
         </SpaceBetween>

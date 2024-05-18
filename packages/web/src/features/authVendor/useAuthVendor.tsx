@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAppSelector } from "../../hooks";
 import { VendorAPI } from "../../api";
-import { Actions } from "..";
 import { APIHelpers } from "../../api/APIHelpers";
 import { useAPI } from "../../hooks/useAPI";
 import { useAuthVendorActions } from "./authVendorSlice";

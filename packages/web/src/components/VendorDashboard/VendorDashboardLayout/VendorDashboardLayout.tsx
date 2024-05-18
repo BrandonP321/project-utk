@@ -1,24 +1,39 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { SpaceBetween } from "../../SpaceBetween/SpaceBetween";
 import VendorDashboardSidebar from "../VendorDashboardSidebar/VendorDashboardSidebar";
 import styles from "./VendorDashboardLayout.module.scss";
-import VendorDashboardNav from "../VendorDashboardNav/VendorDashboardNav";
 import DrawerProvider from "../../Drawer/DrawerProvider";
 import { useResponsive } from "../../../features/responsive/useResponsive";
 import VendorDashboardMobileDrawer from "../VendorDashboardMobileDrawer/VendorDashboardMobileDrawer";
+import SidebarLink from "../../SidebarLink/SidebarLink";
+import { useMemo } from "react";
 
 namespace VendorDashboardLayout {
-  export type Props = {};
+  export type Props = {
+    nav: React.ReactNode;
+    links: SidebarLink.Props[];
+  };
 }
 
-function VendorDashboardLayout(props: VendorDashboardLayout.Props) {
+function VendorDashboardLayout({ nav, links }: VendorDashboardLayout.Props) {
   const { medium } = useResponsive();
+  const { listingId } = useParams<"listingId">();
+
+  // For vendor listing links, replace ":listingId" with the actual listing ID
+  const modifiedLinks = useMemo(
+    () =>
+      links.map((link) => ({
+        ...link,
+        href: link.href.replace(":listingId", listingId!),
+      })),
+    [listingId, links],
+  );
 
   return (
     <DrawerProvider>
       <SpaceBetween size="n" classes={{ root: styles.layout }} wrap={false}>
-        {!medium && <VendorDashboardSidebar />}
-        {medium && <VendorDashboardMobileDrawer />}
+        {!medium && <VendorDashboardSidebar links={modifiedLinks} />}
+        {medium && <VendorDashboardMobileDrawer links={modifiedLinks} />}
 
         <SpaceBetween
           size="n"
@@ -27,7 +42,7 @@ function VendorDashboardLayout(props: VendorDashboardLayout.Props) {
           vertical
           stretchChildren
         >
-          <VendorDashboardNav />
+          {nav}
 
           <div className={styles.main}>
             <Outlet />

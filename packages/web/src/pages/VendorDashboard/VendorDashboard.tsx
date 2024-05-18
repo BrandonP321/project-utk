@@ -1,10 +1,11 @@
-import { useState } from "react";
 import Grid from "../../components/Grid/Grid";
 import GridItem from "../../components/GridItem/GridItem";
 import { SpaceBetween } from "../../components/SpaceBetween/SpaceBetween";
 import { useAuthVendorListings } from "../../features/authVendorListings/useAuthVendorListings";
 import styles from "./VendorDashboard.module.scss";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
+import { RouteHelper } from "../../utils/RouteHelper";
 
 const tempListings = [
   { id: 1, name: "Listing 1" },
@@ -21,8 +22,6 @@ namespace VendorDashboard {
 function VendorDashboard(props: VendorDashboard.Props) {
   const { listings } = useAuthVendorListings();
 
-  const [selectedListing, setSelectedListing] = useState(1);
-
   return (
     <SpaceBetween size="l" vertical>
       <Grid gapSize="m">
@@ -32,21 +31,17 @@ function VendorDashboard(props: VendorDashboard.Props) {
             span={4}
             responsiveSpan={{ mobile: 6 }}
             classes={{
-              root: classNames(
-                styles.gridItem,
-                selectedListing === l.id && styles.selected,
-              ),
+              root: classNames(styles.gridItem),
             }}
           >
-            <button
-              className={classNames(
-                styles.listingCard,
-                selectedListing === l.id && styles.selected,
-              )}
-              onClick={() => setSelectedListing(l.id)}
+            <Link
+              to={RouteHelper.ListingEditorBasicInfo({
+                urlParams: { listingId: "1234" },
+              })}
+              className={classNames(styles.listingCard)}
             >
               <h3>{l.name}</h3>
-            </button>
+            </Link>
           </GridItem>
         ))}
       </Grid>
