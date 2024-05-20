@@ -36,6 +36,15 @@ function VendorDashboard(props: VendorDashboard.Props) {
             </Link>
           </GridItem>
         ))}
+        <GridItem
+          span={4}
+          responsiveSpan={{ mobile: 6 }}
+          classes={{ root: styles.gridItem }}
+        >
+          <Link to={RouteHelper.CreateListing()} className={styles.listingCard}>
+            <h3>Create a new listing</h3>
+          </Link>
+        </GridItem>
       </Grid>
 
       <div className={styles.divider} />
