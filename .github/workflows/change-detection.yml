@@ -3,6 +3,8 @@ name: Change Detection
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "packages/api/**"
       - "packages/web/**"
