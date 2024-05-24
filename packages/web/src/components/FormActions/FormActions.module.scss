@@ -2,4 +2,8 @@
 
 .actions {
   margin-top: $sizeL;
+
+  &.noSpacer {
+    margin-top: 0;
+  }
 }

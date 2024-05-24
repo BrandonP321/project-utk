@@ -1,0 +1,12 @@
+@import "../../styles/uiBase.scss";
+
+.wrapper {
+  overflow: hidden;
+}
+
+.img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-top: $aspectRatioPadding1080;
+}

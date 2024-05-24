@@ -14,6 +14,10 @@
 
     .modal {
       transform: translate(50%, -50%) scale(0.9);
+
+      &.fullSize {
+        transform: scale(0.9);
+      }
     }
   }
 }
@@ -30,17 +34,40 @@
 }
 
 .modal {
-  padding: 1rem;
   background-color: white;
   width: 30rem;
   height: 30rem;
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
+
+  &.fullSize {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    transform: none;
+  }
 }
 
 .close {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mainContent {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+.mainContent,
+.footer {
+  padding: 1rem;
 }
