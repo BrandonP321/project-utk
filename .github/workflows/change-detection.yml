@@ -28,9 +28,9 @@ jobs:
           echo "API_CHANGED=false" >> $GITHUB_ENV
           echo "WEB_CHANGED=false" >> $GITHUB_ENV
           echo "SHARED_CHANGED=false" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/api/' && echo "API_CHANGED=true" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/web/' && echo "WEB_CHANGED=true" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/shared/' && echo "SHARED_CHANGED=true" >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/api/' && echo "API_CHANGED=true" >> $GITHUB_ENV || true
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/web/' && echo "WEB_CHANGED=true" >> $GITHUB_ENV || true
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/shared/' && echo "SHARED_CHANGED=true" >> $GITHUB_ENV || true
 
       - name: Echo API Changes
         if: env.API_CHANGED == 'true'
