@@ -11,7 +11,7 @@ import { setupRoutes } from "./routes";
 
 export const app = express();
 
-console.log("hi");
+console.log("hiw");
 
 // Middleware
 configureDefaultMiddleware(app);
