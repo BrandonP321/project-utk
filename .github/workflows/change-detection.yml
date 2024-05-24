@@ -1,0 +1,49 @@
+# .github/workflows/change-detection.yml
+name: Change Detection
+
+on:
+  push:
+    paths:
+      - "packages/api/**"
+      - "packages/web/**"
+      - "packages/shared/**"
+  workflow_dispatch:
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Determine Changed Paths
+        id: changes
+        run: |
+          echo "API_CHANGED=false" >> $GITHUB_ENV
+          echo "WEB_CHANGED=false" >> $GITHUB_ENV
+          echo "SHARED_CHANGED=false" >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/api/' && echo "API_CHANGED=true" >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/web/' && echo "WEB_CHANGED=true" >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/shared/' && echo "SHARED_CHANGED=true" >> $GITHUB_ENV
+
+      - name: Echo API Changes
+        if: env.API_CHANGED == 'true'
+        run: echo "Changes detected in API directory."
+
+      - name: Echo Web Changes
+        if: env.WEB_CHANGED == 'true'
+        run: echo "Changes detected in Web directory."
+
+      - name: Echo Shared Changes
+        if: env.SHARED_CHANGED == 'true'
+        run: echo "Changes detected in Shared directory."
+
+      - name: Echo No Changes
+        if: env.API_CHANGED == 'false' && env.WEB_CHANGED == 'false' && env.SHARED_CHANGED == 'false'
+        run: echo "No relevant changes detected."
