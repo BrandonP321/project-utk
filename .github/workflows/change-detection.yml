@@ -6,7 +6,9 @@ on:
     paths:
       - "packages/api/**"
       - "packages/web/**"
-      - "packages/shared/**"
+      - "packages/shared/**",
+      - "**"
+
   workflow_dispatch:
 
 jobs:
@@ -22,28 +24,27 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Get Changed Paths
+        id: get-changes
+        run: |
+          echo "CHANGED_PATHS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})" >> $GITHUB_ENV
+
       - name: Determine Changed Paths
         id: changes
         run: |
           echo "API_CHANGED=false" >> $GITHUB_ENV
           echo "WEB_CHANGED=false" >> $GITHUB_ENV
           echo "SHARED_CHANGED=false" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/api/' && echo "API_CHANGED=true" >> $GITHUB_ENV || true
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/web/' && echo "WEB_CHANGED=true" >> $GITHUB_ENV || true
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/shared/' && echo "SHARED_CHANGED=true" >> $GITHUB_ENV || true
+          echo "OTHER_CHANGED=false" >> $GITHUB_ENV
+          echo $CHANGED_PATHS | grep '^packages/api/' && echo "API_CHANGED=true" >> $GITHUB_ENV || true
+          echo $CHANGED_PATHS | grep '^packages/web/' && echo "WEB_CHANGED=true" >> $GITHUB_ENV || true
+          echo $CHANGED_PATHS | grep '^packages/shared/' && echo "SHARED_CHANGED=true" >> $GITHUB_ENV || true
+          echo $CHANGED_PATHS | grep -v '^packages/' && echo "OTHER_CHANGED=true" >> $GITHUB_ENV || true
 
       - name: Echo API Changes
-        if: env.API_CHANGED == 'true'
+        if: env.API_CHANGED == 'true' || env.SHARED_CHANGED == 'true' || env.OTHER_CHANGED == 'true'
         run: echo "Changes detected in API directory."
 
       - name: Echo Web Changes
-        if: env.WEB_CHANGED == 'true'
+        if: env.WEB_CHANGED == 'true' || env.SHARED_CHANGED == 'true' || env.OTHER_CHANGED == 'true'
         run: echo "Changes detected in Web directory."
-
-      - name: Echo Shared Changes
-        if: env.SHARED_CHANGED == 'true'
-        run: echo "Changes detected in Shared directory."
-
-      - name: Echo No Changes
-        if: env.API_CHANGED == 'false' && env.WEB_CHANGED == 'false' && env.SHARED_CHANGED == 'false'
-        run: echo "No relevant changes detected."
