@@ -16,8 +16,8 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
   }
 
   createMediaAssetsS3Bucket() {
-    const bucket = new s3.Bucket(this, `MediaBucket-${this.props.stage}`, {
-      versioned: true,
+    const bucket = new s3.Bucket(this, `Media-Bucket`, {
+      versioned: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });

@@ -8,6 +8,7 @@ import {
 } from "../lib/pipelines/sharedPipelineStack/shared-pipeline-stack";
 import { SharedCdkPipelineAccount } from "../config/accounts";
 import { SharedCdkStage } from "../config/stage";
+import { stackName } from "../lib/helpers/resourceHelpers";
 
 const app = new cdk.App();
 
@@ -15,14 +16,16 @@ const stacks: Record<SharedCdkStage, SharedStack> =
   sharedCdkPipelineStages.reduce(
     (acc, stage) => ({
       ...acc,
-      [stage]: new SharedStack(app, `SharedStackStage-${stage}`, { stage }),
+      [stage]: new SharedStack(app, stackName("SharedResourcesStack", stage), {
+        stage,
+      }),
     }),
     {} as Record<SharedCdkStage, SharedStack>,
   );
 
 const pipelineStack = new SharedCdkPipelineStack(
   app,
-  "UTK-SharedPipelineStack",
+  stackName("SharedResourcesPipelineStack"),
   {
     env: SharedCdkPipelineAccount,
     stageStacks: stacks,

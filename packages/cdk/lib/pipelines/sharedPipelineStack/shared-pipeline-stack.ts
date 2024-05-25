@@ -7,6 +7,8 @@ import { SharedCdkStage } from "../../../config/stage";
 import { Construct } from "constructs";
 import { addSourcePipelineStage } from "../../helpers/codepipelineHelpers";
 import { SharedStack } from "../../sharedStack/shared-stack";
+import { stackName } from "../../helpers/resourceHelpers";
+import { capitalize } from "lodash";
 
 export const sharedCdkPipelineStages: SharedCdkStage[] = [
   SharedCdkStage.DEV,
@@ -32,14 +34,14 @@ export class SharedCdkPipelineStack extends cdk.Stack {
 
     this.props = props;
 
-    const artifactBucket = new s3.Bucket(this, `UTKSharedPipelineArtifact`, {
+    const artifactBucket = new s3.Bucket(this, "Pipeline-Artifacts", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       versioned: false,
       lifecycleRules: [{ expiration: cdk.Duration.days(1) }],
     });
 
-    this.pipeline = new codepipeline.Pipeline(this, `UTKSharedPipeline`, {
+    this.pipeline = new codepipeline.Pipeline(this, `UTK-Shared-Pipeline`, {
       artifactBucket,
       restartExecutionOnUpdate: true,
       pipelineName: `UTK-Shared-Pipeline`,
@@ -51,9 +53,9 @@ export class SharedCdkPipelineStack extends cdk.Stack {
     // Build stage
     const project = new codebuild.PipelineProject(
       this,
-      `UTKSharedPipelineProject`,
+      `UTK-Shared-Pipeline-Build-Project`,
       {
-        projectName: `UTK-Shared-Pipeline-Project`,
+        projectName: `UTK-Shared-Pipeline-Build-Project`,
         environment: {
           privileged: false,
           computeType: codebuild.ComputeType.LAMBDA_4GB,
@@ -112,10 +114,10 @@ export class SharedCdkPipelineStack extends cdk.Stack {
       const stack = props.stageStacks[stage];
 
       this.pipeline.addStage({
-        stageName: `Deploy-${stage}`,
+        stageName: capitalize(stage),
         actions: [
           new CodePipelineAction.CloudFormationCreateUpdateStackAction({
-            actionName: `Deploy-${stage}`,
+            actionName: `Deploy-${capitalize(stage)}`,
             templatePath: this.cdkOutput.atPath(
               `${stack.stackName}.template.json`,
             ),
