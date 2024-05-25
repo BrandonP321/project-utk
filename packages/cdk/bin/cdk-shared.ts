@@ -28,6 +28,7 @@ const pipelineStack = new SharedCdkPipelineStack(
   stackName("SharedResourcesPipelineStack"),
   {
     env: SharedCdkPipelineAccount,
+    pipelineName: stackName("Shared-Resources-Pipeline"),
     stageStacks: stacks,
   },
 );
