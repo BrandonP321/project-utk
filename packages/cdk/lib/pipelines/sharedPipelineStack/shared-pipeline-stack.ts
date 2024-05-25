@@ -1,5 +1,6 @@
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
+import * as codeartifact from "aws-cdk-lib/aws-codeartifact";
 import { SharedCdkStage } from "../../../config/stage";
 import { Construct } from "constructs";
 import { SharedStack } from "../../sharedStack/shared-stack";
@@ -22,12 +23,16 @@ export class SharedCdkPipelineStack extends CdkPipeline<
   SharedStack,
   SharedCdkStage
 > {
+  codeArtifactRepo: codeartifact.CfnRepository;
+
   constructor(
     scope: Construct,
     id: string,
     props: CdkPipeline.Props<SharedStack, SharedCdkStage>,
   ) {
     super(scope, id, props);
+
+    this.codeArtifactRepo = this.createCodeArtifactRepo();
 
     // Source stage
     this.addSourceStage();
@@ -56,6 +61,22 @@ export class SharedCdkPipelineStack extends CdkPipeline<
     });
   }
 
+  createCodeArtifactRepo() {
+    const domain = new codeartifact.CfnDomain(this, "UTK-CodeArtifact-Domain", {
+      domainName: "utk-codeartifacts",
+    });
+
+    const repo = new codeartifact.CfnRepository(this, "UTK-CodeArtifact-Repo", {
+      repositoryName: "utk-codeartifact-repo",
+      domainName: domain.domainName,
+      externalConnections: ["public:npmjs"],
+    });
+
+    repo.addDependency(domain);
+
+    return repo;
+  }
+
   buildStageCodeBuildProject() {
     return new codebuild.PipelineProject(
       this,
@@ -75,6 +96,8 @@ export class SharedCdkPipelineStack extends CdkPipeline<
             pre_build: codebuildPreBuildPhase,
             build: {
               commands: [
+                'echo "Setting up CodeArtifact credentials"',
+                `aws codeartifact login --tool npm --repository ${this.codeArtifactRepo.repositoryName} --domain ${this.codeArtifactRepo.domainName}`,
                 "echo 'Building the application'",
                 "yarn cdk synth:shared",
               ],
