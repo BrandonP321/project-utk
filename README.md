@@ -36,3 +36,18 @@ It is recommended to have completed the nvm and node version setups before doing
 5. ESLint
 6. CSS Modules
 7. Better Comments
+
+## AWS CodeArtifact Repo Authentication
+
+To interact with the AWS CodeArtifact repository, you need to set up some environment variables. These variables are used to authenticate and interact with the AWS CodeArtifact repository.
+
+Add the following lines to your `.bashrc` file:
+
+```shellscript
+export UTK_CODEARTIFACT_ACCOUNT_ID="757269603777"
+export UTK_CODEARTIFACT_DOMAIN_NAME="utk-codeartifacts"
+export UTK_CODEARTIFACT_REPOSITORY_NAME="utk-codeartifact-repo"
+export UTK_CODEARTIFACT_AWS_REGION="us-east-1"
+
+export UTK_CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain $UTK_CODEARTIFACT_DOMAIN_NAME --domain-owner $UTK_CODEARTIFACT_ACCOUNT_ID --query authorizationToken --output text`
+```
