@@ -2,6 +2,8 @@
   "name": "@project-utk/cdk",
   "version": "0.1.0",
   "bin": "bin/cdk.ts",
+  "packageManager": "yarn@4.1.1",
+  "private": true,
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
