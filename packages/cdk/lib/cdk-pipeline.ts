@@ -1,7 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
+import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as codepipelineActions from "aws-cdk-lib/aws-codepipeline-actions";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as codeartifact from "aws-cdk-lib/aws-codeartifact";
 import { Construct } from "constructs";
 import { addSourcePipelineStage } from "./helpers/codepipelineHelpers";
 import { CdkStack } from "./cdk-stack";
@@ -61,5 +64,40 @@ export class CdkPipeline<
       adminPermissions: true,
       extraInputs: [this.cdkOutput],
     });
+  }
+
+  addCodeArtifactPolicyToProject(
+    project: codebuild.PipelineProject,
+    repo: codeartifact.CfnRepository,
+    domain: codeartifact.CfnDomain,
+  ) {
+    project.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          "codeartifact:GetAuthorizationToken",
+          "codeartifact:ReadFromRepository",
+          "codeartifact:DescribePackageVersion",
+          "codeartifact:DescribeRepository",
+          "codeartifact:GetRepositoryEndpoint",
+          "codeartifact:ReadFromAsset",
+          "codeartifact:ReadPackageVersionAsset",
+        ],
+        resources: [repo.attrArn, domain.attrArn],
+      }),
+    );
+
+    project.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["sts:GetServiceBearerToken"],
+        resources: ["*"],
+        conditions: {
+          StringEquals: {
+            "sts:AWSServiceName": "codeartifact.amazonaws.com",
+          },
+        },
+      }),
+    );
   }
 }

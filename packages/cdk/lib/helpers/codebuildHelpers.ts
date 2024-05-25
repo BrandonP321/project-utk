@@ -6,13 +6,18 @@ export const codebuildLambdaEnvironment: codebuild.BuildEnvironment = {
   buildImage: codebuild.LinuxLambdaBuildImage.AMAZON_LINUX_2023_NODE_20,
 };
 
-export const codebuildInstallPhase = {
+export const codebuildInstallPhase = (
+  repoName: string,
+  repoDomainName: string,
+) => ({
   commands: [
+    'echo "Setting up CodeArtifact credentials"',
     ". bin/set-artifact-token.sh",
+    `aws codeartifact login --tool npm --repository ${repoName} --domain ${repoDomainName}`,
     "echo 'Installing dependencies'",
     "yarn install --immutable",
   ],
-};
+});
 
 export const codebuildPreBuildPhase = {
   commands: ["echo 'Pre build memory usage: ' && free -m"],

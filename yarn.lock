@@ -2873,21 +2873,21 @@ __metadata:
 
 "@fortawesome/fontawesome-common-types@npm:6.5.2":
   version: 6.5.2
-  resolution: "@fortawesome/fontawesome-common-types@npm:6.5.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-common-types%2F-%2F6.5.2%2Ffontawesome-common-types-6.5.2.tgz"
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.5.2"
   checksum: 10c0/12104e93a0056ad1077f7350826f52aa26465bb1d6b4ce75dab0307072a3871301ec750c3a34d89d05e7338c9b446fa2793150cf58a5167217021943ef877d77
   languageName: node
   linkType: hard
 
 "@fortawesome/fontawesome-pro@npm:^6.5.2":
   version: 6.5.2
-  resolution: "@fortawesome/fontawesome-pro@npm:6.5.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-pro%2F-%2F6.5.2%2Ffontawesome-pro-6.5.2.tgz"
+  resolution: "@fortawesome/fontawesome-pro@npm:6.5.2"
   checksum: 10c0/f2e3287048840b656ff4aec5c221eef5eefd1431685a15380a96ccea44ec795b60266e3ee6861181ba486566d14f9755501e0b1c9a2d0fe115083607e7a95f4f
   languageName: node
   linkType: hard
 
 "@fortawesome/fontawesome-svg-core@npm:^6.5.2":
   version: 6.5.2
-  resolution: "@fortawesome/fontawesome-svg-core@npm:6.5.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-svg-core%2F-%2F6.5.2%2Ffontawesome-svg-core-6.5.2.tgz"
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.5.2"
   dependencies:
     "@fortawesome/fontawesome-common-types": "npm:6.5.2"
   checksum: 10c0/91695dd375623988d16e6f0dc69d20350ef3fa3296fe40aa08877aae7beaf64378134656a2227419fe648dcd27a81c03fe1fd9a6c87956d863164b0380ba77d0
@@ -2896,7 +2896,7 @@ __metadata:
 
 "@fortawesome/pro-solid-svg-icons@npm:^6.5.2":
   version: 6.5.2
-  resolution: "@fortawesome/pro-solid-svg-icons@npm:6.5.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Fpro-solid-svg-icons%2F-%2F6.5.2%2Fpro-solid-svg-icons-6.5.2.tgz"
+  resolution: "@fortawesome/pro-solid-svg-icons@npm:6.5.2"
   dependencies:
     "@fortawesome/fontawesome-common-types": "npm:6.5.2"
   checksum: 10c0/811c06b8bc856e5378c1fdeb464a9cca69ebf7f4c0ffbed4e6d3bcf58b3b3ac96f35d8a21a3f89f5a70bf16fb9a6cfb4d13e487ca5d0ef149ad750496abb588b
@@ -2905,7 +2905,7 @@ __metadata:
 
 "@fortawesome/react-fontawesome@npm:^0.2.0":
   version: 0.2.2
-  resolution: "@fortawesome/react-fontawesome@npm:0.2.2::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Freact-fontawesome%2F-%2F0.2.2%2Freact-fontawesome-0.2.2.tgz"
+  resolution: "@fortawesome/react-fontawesome@npm:0.2.2"
   dependencies:
     prop-types: "npm:^15.8.1"
   peerDependencies:

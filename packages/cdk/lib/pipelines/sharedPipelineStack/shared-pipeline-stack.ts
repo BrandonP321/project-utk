@@ -24,6 +24,7 @@ export class SharedCdkPipelineStack extends CdkPipeline<
   SharedCdkStage
 > {
   codeArtifactRepo: codeartifact.CfnRepository;
+  codeArtifactDomain: codeartifact.CfnDomain;
 
   constructor(
     scope: Construct,
@@ -32,18 +33,26 @@ export class SharedCdkPipelineStack extends CdkPipeline<
   ) {
     super(scope, id, props);
 
-    this.codeArtifactRepo = this.createCodeArtifactRepo();
+    this.createCodeArtifactRepo();
 
     // Source stage
     this.addSourceStage();
 
     // Build stage
+    const project = this.buildStageCodeBuildProject();
+
+    this.addCodeArtifactPolicyToProject(
+      project,
+      this.codeArtifactRepo,
+      this.codeArtifactDomain,
+    );
+
     this.pipeline.addStage({
       stageName: "Build",
       actions: [
         new CodePipelineAction.CodeBuildAction({
           actionName: "BuildCDK",
-          project: this.buildStageCodeBuildProject(),
+          project,
           input: this.sourceOutput,
           outputs: [this.cdkOutput],
         }),
@@ -62,19 +71,23 @@ export class SharedCdkPipelineStack extends CdkPipeline<
   }
 
   createCodeArtifactRepo() {
-    const domain = new codeartifact.CfnDomain(this, "UTK-CodeArtifact-Domain", {
-      domainName: "utk-codeartifacts",
-    });
+    this.codeArtifactDomain = new codeartifact.CfnDomain(
+      this,
+      "UTK-CodeArtifact-Domain",
+      {
+        domainName: "utk-codeartifacts",
+      },
+    );
 
     const repo = new codeartifact.CfnRepository(this, "UTK-CodeArtifact-Repo", {
       repositoryName: "utk-codeartifact-repo",
-      domainName: domain.domainName,
+      domainName: this.codeArtifactDomain.domainName,
       externalConnections: ["public:npmjs"],
     });
 
-    repo.addDependency(domain);
+    repo.addDependency(this.codeArtifactDomain);
 
-    return repo;
+    this.codeArtifactRepo = repo;
   }
 
   buildStageCodeBuildProject() {
@@ -92,12 +105,13 @@ export class SharedCdkPipelineStack extends CdkPipeline<
         buildSpec: codebuild.BuildSpec.fromObject({
           version: "0.2",
           phases: {
-            install: codebuildInstallPhase,
+            install: codebuildInstallPhase(
+              this.codeArtifactRepo.repositoryName,
+              this.codeArtifactDomain.domainName,
+            ),
             pre_build: codebuildPreBuildPhase,
             build: {
               commands: [
-                'echo "Setting up CodeArtifact credentials"',
-                `aws codeartifact login --tool npm --repository ${this.codeArtifactRepo.repositoryName} --domain ${this.codeArtifactRepo.domainName}`,
                 "echo 'Building the application'",
                 "yarn cdk synth:shared",
               ],
