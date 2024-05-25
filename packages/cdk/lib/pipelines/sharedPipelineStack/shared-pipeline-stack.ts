@@ -3,21 +3,31 @@ import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as CodePipelineAction from "aws-cdk-lib/aws-codepipeline-actions";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
-import * as iam from "aws-cdk-lib/aws-iam";
 import { SharedCdkStage } from "../../../config/stage";
 import { Construct } from "constructs";
-import { SharedStackStage } from "./shared-stack-stage";
 import { addSourcePipelineStage } from "../../helpers/codepipelineHelpers";
+import { SharedStack } from "../../sharedStack/shared-stack";
 
-const stages: SharedCdkStage[] = [SharedCdkStage.DEV, SharedCdkStage.PROD];
+export const sharedCdkPipelineStages: SharedCdkStage[] = [
+  SharedCdkStage.DEV,
+  SharedCdkStage.PROD,
+];
 
 export class SharedCdkPipelineStack extends cdk.Stack {
-  props;
+  props: cdk.StackProps & {
+    stageStacks: Record<SharedCdkStage, SharedStack>;
+  };
   pipeline: codepipeline.Pipeline;
   sourceOutput = new codepipeline.Artifact();
   cdkOutput = new codepipeline.Artifact();
 
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: cdk.StackProps & {
+      stageStacks: Record<SharedCdkStage, SharedStack>;
+    },
+  ) {
     super(scope, id, props);
 
     this.props = props;
@@ -46,7 +56,7 @@ export class SharedCdkPipelineStack extends cdk.Stack {
         projectName: `UTK-Shared-Pipeline-Project`,
         environment: {
           privileged: false,
-          computeType: codebuild.ComputeType.LAMBDA_2GB,
+          computeType: codebuild.ComputeType.LAMBDA_4GB,
           buildImage: codebuild.LinuxLambdaBuildImage.AMAZON_LINUX_2023_NODE_20,
           environmentVariables: {
             FONTAWESOME_NPM_AUTH_TOKEN: {
@@ -64,11 +74,17 @@ export class SharedCdkPipelineStack extends cdk.Stack {
                 "yarn workspace @project-utk/cdk install --frozen-lockfile",
               ],
             },
+            pre_build: {
+              commands: ["echo 'Pre build memory usage: ' && free -m"],
+            },
             build: {
               commands: [
                 "echo 'Building the application'",
                 "yarn cdk synth:shared",
               ],
+            },
+            post_build: {
+              commands: ["echo 'Post build memory usage: ' && free -m"],
             },
           },
           artifacts: {
@@ -92,5 +108,23 @@ export class SharedCdkPipelineStack extends cdk.Stack {
     });
 
     // Deploy stages
+    sharedCdkPipelineStages.forEach((stage) => {
+      const stack = props.stageStacks[stage];
+
+      this.pipeline.addStage({
+        stageName: `Deploy-${stage}`,
+        actions: [
+          new CodePipelineAction.CloudFormationCreateUpdateStackAction({
+            actionName: `Deploy-${stage}`,
+            templatePath: this.cdkOutput.atPath(
+              `${stack.stackName}.template.json`,
+            ),
+            stackName: stack.stackName,
+            adminPermissions: true,
+            extraInputs: [this.cdkOutput],
+          }),
+        ],
+      });
+    });
   }
 }
