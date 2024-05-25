@@ -7,7 +7,11 @@ export const codebuildLambdaEnvironment: codebuild.BuildEnvironment = {
 };
 
 export const codebuildInstallPhase = {
-  commands: ["echo 'Installing dependencies'", "yarn install --immutable"],
+  commands: [
+    ". bin/set-artifact-token.sh",
+    "echo 'Installing dependencies'",
+    "yarn install --immutable",
+  ],
 };
 
 export const codebuildPreBuildPhase = {
