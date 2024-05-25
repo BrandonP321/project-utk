@@ -6,6 +6,7 @@
   "scripts": {
     "api": "yarn workspace @project-utk/api",
     "web": "yarn workspace @project-utk/web",
+    "cdk": "yarn workspace @project-utk/cdk",
     "web:dev": "yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn api dev\" \"yarn web start\""
   },
   "workspaces": [
