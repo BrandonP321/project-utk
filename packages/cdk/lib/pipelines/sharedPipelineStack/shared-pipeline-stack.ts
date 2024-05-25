@@ -61,7 +61,7 @@ export class SharedCdkPipelineStack extends cdk.Stack {
             install: {
               commands: [
                 "echo 'Installing dependencies'",
-                "yarn cdk install --frozen-lockfile",
+                "yarn workspace @project-utk/cdk install --frozen-lockfile",
               ],
             },
             build: {

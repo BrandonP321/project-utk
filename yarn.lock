@@ -4284,15 +4284,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@project-utk/cdk@workspace:packages/cdk"
   dependencies:
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:20.12.7"
+    "@project-utk/shared": "workspace:^"
     aws-cdk: "npm:2.142.1"
     aws-cdk-lib: "npm:2.142.1"
     constructs: "npm:^10.0.0"
-    jest: "npm:^29.7.0"
     source-map-support: "npm:^0.5.21"
-    ts-jest: "npm:^29.1.2"
-    ts-node: "npm:^10.9.2"
   bin:
     cdk: bin/cdk.ts
   languageName: unknown
@@ -6472,7 +6468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^29.5.12":
+"@types/jest@npm:*":
   version: 29.5.12
   resolution: "@types/jest@npm:29.5.12"
   dependencies:
@@ -6572,15 +6568,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/48ce732162cd6c02656aa5f996f0e695b57fdeb1ae762fbaa966afac2dcdcf52cb56be5ce1efb4babf8f97c2de545889aebc7f43c2e86f033487245c41fa1e6b
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:20.12.7":
-  version: 20.12.7
-  resolution: "@types/node@npm:20.12.7"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/dce80d63a3b91892b321af823d624995c61e39c6a223cc0ac481a44d337640cc46931d33efb3beeed75f5c85c3bda1d97cef4c5cd4ec333caf5dee59cff6eca0
   languageName: node
   linkType: hard
 
