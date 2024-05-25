@@ -51,3 +51,35 @@ export UTK_CODEARTIFACT_AWS_REGION="us-east-1"
 
 export UTK_CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain $UTK_CODEARTIFACT_DOMAIN_NAME --domain-owner $UTK_CODEARTIFACT_ACCOUNT_ID --query authorizationToken --output text`
 ```
+
+## Publishing External Packages to CodeArtifact Repo
+
+### 1. Install package
+
+You'll need to first install the package locally, which may require you to temporarily configure the .yarnrc.yml npmScopes, such as with fontawesome.
+
+You can install the package normally using `yarn install`.
+
+### 2. Publish Package to CodeArtifact Repo
+
+From the root level of the monorepo, run the following CLI command, replacing <package_name> with the package you want to publish.
+
+```
+source bin/publish-artifact-package.sh <package_name>
+```
+
+### 3. Remove Temporary Configurations
+
+If you made any temporary configurations for installing packages locally, remove those changes now so that future installs pull from the CodeArtifact repo.
+
+### 4. Remove node_modules
+
+Remove the node_modules/ directory to allow for a fresh install:
+
+```
+rm -rf node_modules/
+```
+
+### 5. Delete yarn.lock and Reinstall
+
+Finally, delete the yarn.lock and perform one last install, which will pull all packages from the CodeArtifact repo. Make sure to also push the new yarn.lock to the remote GitHub repo.
