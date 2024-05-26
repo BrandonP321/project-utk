@@ -1,6 +1,5 @@
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
-import { TestUtils } from "../../../../utils/testUtils";
+import { TestUtils, VendorTestUtils } from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.login");
 
@@ -16,7 +15,7 @@ describe("Login Vendor Endpoint", () => {
   });
 
   TestUtils.itShouldRejectInvalidInput(() =>
-    VendorTestUtils.loginTestVendor({ email: VendorTestUtils.invalidEmail })
+    VendorTestUtils.loginTestVendor({ email: VendorTestUtils.invalidEmail }),
   );
 
   it("should return a new vendor id after successful login", async () => {

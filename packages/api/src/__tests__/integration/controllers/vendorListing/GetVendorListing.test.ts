@@ -3,7 +3,7 @@ import {
   TestUtils,
   VendorListingTestUtils,
   VendorTestUtils,
-} from "../../../../utils/testUtils";
+} from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.listing.get");
 

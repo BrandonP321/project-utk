@@ -1,9 +1,5 @@
 import { UpdateVendor } from "@project-utk/shared/src/api/routes/vendor/UpdateVendor";
-import {
-  TAgent,
-  TestUtils,
-  VendorTestUtils,
-} from "../../../../utils/testUtils";
+import { TAgent, TestUtils, VendorTestUtils } from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("updateVendor");
 
@@ -16,7 +12,7 @@ describe("Update Vendor Endpoint", () => {
     TestUtils.request<UpdateVendor.ReqBody, UpdateVendor.ResBody>(
       UpdateVendor.Path,
       body,
-      agent
+      agent,
     );
 
   const validUpdateRequest = () =>

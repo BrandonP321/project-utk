@@ -4,7 +4,7 @@ import {
   TestUtils,
   VendorListingTestUtils,
   VendorTestUtils,
-} from "../../../../utils/testUtils";
+} from "../../../utils/";
 import { VendorListingAPI } from "@project-utk/shared/src/api/models/vendorListing/IVendorListing";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.Listing.update");
@@ -31,7 +31,7 @@ describe("Update vendor listing endpoint", () => {
   const updateNonexistentListing = () =>
     updateListingRequest(
       { listingId: TestUtils.nonexistentUUID, listing: validListingUpdate },
-      agent
+      agent,
     );
 
   beforeEach(async () => {

@@ -3,8 +3,7 @@ import {
   SendVendorVerificationEmail,
   VerifyVendorEmail,
 } from "@project-utk/shared/src/api/routes";
-import { TAgent, TestUtils } from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { TAgent, TestUtils, VendorTestUtils } from "../../../utils/";
 import Vendor from "../../../../models/vendor/Vendor";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.verify.email");
@@ -16,7 +15,7 @@ describe("Verify vendor email endpoint", () => {
     TestUtils.request<VerifyVendorEmail.ReqBody, VerifyVendorEmail.ResBody>(
       VerifyVendorEmail.Path,
       { token },
-      agent
+      agent,
     );
 
   const requestVerificationEmail = () =>

@@ -1,5 +1,5 @@
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { VendorTestUtils } from "../../../utils/VendorTestUtils";
 import { apiConfig } from "../../../../config";
 import { Helpers } from "@project-utk/shared/src/utils";
 

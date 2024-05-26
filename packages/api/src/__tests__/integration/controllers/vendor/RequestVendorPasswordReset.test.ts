@@ -1,7 +1,6 @@
 import { RequestVendorPasswordReset } from "@project-utk/shared/src/api/routes";
 import { PasswordResetUtils } from "../../../../utils";
-import { TestUtils } from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { TestUtils, VendorTestUtils } from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.request.password.reset");
 

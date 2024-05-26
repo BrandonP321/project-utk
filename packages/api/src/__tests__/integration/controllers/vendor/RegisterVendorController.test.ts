@@ -1,7 +1,6 @@
-import { EmailVerificationUtils, JWTUtils } from "../../../../utils";
-import { TestUtils } from "../../../../utils/testUtils";
+import { EmailVerificationUtils } from "../../../../utils";
+import { TestUtils, VendorTestUtils } from "../../../utils/";
 import { RegisterVendor } from "@project-utk/shared/src/api/routes";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
 
 const registerVendorRequest = TestUtils.getRequestFunc<
   RegisterVendor.ReqBody,
@@ -43,7 +42,7 @@ describe("Register Vendor Endpoint", () => {
     const res = await registerVendorRequest(validReq);
 
     expect(res.body.errCode).toBe(
-      RegisterVendor.Errors.EMAIL_ALREADY_EXISTS.code
+      RegisterVendor.Errors.EMAIL_ALREADY_EXISTS.code,
     );
   });
 

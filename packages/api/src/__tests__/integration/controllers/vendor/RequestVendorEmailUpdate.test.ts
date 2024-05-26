@@ -1,9 +1,5 @@
 import { RequestVendorEmailUpdate } from "@project-utk/shared/src/api/routes/vendor/RequestVendorEmailUpdate";
-import {
-  TAgent,
-  TestUtils,
-  VendorTestUtils,
-} from "../../../../utils/testUtils";
+import { TAgent, TestUtils, VendorTestUtils } from "../../../utils/";
 import { VendorEmailUpdateUtils } from "../../../../utils/VendorEmailUpdateUtils";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.email.update.request");

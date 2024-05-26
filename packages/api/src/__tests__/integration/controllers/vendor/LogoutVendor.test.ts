@@ -1,6 +1,5 @@
 import { LogoutVendor } from "@project-utk/shared/src/api/routes";
-import { TAgent, TestUtils } from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { TAgent, TestUtils, VendorTestUtils } from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.logout");
 
@@ -11,7 +10,7 @@ describe("Logout Vendor Endpoint", () => {
     TestUtils.request<LogoutVendor.ReqBody, LogoutVendor.ResBody>(
       LogoutVendor.Path,
       {},
-      agent
+      agent,
     );
 
   beforeEach(async () => {

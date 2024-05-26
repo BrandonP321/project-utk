@@ -1,9 +1,5 @@
 import { GetAuthenticatedVendor } from "@project-utk/shared/src/api/routes/vendor/GetAuthenticatedVendor";
-import {
-  TAgent,
-  TestUtils,
-  VendorTestUtils,
-} from "../../../../utils/testUtils";
+import { TAgent, TestUtils, VendorTestUtils } from "../../../utils";
 
 const testEmail = VendorTestUtils.getTestEmail("getAuthenticatedVendor");
 

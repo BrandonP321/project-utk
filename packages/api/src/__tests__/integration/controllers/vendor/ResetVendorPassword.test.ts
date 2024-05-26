@@ -2,8 +2,7 @@ import {
   RequestVendorPasswordReset,
   ResetVendorPassword,
 } from "@project-utk/shared/src/api/routes";
-import { TestUtils } from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { TestUtils, VendorTestUtils } from "../../../utils/";
 import Vendor from "../../../../models/vendor/Vendor";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.password.reset");
@@ -12,7 +11,7 @@ const newPassword = "NewPassword@123";
 const passwordResetRequest = (req: ResetVendorPassword.ReqBody) =>
   TestUtils.request<ResetVendorPassword.ReqBody, ResetVendorPassword.ResBody>(
     ResetVendorPassword.Path,
-    req
+    req,
   );
 
 const validPasswordResetRequest = (token: string) =>
@@ -49,7 +48,7 @@ describe("Reset vendor password endpoint", () => {
   });
 
   TestUtils.itShouldRejectInvalidInput(() =>
-    invalidPasswordResetRequest(vendor.resetToken!)
+    invalidPasswordResetRequest(vendor.resetToken!),
   );
 
   it("should create a password reset token", async () => {

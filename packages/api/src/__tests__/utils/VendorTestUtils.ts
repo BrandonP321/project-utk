@@ -1,6 +1,6 @@
 import { noop } from "lodash";
 import Vendor from "../../models/vendor/Vendor";
-import { JWTUtils } from "../JWTUtils";
+import { JWTUtils } from "../../utils/JWTUtils";
 import { TAgent, TestUtils } from "./TestUtils";
 import { LoginVendor } from "@project-utk/shared/src/api/routes";
 import VendorListing from "../../models/vendorListing/VendorListing";

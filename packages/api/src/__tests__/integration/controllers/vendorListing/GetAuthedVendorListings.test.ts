@@ -3,8 +3,8 @@ import {
   TAgent,
   TestUtils,
   VendorListingTestUtils,
-} from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+  VendorTestUtils,
+} from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail("vendor.auth.listings");
 

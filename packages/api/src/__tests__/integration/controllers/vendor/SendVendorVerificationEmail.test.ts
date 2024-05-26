@@ -1,10 +1,9 @@
 import { SendVendorVerificationEmail } from "@project-utk/shared/src/api/routes";
 import { EmailVerificationUtils } from "../../../../utils";
-import { TAgent, TestUtils } from "../../../../utils/testUtils";
-import { VendorTestUtils } from "../../../../utils/testUtils/VendorTestUtils";
+import { VendorTestUtils, TAgent, TestUtils } from "../../../utils/";
 
 const testEmail = VendorTestUtils.getTestEmail(
-  "vendor.email.verification.send"
+  "vendor.email.verification.send",
 );
 
 describe("Endpoint to send vendor email verification email", () => {
