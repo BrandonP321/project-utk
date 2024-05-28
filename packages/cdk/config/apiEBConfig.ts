@@ -1,6 +1,6 @@
 import { ebConfigToSettingOptions } from "../lib/helpers/elasticbeanstalkHelpers";
 import { EBSettingOptionsConfig } from "../lib/helpers/elasticbeanstalkSettingOptions";
-import { getAPIStageValue } from "../lib/helpers/stageHelpers";
+import { getStageValueFunc } from "../lib/helpers/stageHelpers";
 import { APIStage } from "./stage";
 
 type Params = {
@@ -9,12 +9,7 @@ type Params = {
 };
 
 export const getAPIEBConfig = (stage: APIStage, params: Params) => {
-  function getStageValue<T extends string>(
-    defaultValue: T,
-    overrides: Partial<Record<APIStage, T>>,
-  ) {
-    return getAPIStageValue(stage, defaultValue, overrides);
-  }
+  const getStageValue = getStageValueFunc(stage);
 
   const config: EBSettingOptionsConfig = {
     "aws:autoscaling:asg": {

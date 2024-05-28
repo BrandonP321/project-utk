@@ -17,3 +17,10 @@ export const ebConfigToSettingOptions = (
     .flat()
     .filter((option) => option.value !== undefined);
 };
+
+export const EBRegionHostedZoneIdMap: Record<string, string> = {
+  "us-east-1": "Z117KPS5GTRQ2G",
+  "us-east-2": "Z14LCN19Q5QHIC",
+  "us-west-1": "Z1LQECGX5PH1X",
+  "us-west-2": "Z38NKT9BP95V3O",
+};

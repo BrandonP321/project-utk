@@ -2,41 +2,81 @@ import * as cdk from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as elasticbeanstalk from "aws-cdk-lib/aws-elasticbeanstalk";
-import * as route53 from "aws-cdk-lib/aws-route53";
-import * as route53targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import * as cr from "aws-cdk-lib/custom-resources";
 import { Construct } from "constructs";
 import { CdkStack } from "../cdk-stack";
 import { APIStage } from "../../config/stage";
 import { getAPIEBConfig } from "../../config/apiEBConfig";
-import { getAPIStageValue } from "../helpers/stageHelpers";
+import path from "path";
 
 export class APIStack extends CdkStack<APIStage> {
+  appVersionsBucket: s3.Bucket;
+  ebApp: elasticbeanstalk.CfnApplication;
+  appEnv: elasticbeanstalk.CfnEnvironment;
+  subdomain = this.getStageValue("api", { dev: "api-dev" });
+  apiDomain = `${this.subdomain}.${this.appDomain}`;
+  cert: acm.Certificate;
+  instanceRole: iam.Role;
+  instanceProfile: iam.CfnInstanceProfile;
+  aliasFunction: lambda.Function;
+  pipelineRole: iam.Role;
+
   constructor(scope: Construct, id: string, props: CdkStack.Props<APIStage>) {
     super(scope, id, props);
 
     // S3 bucket to store the application versions
-    const appVersionsBucket = new s3.Bucket(this, "App-Versions-Bucket", {
+    this.createAppVersionsBucket();
+
+    // Elastic Beanstalk application
+    this.createElasticBeanstalkApp();
+
+    // ACM certificate
+    this.createACMCertificate();
+
+    // IAM role & profile for EC2 instances
+    this.createEc2InstanceRoleAndProfile();
+
+    // Elastic Beanstalk environment
+    this.createElasticBeanstalkAppEnv();
+
+    // Create lambda function to handle the Route 53 alias record
+    this.createAliasFunction();
+
+    // Custom resource to create the Route 53 alias record
+    this.createAliasLambdaCustomResource();
+
+    // IAM role for CodePipeline to interact with Elastic Beanstalk
+    this.createPipelineRole();
+
+    // Allow Elastic Beanstalk to access the application bucket
+    this.appVersionsBucket.grantRead(this.pipelineRole);
+  }
+
+  private createAppVersionsBucket() {
+    this.appVersionsBucket = new s3.Bucket(this, "App-Versions-Bucket", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       versioned: false,
     });
+  }
 
-    // Elastic Beanstalk application
-    const app = new elasticbeanstalk.CfnApplication(this, "Application", {
-      applicationName: `UTK-API-EB`,
+  private createElasticBeanstalkApp() {
+    this.ebApp = new elasticbeanstalk.CfnApplication(this, "Application", {
+      applicationName: `UTK-API-EB-App`,
     });
+  }
 
-    const subdomain = this.getStageValue("api", { dev: "api-dev" });
-    const apiDomain = `${subdomain}.${this.appDomain}`;
-
-    // ACM certificate
-    const cert = new acm.Certificate(this, "Certificate", {
-      domainName: apiDomain,
+  private createACMCertificate() {
+    this.cert = new acm.Certificate(this, "Certificate", {
+      domainName: this.apiDomain,
       validation: acm.CertificateValidation.fromDns(this.hostedZone),
     });
+  }
 
-    // IAM role for EC2 instances
-    const instanceRole = new iam.Role(this, "InstanceRole", {
+  private createEc2InstanceRoleAndProfile() {
+    this.instanceRole = new iam.Role(this, "InstanceRole", {
       assumedBy: new iam.ServicePrincipal("ec2.amazonaws.com"),
       roleName: "UTK-API-EB-Instance-Role",
       managedPolicies: [
@@ -52,47 +92,110 @@ export class APIStack extends CdkStack<APIStage> {
       ],
     });
 
-    // EC2 instance profile
-    const instanceProfile = new iam.CfnInstanceProfile(
-      this,
-      "InstanceProfile",
-      { roles: [instanceRole.roleName] },
-    );
+    this.instanceProfile = new iam.CfnInstanceProfile(this, "InstanceProfile", {
+      roles: [this.instanceRole.roleName],
+    });
+  }
 
-    // Elastic Beanstalk environment
-    const appEnv = new elasticbeanstalk.CfnEnvironment(this, "Environment", {
+  private createElasticBeanstalkAppEnv() {
+    this.appEnv = new elasticbeanstalk.CfnEnvironment(this, "Environment", {
       environmentName: `UTK-API-EB-Env`,
-      applicationName: app.applicationName!,
+      applicationName: this.ebApp.applicationName!,
       solutionStackName: "64bit Amazon Linux 2023 v6.1.5 running Node.js 20",
       optionSettings: getAPIEBConfig(this.props.stage, {
-        SSLCertificateArn: cert.certificateArn,
-        instanceProfileArn: instanceProfile.attrArn,
+        SSLCertificateArn: this.cert.certificateArn,
+        instanceProfileArn: this.instanceProfile.attrArn,
       }),
     });
 
-    appEnv.addDependency(app);
-    appEnv.addDependency(instanceProfile);
+    this.appEnv.addDependency(this.ebApp);
+    this.appEnv.addDependency(this.instanceProfile);
+  }
 
-    // Subdomain A Record
-    // new route53.ARecord(this, "APIAliasRecord", {
-    //   zone: this.hostedZone,
-    //   recordName: subdomain,
-    //   target: route53.RecordTarget.fromAlias(
-    //     new route53targets.ElasticBeanstalkEnvironmentEndpointTarget(
-    //       appEnv.ref,
-    //     ),
-    //   ),
-    // });
+  private createAliasFunction() {
+    // For NodeJsFunction to work, esbuild MUST be listed as a dependency
+    // in the root level package.json
+    this.aliasFunction = new NodejsFunction(this, "AliasFunction", {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "handler",
+      entry: path.join(
+        __dirname,
+        "../../lambda/api-alias-record-lambda-handler.ts",
+      ),
+      environment: {
+        HOSTED_ZONE_ID: this.hostedZone.hostedZoneId,
+        EB_ENV_REGION: this.region,
+      },
+      bundling: {
+        minify: true,
+        externalModules: ["aws-sdk/*"],
+      },
+    });
 
-    // IAM role for CodePipeline to interact with Elastic Beanstalk
-    const pipelineRole = new iam.Role(this, "PipelineRole", {
+    this.aliasFunction.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          "route53:ChangeResourceRecordSets",
+          "elasticbeanstalk:DescribeEnvironments",
+        ],
+        resources: ["*"],
+      }),
+    );
+  }
+
+  private createAliasLambdaCustomResource() {
+    const customResourceProviderRole = new iam.Role(
+      this,
+      "CustomResourceProviderRole",
+      {
+        assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
+      },
+    );
+
+    customResourceProviderRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["lambda:InvokeFunction"],
+        resources: [this.aliasFunction.functionArn],
+      }),
+    );
+
+    const getCustomResourceSDKCall = (requestType: string): cr.AwsSdkCall => ({
+      service: "Lambda",
+      action: "invoke",
+      parameters: {
+        FunctionName: this.aliasFunction.functionArn,
+        Payload: JSON.stringify({
+          RequestType: requestType,
+          ResourceProperties: {
+            RecordName: this.apiDomain,
+            EnvironmentName: this.appEnv.environmentName,
+            // Dummy property to force an update when the environment changes
+            DummyProperty: new Date().toISOString(),
+          },
+        }),
+      },
+      physicalResourceId: cr.PhysicalResourceId.of(
+        `AliasRecord-${this.apiDomain}`,
+      ),
+    });
+
+    new cr.AwsCustomResource(this, "AliasRecordCustomResource", {
+      onCreate: getCustomResourceSDKCall("Create"),
+      onUpdate: getCustomResourceSDKCall("Update"),
+      onDelete: getCustomResourceSDKCall("Delete"),
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE,
+      }),
+      role: customResourceProviderRole,
+    });
+  }
+
+  private createPipelineRole() {
+    this.pipelineRole = new iam.Role(this, "PipelineRole", {
       assumedBy: new iam.ServicePrincipal("codepipeline.amazonaws.com"),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess"),
       ],
     });
-
-    // Allow Elastic Beanstalk to access the application bucket
-    appVersionsBucket.grantRead(pipelineRole);
   }
 }

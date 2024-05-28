@@ -23,8 +23,12 @@
     "aws-cdk": "2.142.1"
   },
   "dependencies": {
+    "@aws-sdk/client-elastic-beanstalk": "^3.583.0",
+    "@aws-sdk/client-route-53": "^3.583.0",
     "@project-utk/shared": "workspace:^",
+    "@types/aws-lambda": "^8.10.138",
     "aws-cdk-lib": "2.142.1",
+    "aws-lambda": "^1.0.7",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
