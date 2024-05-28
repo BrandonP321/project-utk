@@ -1,11 +1,3 @@
-type EC2InstanceType =
-  | "t2.micro"
-  | "t2.small"
-  | "t2.medium"
-  | "t2.large"
-  | "t2.xlarge"
-  | "t2.2xlarge";
-
 type EBEnvironmentProcessConfig = {
   DeregistrationDelay: string;
   HealthCheckInterval: string;
@@ -25,7 +17,7 @@ type ELBV2ListenerPortConfig = {
   DefaultProcess: string;
   ListenerEnabled: "true" | "false";
   Protocol: "HTTP" | "HTTPS" | "TCP" | "TLS";
-  Rules: string;
+  Rules?: string;
   SSLCertificateArns: string;
   SSLPolicy: string;
 };
@@ -37,8 +29,6 @@ type AutoScalingGroupConfig = {
   MaxSize: string;
   /** The cooldown period after a scaling activity */
   Cooldown: string;
-  /** The type of health check (EC2 or ELB). */
-  HealthCheckType: "EC2" | "ELB";
   /** Whether to enable Capacity Rebalancing for Spot Instances */
   EnableCapacityRebalancing: "true" | "false";
 };
@@ -46,12 +36,12 @@ type AutoScalingGroupConfig = {
 type AutoSclaingLaunchConfig = {
   RootVolumeType: "gp2" | "gp3" | "io1" | "standard";
   RootVolumeSize: string;
-  RootVolumeIOPS: string;
-  RootVolumeThroughput: string;
-  IamInstanceProfile: string;
-  EC2KeyName: string;
-  SecurityGroups: string;
-  MonitoringInterval: "1 minute" | "5 minutes";
+  RootVolumeIOPS?: string;
+  RootVolumeThroughput?: string;
+  IamInstanceProfile?: string;
+  EC2KeyName?: string;
+  SecurityGroups?: string;
+  MonitoringInterval?: "1 minute" | "5 minutes";
 };
 
 type AutoScalingScheduledActionConfig = {
@@ -88,9 +78,9 @@ type AutoScalingUpdatePolicyRollingUpdateConfig = {
 
 type EC2InstancesConfig = {
   EnableSpot: "true" | "false";
-  InstanceTypes: EC2InstanceType;
-  SpotFleetOnDemandBase: string;
-  SpotFleetOnDemandAboveBasePercentage: string;
+  InstanceTypes: string;
+  SpotFleetOnDemandBase?: string;
+  SpotFleetOnDemandAboveBasePercentage?: string;
   SpotMaxPrice: string;
   SupportedArchitectures: "x86_64" | "arm64";
 };
@@ -123,21 +113,21 @@ type EBCommandConfig = {
   BatchSizeType: "Percentage" | "Fixed";
   BatchSize: string;
   Timeout: string;
-  IgnoreHealthCheck: "true" | "false";
+  IgnoreHealthCheck?: "true" | "false";
 };
 
 type EBEnvironmentConfig = {
   EnvironmentType: "LoadBalanced" | "SingleInstance";
   LoadBalancerType: "application" | "classic";
-  ServiceRole: string;
-  LoadBalancerIsShared: "true" | "false";
+  ServiceRole?: string;
+  LoadBalancerIsShared?: "true" | "false";
 };
 
 type EBHealthReportingSystemConfig = {
   SystemType: "enhanced" | "basic";
-  ConfigDocument: string;
+  ConfigDocument?: string;
   EnhancedHealthAuthEnabled: "true" | "false";
-  HealthCheckSuccessThreshold: string;
+  HealthCheckSuccessThreshold: "Ok" | "Warning" | "Degraded" | "Severe";
 };
 
 type EBHostManagerConfig = {
@@ -273,21 +263,21 @@ type EBEnvironmentVariablesConfig = {
  */
 export type EBSettingOptionsConfig = {
   "aws:autoscaling:asg": AutoScalingGroupConfig;
-  //   "aws:autoscaling:launchconfiguration": AutoSclaingLaunchConfig;
+  "aws:autoscaling:launchconfiguration": AutoSclaingLaunchConfig;
   //   "aws:autoscaling:scheduledaction": AutoScalingScheduledActionConfig;
   //   "aws:autoscaling:trigger": AutoScalingTriggerConfig;
   //   "aws:autoscaling:updatepolicy:rollingupdate": AutoScalingUpdatePolicyRollingUpdateConfig;
-  //   "aws:ec2:instances": EC2InstancesConfig;
+  "aws:ec2:instances": EC2InstancesConfig;
   //   "aws:ec2:vpc": EC2VPCConfig;
   //   "aws:elasticbeanstalk:application": EBApplicationConfig;
-  //   "aws:elasticbeanstalk:cloudwatch:logs": EBCloudWatchLogsConfig;
+  "aws:elasticbeanstalk:cloudwatch:logs": EBCloudWatchLogsConfig;
   //   "aws:elasticbeanstalk:cloudwatch:logs:health": EBCLoudWatchLogsHealthConfig;
-  //   "aws:elasticbeanstalk:command": EBCommandConfig;
-  //   "aws:elasticbeanstalk:environment": EBEnvironmentConfig;
+  "aws:elasticbeanstalk:command": EBCommandConfig;
+  "aws:elasticbeanstalk:environment": EBEnvironmentConfig;
   //   "aws:elasticbeanstalk:environment:process:default": EBEnvironmentProcessConfig;
   //   "aws:elasticbeanstalk:environment:process:process_name": EBEnvironmentProcessConfig;
   //   "aws:elasticbeanstalk:environment:proxy:staticfiles": {};
-  //   "aws:elasticbeanstalk:healthreporting:system": EBHealthReportingSystemConfig;
+  "aws:elasticbeanstalk:healthreporting:system": EBHealthReportingSystemConfig;
   //   "aws:elasticbeanstalk:hostmanager": EBHostManagerConfig;
   //   "aws:elasticbeanstalk:managedactions": EBManagedActionsConfig;
   //   "aws:elasticbeanstalk:managedactions:platformupdate": EBManagedActionsPlatformUpdateConfig;
@@ -310,7 +300,7 @@ export type EBSettingOptionsConfig = {
   //   /** Configurations for classic load balancer policy name */
   //   "aws:elb:policies:policy_name": ELBPolicyNameConfig;
   //   /** Configurations for application load balancer listener default */
-  //   "aws:elbv2:listener:default": ELBV2ListenerPortConfig;
+  "aws:elbv2:listener:default"?: ELBV2ListenerPortConfig;
   //   /** Configurations for application load balancer listener port */
   //   "aws:elbv2:listener:listener_port": ELBV2ListenerPortConfig;
   //   /** Configurations for application load balancer listener rule */
@@ -318,5 +308,5 @@ export type EBSettingOptionsConfig = {
   //   /** Configurations for application load balancer (ALB) */
   //   "aws:elbv2:loadbalancer": ELBV2LoadBalancerConfig;
   //   /** Environment variables for the application */
-  //   "aws:elasticbeanstalk:application:environment": EBEnvironmentVariablesConfig;
+  "aws:elasticbeanstalk:application:environment": EBEnvironmentVariablesConfig;
 };

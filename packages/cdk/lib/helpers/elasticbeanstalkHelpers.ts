@@ -14,5 +14,6 @@ export const ebConfigToSettingOptions = (
         value,
       })),
     )
-    .flat();
+    .flat()
+    .filter((option) => option.value !== undefined);
 };
