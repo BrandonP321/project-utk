@@ -2,7 +2,7 @@ import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
 import * as codepipelineActions from "aws-cdk-lib/aws-codepipeline-actions";
 import { Construct } from "constructs";
-import { APIStage } from "../../../config/stage";
+import { APIStage, orderedApiStages } from "../../../config/stage";
 import {
   APIStack,
   getApiEbAppName,
@@ -19,13 +19,18 @@ import {
 import { stackName } from "../../helpers/resourceHelpers";
 import { capitalize } from "lodash";
 
-export const apiPipelineStages: APIStage[] = [
-  APIStage.DEV,
-  // APIStage.PROD
-];
+const getBuildArtifactName = (prefix: string, stage: string) =>
+  `${prefix}BuildArtifact${capitalize(stage)}`;
+
+const getAPIBuildArtifactName = (stage: string) =>
+  getBuildArtifactName("API", stage);
 
 export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
-  private apiBuildOutput = new codepipeline.Artifact(`APIBuildOutput`);
+  buidOutputMap: Record<APIStage, codepipeline.Artifact> = {
+    dev: new codepipeline.Artifact(getAPIBuildArtifactName("dev")),
+    prod: new codepipeline.Artifact(getAPIBuildArtifactName("prod")),
+  };
+  buildOutputList = orderedApiStages.map((stage) => this.buidOutputMap[stage]);
 
   constructor(
     scope: Construct,
@@ -49,12 +54,12 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
           actionName: "Build",
           project,
           input: this.sourceOutput,
-          outputs: [this.cdkOutput, this.apiBuildOutput],
+          outputs: [this.cdkOutput, ...this.buildOutputList],
         }),
       ],
     });
 
-    apiPipelineStages.forEach((stage) => {
+    orderedApiStages.forEach((stage) => {
       const stack = this.props.stageStacks[stage];
 
       stack.addPoliciesToPipelineRole(this.pipelineRole);
@@ -63,13 +68,13 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
         stageName: capitalize(stage),
         actions: [
           this.getStackUpdateStageActions(stack, stage, { runOrder: 1 }),
-          new codepipelineActions.ElasticBeanstalkDeployAction({
-            actionName: `Deploy-API-${stage}`,
-            applicationName: getApiEbAppName(stage),
-            environmentName: getApiEbEnvName(stage),
-            input: this.apiBuildOutput,
-            runOrder: 2,
-          }),
+          // new codepipelineActions.ElasticBeanstalkDeployAction({
+          //   actionName: `Deploy-API-${stage}`,
+          //   applicationName: getApiEbAppName(stage),
+          //   environmentName: getApiEbEnvName(stage),
+          //   input: this.apiBuildOutput,
+          //   runOrder: 2,
+          // }),
         ],
       });
     });
@@ -103,22 +108,30 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                 "echo 'Moving API Procfile to project root'",
                 "bin/move-api-procfile-to-root.sh",
 
-                "echo 'Zipping api build output'",
-                "zip -rq build_output.zip .",
+                // "echo 'Zipping api build output'",
+                // "zip -rq build_output.zip .",
               ],
             },
             post_build: codebuildPostBuildPhase,
           },
           artifacts: {
+            "base-directory": "packages/cdk/cdk.out",
+            files: ["**/*"],
             "secondary-artifacts": {
-              CdkOutput: {
+              [this.cdkOutputArtifactName]: {
                 "base-directory": "packages/cdk/cdk.out",
                 files: ["**/*"],
               },
-              APIBuildOutput: {
-                "base-directory": ".",
-                files: ["build_output.zip"],
-              },
+              ...orderedApiStages.reduce(
+                (acc, stage) => ({
+                  ...acc,
+                  [getAPIBuildArtifactName(stage)]: {
+                    "base-directory": `.`,
+                    files: ["**/*"],
+                  },
+                }),
+                {},
+              ),
             },
           },
         }),

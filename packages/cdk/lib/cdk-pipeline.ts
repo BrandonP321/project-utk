@@ -31,7 +31,8 @@ export class CdkPipeline<
   props: CdkPipeline.Props<Stack, Stage>;
   pipeline: codepipeline.Pipeline;
   sourceOutput = new codepipeline.Artifact();
-  cdkOutput = new codepipeline.Artifact();
+  cdkOutputArtifactName = "CDKOutputArtifact";
+  cdkOutput = new codepipeline.Artifact(this.cdkOutputArtifactName);
   pipelineRole: iam.Role;
 
   constructor(

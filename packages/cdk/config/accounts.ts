@@ -12,7 +12,6 @@ const defaultAccount: Account = {
 
 export const APIAccounts: Record<APIStage, Account> = {
   dev: defaultAccount,
-  local: defaultAccount,
   prod: defaultAccount,
 };
 

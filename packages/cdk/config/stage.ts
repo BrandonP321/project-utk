@@ -1,8 +1,9 @@
 export enum APIStage {
-  LOCAL = "local",
   DEV = "dev",
   PROD = "prod",
 }
+
+export const orderedApiStages: APIStage[] = [APIStage.DEV];
 
 export enum WebStage {
   LOCAL = "local",
