@@ -13,6 +13,10 @@ import {
   codebuildPostBuildPhase,
   codebuildPreBuildPhase,
 } from "../../helpers/codebuildHelpers";
+import {
+  CodeArtifactRepoDomain,
+  CodeArtifactRepoName,
+} from "../../helpers/codeartifactHelpers";
 
 export const sharedCdkPipelineStages: SharedCdkStage[] = [
   SharedCdkStage.DEV,
@@ -75,12 +79,12 @@ export class SharedCdkPipelineStack extends CdkPipeline<
       this,
       "UTK-CodeArtifact-Domain",
       {
-        domainName: "utk-codeartifacts",
+        domainName: CodeArtifactRepoDomain,
       },
     );
 
     const repo = new codeartifact.CfnRepository(this, "UTK-CodeArtifact-Repo", {
-      repositoryName: "utk-codeartifact-repo",
+      repositoryName: CodeArtifactRepoName,
       domainName: this.codeArtifactDomain.domainName,
       externalConnections: ["public:npmjs"],
     });
@@ -105,10 +109,7 @@ export class SharedCdkPipelineStack extends CdkPipeline<
         buildSpec: codebuild.BuildSpec.fromObject({
           version: "0.2",
           phases: {
-            install: codebuildInstallPhase(
-              this.codeArtifactRepo.repositoryName,
-              this.codeArtifactDomain.domainName,
-            ),
+            install: codebuildInstallPhase,
             pre_build: codebuildPreBuildPhase,
             build: {
               commands: [

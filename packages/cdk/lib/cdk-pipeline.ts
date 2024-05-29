@@ -56,13 +56,18 @@ export class CdkPipeline<
     return addSourcePipelineStage(this.pipeline, this.sourceOutput, {});
   }
 
-  getStackUpdateStageActions(stack: CdkStack<string>, stage: string) {
+  getStackUpdateStageActions(
+    stack: CdkStack<string>,
+    stage: string,
+    options?: Partial<codepipelineActions.CloudFormationCreateUpdateStackActionProps>,
+  ) {
     return new codepipelineActions.CloudFormationCreateUpdateStackAction({
-      actionName: `Deploy-${capitalize(stage)}`,
+      actionName: `Deploy-${capitalize(stage)}-CDK-Stacks`,
       templatePath: this.cdkOutput.atPath(`${stack.stackName}.template.json`),
       stackName: stack.stackName,
       adminPermissions: true,
       extraInputs: [this.cdkOutput],
+      ...options,
     });
   }
 

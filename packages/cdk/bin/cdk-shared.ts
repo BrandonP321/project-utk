@@ -6,7 +6,10 @@ import {
   SharedCdkPipelineStack,
   sharedCdkPipelineStages,
 } from "../lib/pipelines/sharedPipelineStack/shared-pipeline-stack";
-import { SharedCdkPipelineAccount } from "../config/accounts";
+import {
+  SharedCdkPipelineAccount,
+  SharedCdkAccounts,
+} from "../config/accounts";
 import { SharedCdkStage } from "../config/stage";
 import { stackName } from "../lib/helpers/resourceHelpers";
 
@@ -18,6 +21,10 @@ const stacks: Record<SharedCdkStage, SharedStack> =
       ...acc,
       [stage]: new SharedStack(app, stackName("SharedResourcesStack", stage), {
         stage,
+        env: {
+          account: SharedCdkAccounts[stage].account,
+          region: SharedCdkAccounts[stage].region,
+        },
       }),
     }),
     {} as Record<SharedCdkStage, SharedStack>,

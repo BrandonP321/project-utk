@@ -180,7 +180,7 @@ type EBXRayConfig = {
 
 type EBContainerNodeJSConfig = {
   NodeCommand: string;
-  ProxyServer: "nginx" | "apache";
+  ProxyServer?: "nginx" | "apache";
 };
 
 type ELBHealthCheckConfig = {
@@ -287,7 +287,7 @@ export type EBSettingOptionsConfig = {
   //   "aws:elasticbeanstalk:trafficsplitting": EBTrafficSplittingConfig;
   //   "aws:elasticbeanstalk:xray": EBXRayConfig;
   //   // TODO: Is this valid?
-  //   "aws:elasticbeanstalk:container:nodejs": EBContainerNodeJSConfig;
+  "aws:elasticbeanstalk:container:nodejs"?: EBContainerNodeJSConfig;
   //   "aws:elb:healthcheck": ELBHealthCheckConfig;
   //   /** Configurations for classic load balancers (CLB) */
   //   "aws:elb:loadbalancer": ELBLoadBalancerConfig;

@@ -16,6 +16,8 @@ export const APIAccounts: Record<APIStage, Account> = {
   prod: defaultAccount,
 };
 
+export const APIPipelineAccount: Account = defaultAccount;
+
 export const SharedCdkAccounts: Record<SharedCdkStage, Account> = {
   local: defaultAccount,
   dev: defaultAccount,

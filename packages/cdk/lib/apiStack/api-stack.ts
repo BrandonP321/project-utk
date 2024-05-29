@@ -12,6 +12,9 @@ import { APIStage } from "../../config/stage";
 import { getAPIEBConfig } from "../../config/apiEBConfig";
 import path from "path";
 
+export const getApiEbAppName = (stage: APIStage) => `UTK-API-EB-App-${stage}`;
+export const getApiEbEnvName = (stage: APIStage) => `UTK-API-EB-Env-${stage}`;
+
 export class APIStack extends CdkStack<APIStage> {
   appVersionsBucket: s3.Bucket;
   ebApp: elasticbeanstalk.CfnApplication;
@@ -64,7 +67,7 @@ export class APIStack extends CdkStack<APIStage> {
 
   private createElasticBeanstalkApp() {
     this.ebApp = new elasticbeanstalk.CfnApplication(this, "Application", {
-      applicationName: `UTK-API-EB-App`,
+      applicationName: getApiEbAppName(this.props.stage),
     });
   }
 
@@ -99,7 +102,7 @@ export class APIStack extends CdkStack<APIStage> {
 
   private createElasticBeanstalkAppEnv() {
     this.appEnv = new elasticbeanstalk.CfnEnvironment(this, "Environment", {
-      environmentName: `UTK-API-EB-Env`,
+      environmentName: getApiEbEnvName(this.props.stage),
       applicationName: this.ebApp.applicationName!,
       solutionStackName: "64bit Amazon Linux 2023 v6.1.5 running Node.js 20",
       optionSettings: getAPIEBConfig(this.props.stage, {
