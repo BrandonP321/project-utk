@@ -194,6 +194,7 @@ export class APIStack extends CdkStack<APIStage> {
           "s3:GetObjectVersion",
           "s3:PutObject",
           "s3:ListBuckets",
+          "s3:ListBucket",
         ],
         resources: [
           this.appVersionsBucket.bucketArn,

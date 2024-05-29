@@ -80,6 +80,7 @@ export class CdkPipeline<
       stackName: stack.stackName,
       adminPermissions: true,
       extraInputs: [this.cdkOutput],
+      role: this.pipelineRole,
       ...options,
     });
   }
