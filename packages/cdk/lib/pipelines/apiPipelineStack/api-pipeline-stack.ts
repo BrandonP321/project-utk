@@ -25,9 +25,7 @@ export const apiPipelineStages: APIStage[] = [
 ];
 
 export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
-  private apiBuildOutput = new codepipeline.Artifact(
-    stackName(`APIBuildOutput`),
-  );
+  private apiBuildOutput = new codepipeline.Artifact(`APIBuildOutput`);
 
   constructor(
     scope: Construct,
@@ -42,7 +40,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     // Build stage
     const project = this.buildStageCodeBuildProject();
 
-    // TODO: Add CodeArtifact policy to project if needed
+    this.addCodeArtifactPolicyToProject(project);
 
     this.pipeline.addStage({
       stageName: "Build",
@@ -58,6 +56,8 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
 
     apiPipelineStages.forEach((stage) => {
       const stack = this.props.stageStacks[stage];
+
+      stack.addPoliciesToPipelineRole(this.pipelineRole);
 
       this.pipeline.addStage({
         stageName: capitalize(stage),
@@ -97,11 +97,14 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                 "echo 'Synthesizing CDK stacks'",
                 "yarn cdk synth:api",
 
+                "echo 'Making move-api-procfile-to-root.sh executable'",
+                "chmod +x bin/move-api-procfile-to-root.sh",
+
                 "echo 'Moving API Procfile to project root'",
                 "bin/move-api-procfile-to-root.sh",
 
                 "echo 'Zipping api build output'",
-                "zip -r ../build_output.zip .",
+                "zip -rq build_output.zip .",
               ],
             },
             post_build: codebuildPostBuildPhase,

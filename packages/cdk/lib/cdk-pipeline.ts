@@ -9,6 +9,10 @@ import { Construct } from "constructs";
 import { addSourcePipelineStage } from "./helpers/codepipelineHelpers";
 import { CdkStack } from "./cdk-stack";
 import { capitalize } from "lodash";
+import {
+  CodeArtifactRepoDomain,
+  CodeArtifactRepoName,
+} from "./helpers/codeartifactHelpers";
 
 export namespace CdkPipeline {
   export type Props<
@@ -28,6 +32,7 @@ export class CdkPipeline<
   pipeline: codepipeline.Pipeline;
   sourceOutput = new codepipeline.Artifact();
   cdkOutput = new codepipeline.Artifact();
+  pipelineRole: iam.Role;
 
   constructor(
     scope: Construct,
@@ -45,10 +50,18 @@ export class CdkPipeline<
       lifecycleRules: [{ expiration: cdk.Duration.days(1) }],
     });
 
+    this.pipelineRole = new iam.Role(this, "Pipeline-Role", {
+      assumedBy: new iam.ServicePrincipal("codepipeline.amazonaws.com"),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess"),
+      ],
+    });
+
     this.pipeline = new codepipeline.Pipeline(this, this.props.pipelineName, {
       artifactBucket,
       restartExecutionOnUpdate: true,
       pipelineName: this.props.pipelineName,
+      role: this.pipelineRole,
     });
   }
 
@@ -71,10 +84,30 @@ export class CdkPipeline<
     });
   }
 
+  getCodeArtifactRepoArn() {
+    return cdk.Stack.of(this).formatArn({
+      service: "codeartifact",
+      resource: `repository/${CodeArtifactRepoDomain}`,
+      resourceName: CodeArtifactRepoName,
+      account: this.props.env?.account,
+      region: this.props.env?.region,
+    });
+  }
+
+  getCodeArtifactDomainArn() {
+    return cdk.Stack.of(this).formatArn({
+      service: "codeartifact",
+      resource: `domain`,
+      resourceName: CodeArtifactRepoDomain,
+      account: this.props.env?.account,
+      region: this.props.env?.region,
+    });
+  }
+
   addCodeArtifactPolicyToProject(
     project: codebuild.PipelineProject,
-    repo: codeartifact.CfnRepository,
-    domain: codeartifact.CfnDomain,
+    repo?: codeartifact.CfnRepository,
+    domain?: codeartifact.CfnDomain,
   ) {
     project.role?.addToPrincipalPolicy(
       new iam.PolicyStatement({
@@ -88,7 +121,10 @@ export class CdkPipeline<
           "codeartifact:ReadFromAsset",
           "codeartifact:ReadPackageVersionAsset",
         ],
-        resources: [repo.attrArn, domain.attrArn],
+        resources: [
+          repo?.attrArn ?? this.getCodeArtifactRepoArn(),
+          domain?.attrArn ?? this.getCodeArtifactDomainArn(),
+        ],
       }),
     );
 

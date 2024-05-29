@@ -25,7 +25,6 @@ export class APIStack extends CdkStack<APIStage> {
   instanceRole: iam.Role;
   instanceProfile: iam.CfnInstanceProfile;
   aliasFunction: lambda.Function;
-  pipelineRole: iam.Role;
 
   constructor(scope: Construct, id: string, props: CdkStack.Props<APIStage>) {
     super(scope, id, props);
@@ -50,12 +49,6 @@ export class APIStack extends CdkStack<APIStage> {
 
     // Custom resource to create the Route 53 alias record
     this.createAliasLambdaCustomResource();
-
-    // IAM role for CodePipeline to interact with Elastic Beanstalk
-    this.createPipelineRole();
-
-    // Allow Elastic Beanstalk to access the application bucket
-    this.appVersionsBucket.grantRead(this.pipelineRole);
   }
 
   private createAppVersionsBucket() {
@@ -193,12 +186,22 @@ export class APIStack extends CdkStack<APIStage> {
     });
   }
 
-  private createPipelineRole() {
-    this.pipelineRole = new iam.Role(this, "PipelineRole", {
-      assumedBy: new iam.ServicePrincipal("codepipeline.amazonaws.com"),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AdministratorAccess"),
-      ],
-    });
+  public addPoliciesToPipelineRole(pipelineRole: iam.IRole) {
+    pipelineRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:PutObject",
+          "s3:ListBuckets",
+        ],
+        resources: [
+          this.appVersionsBucket.bucketArn,
+          `${this.appVersionsBucket.bucketArn}/*`,
+        ],
+      }),
+    );
+
+    this.appVersionsBucket.grantRead(pipelineRole);
   }
 }
