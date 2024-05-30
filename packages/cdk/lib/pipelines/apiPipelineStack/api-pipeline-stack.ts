@@ -125,7 +125,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                   [getAPIBuildArtifactName(stage)]: {
                     "base-directory": `.`,
                     files: ["**/*"],
-                    "exclude-paths": ["node_modules/**/*"],
+                    // "exclude-paths": ["node_modules/**/*"],
                   },
                 }),
                 {},
