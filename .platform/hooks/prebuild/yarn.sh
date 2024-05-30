@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # need to install node first to be able to install yarn (as at prebuild no node is present yet)
-sudo curl --silent --location https://rpm.nodesource.com/setup_12.x | sudo bash -
-sudo yum -y install nodejs
+# curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh -
+# sudo -E bash nodesource_setup.sh
+# sudo yum -y install nodejs
+
+curl -fsSL https://rpm.nodesource.com/setup_20.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo yum install -y nodejs
 
 # install yarn
 sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
