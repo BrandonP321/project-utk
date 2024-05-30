@@ -68,13 +68,13 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
         stageName: capitalize(stage),
         actions: [
           this.getStackUpdateStageActions(stack, stage, { runOrder: 1 }),
-          // new codepipelineActions.ElasticBeanstalkDeployAction({
-          //   actionName: `Deploy-API-${stage}`,
-          //   applicationName: getApiEbAppName(stage),
-          //   environmentName: getApiEbEnvName(stage),
-          //   input: this.apiBuildOutput,
-          //   runOrder: 2,
-          // }),
+          new codepipelineActions.ElasticBeanstalkDeployAction({
+            actionName: `Deploy-API-${stage}`,
+            applicationName: getApiEbAppName(stage),
+            environmentName: getApiEbEnvName(stage),
+            input: this.buidOutputMap[stage],
+            runOrder: 2,
+          }),
         ],
       });
     });
@@ -107,9 +107,6 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
 
                 "echo 'Moving API Procfile to project root'",
                 "bin/move-api-procfile-to-root.sh",
-
-                // "echo 'Zipping api build output'",
-                // "zip -rq build_output.zip .",
               ],
             },
             post_build: codebuildPostBuildPhase,
@@ -128,6 +125,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                   [getAPIBuildArtifactName(stage)]: {
                     "base-directory": `.`,
                     files: ["**/*"],
+                    "exclude-paths": ["node_modules/**/*"],
                   },
                 }),
                 {},
