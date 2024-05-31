@@ -2746,6 +2746,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@esbuild-plugins/tsconfig-paths@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@esbuild-plugins/tsconfig-paths@npm:0.1.2"
+  dependencies:
+    debug: "npm:^4.3.1"
+    find-up: "npm:^5.0.0"
+    strip-json-comments: "npm:^3.1.1"
+  peerDependencies:
+    esbuild: "*"
+    typescript: "*"
+  checksum: 10c0/1bad21d0a5e140fc2ebbe6f961638062a184749a5e3cfb6e7f1c3f9349a64a57f54ed43b41f12828db8b4e8ca8591b63d6e62473542a314895e68fb3990008b5
+  languageName: node
+  linkType: hard
+
 "@esbuild/aix-ppc64@npm:0.20.2":
   version: 0.20.2
   resolution: "@esbuild/aix-ppc64@npm:0.20.2"
@@ -4121,6 +4135,7 @@ __metadata:
   resolution: "@project-utk/api@workspace:packages/api"
   dependencies:
     "@aws-sdk/client-secrets-manager": "npm:^3.554.0"
+    "@esbuild-plugins/tsconfig-paths": "npm:^0.1.2"
     "@project-utk/shared": "workspace:^"
     "@types/bcrypt": "npm:^5.0.2"
     "@types/cookie-parser": "npm:^1.4.7"
@@ -4134,6 +4149,8 @@ __metadata:
     bcrypt: "npm:^5.1.1"
     cookie-parser: "npm:^1.4.6"
     cors: "npm:^2.8.5"
+    esbuild-node-externals: "npm:^1.13.1"
+    esbuild-plugin-tsconfig-paths: "npm:^1.0.1"
     express: "npm:^4.19.2"
     express-rate-limit: "npm:^7.2.0"
     helmet: "npm:^7.1.0"
@@ -10756,10 +10773,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild-node-externals@npm:^1.13.1":
+  version: 1.13.1
+  resolution: "esbuild-node-externals@npm:1.13.1"
+  dependencies:
+    find-up: "npm:^5.0.0"
+    tslib: "npm:^2.4.1"
+  peerDependencies:
+    esbuild: 0.12 - 0.21
+  checksum: 10c0/2166bc98fcb230d9b97045cce997f91891821b5d22106f06ccfa72214868229fd0f23a7eaba2452bb2e03eba132390f8c9557d1293a0a7aad5c57d4c0bfaacfd
+  languageName: node
+  linkType: hard
+
 "esbuild-plugin-alias@npm:^0.2.1":
   version: 0.2.1
   resolution: "esbuild-plugin-alias@npm:0.2.1"
   checksum: 10c0/a67bc6bc2744fc8637f7321f00c1f00e4fae86c182662421738ebfabf3ad344967b9c667185c6c34d9edd5b289807d34bfdceef94620e94e0a45683534af69e0
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-tsconfig-paths@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "esbuild-plugin-tsconfig-paths@npm:1.0.1"
+  dependencies:
+    tsconfig-paths: "npm:4.2.0"
+  checksum: 10c0/0308c4accffc4fbc3d68b89958b7c00751a6e12b18e37e332bd1dd771b428c546bffce702a55a4ee7c6b8ce63347f78608253449ec3d833543ae784dbf41d588
   languageName: node
   linkType: hard
 
@@ -20494,6 +20532,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tsconfig-paths@npm:4.2.0, tsconfig-paths@npm:^4.1.2, tsconfig-paths@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "tsconfig-paths@npm:4.2.0"
+  dependencies:
+    json5: "npm:^2.2.2"
+    minimist: "npm:^1.2.6"
+    strip-bom: "npm:^3.0.0"
+  checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths@npm:^3.15.0":
   version: 3.15.0
   resolution: "tsconfig-paths@npm:3.15.0"
@@ -20506,17 +20555,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^4.1.2, tsconfig-paths@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "tsconfig-paths@npm:4.2.0"
-  dependencies:
-    json5: "npm:^2.2.2"
-    minimist: "npm:^1.2.6"
-    strip-bom: "npm:^3.0.0"
-  checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
-  languageName: node
-  linkType: hard
-
 "tslib@npm:^1.11.1, tslib@npm:^1.13.0, tslib@npm:^1.8.1":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
@@ -20524,7 +20562,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.6.2":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.6.2":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb

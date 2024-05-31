@@ -1,3 +1,4 @@
+import "./init";
 import { createServer } from "http";
 import { app } from "./app";
 import { connectToDB } from "./config/database/sequelize.config";
