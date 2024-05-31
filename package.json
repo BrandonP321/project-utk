@@ -24,6 +24,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4"
+    "@types/lodash": "^4",
+    "@types/node": "^16.18.96"
   }
 }

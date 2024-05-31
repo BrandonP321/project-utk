@@ -4216,7 +4216,6 @@ __metadata:
     "@testing-library/user-event": "npm:^13.5.0"
     "@types/jest": "npm:^27.5.2"
     "@types/js-cookie": "npm:^3.0.6"
-    "@types/node": "npm:^16.18.96"
     "@types/prop-types": "npm:^15"
     "@types/react": "npm:^18.2.75"
     "@types/react-dom": "npm:^18.2.24"
@@ -17706,6 +17705,7 @@ __metadata:
   resolution: "project-utk@workspace:."
   dependencies:
     "@types/lodash": "npm:^4"
+    "@types/node": "npm:^16.18.96"
     "@types/yup": "npm:^0.32.0"
     babel-jest: "npm:^29.7.0"
     concurrently: "npm:^8.2.2"
