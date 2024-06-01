@@ -11,6 +11,7 @@ import { CdkStack } from "../cdk-stack";
 import { APIStage } from "../../config/stage";
 import { getAPIEBConfig } from "../../config/apiEBConfig";
 import path from "path";
+import { addCodeArtifactPolicyToRole } from "../helpers/codeartifactHelpers";
 
 export const getApiEbAppName = (stage: APIStage) => `UTK-API-EB-App-${stage}`;
 export const getApiEbEnvName = (stage: APIStage) => `UTK-API-EB-Env-${stage}`;
@@ -43,6 +44,8 @@ export class APIStack extends CdkStack<APIStage> {
 
     // Elastic Beanstalk environment
     this.createElasticBeanstalkAppEnv();
+
+    addCodeArtifactPolicyToRole(this.instanceRole);
 
     // Create lambda function to handle the Route 53 alias record
     this.createAliasFunction();

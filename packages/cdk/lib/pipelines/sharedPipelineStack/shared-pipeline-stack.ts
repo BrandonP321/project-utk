@@ -16,6 +16,7 @@ import {
 import {
   CodeArtifactRepoDomain,
   CodeArtifactRepoName,
+  addCodeArtifactPolicyToRole,
 } from "../../helpers/codeartifactHelpers";
 
 export const sharedCdkPipelineStages: SharedCdkStage[] = [
@@ -45,8 +46,8 @@ export class SharedCdkPipelineStack extends CdkPipeline<
     // Build stage
     const project = this.buildStageCodeBuildProject();
 
-    this.addCodeArtifactPolicyToProject(
-      project,
+    addCodeArtifactPolicyToRole(
+      project.role!,
       this.codeArtifactRepo,
       this.codeArtifactDomain,
     );

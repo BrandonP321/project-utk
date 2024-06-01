@@ -18,6 +18,7 @@ import {
 } from "../../helpers/codebuildHelpers";
 import { stackName } from "../../helpers/resourceHelpers";
 import { capitalize } from "lodash";
+import { addCodeArtifactPolicyToRole } from "../../helpers/codeartifactHelpers";
 
 const getBuildArtifactName = (prefix: string, stage: string) =>
   `${prefix}BuildArtifact${capitalize(stage)}`;
@@ -45,7 +46,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     // Build stage
     const project = this.buildStageCodeBuildProject();
 
-    this.addCodeArtifactPolicyToProject(project);
+    addCodeArtifactPolicyToRole(project.role!);
 
     this.pipeline.addStage({
       stageName: "Build",
@@ -102,6 +103,9 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                 "echo 'Synthesizing CDK stacks'",
                 "yarn cdk synth:api",
 
+                "echo 'Bundling API package'",
+                "yarn api build",
+
                 "echo 'Making move-api-procfile-to-root.sh executable'",
                 "chmod +x bin/move-api-procfile-to-root.sh",
 
@@ -125,7 +129,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                   [getAPIBuildArtifactName(stage)]: {
                     "base-directory": `.`,
                     files: ["**/*"],
-                    // "exclude-paths": ["node_modules/**/*"],
+                    "exclude-paths": ["node_modules/**/*"],
                   },
                 }),
                 {},
