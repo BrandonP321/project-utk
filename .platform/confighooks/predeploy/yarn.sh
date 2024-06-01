@@ -1,6 +1,6 @@
 #!/bin/bash
-# echo "Install corepack"
-# npm i -g corepack # Required if using Amazon Linux 2023
+echo "Install corepack"
+npm i -g corepack # Required if using Amazon Linux 2023
 
 # echo "Enable corepack"
 # corepack enable # Enable Corepack
