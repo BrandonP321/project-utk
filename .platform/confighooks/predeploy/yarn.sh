@@ -7,5 +7,5 @@ corepack enable # Enable Corepack
 echo "Set AWS CodeArtifact token"
 .  bin/set-artifact-token.sh
 echo "Run yarn install"
-yarn install
+yarn
 echo "Yarn install finished"
