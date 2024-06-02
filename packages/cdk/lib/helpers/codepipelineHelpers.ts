@@ -5,7 +5,9 @@ import * as codepipelineActions from "aws-cdk-lib/aws-codepipeline-actions";
 export const addSourcePipelineStage = (
   pipeline: codepipeline.Pipeline,
   output: codepipeline.Artifact,
-  props: Partial<codepipelineActions.GitHubSourceActionProps>,
+  props: {
+    secondaryActions?: codepipelineActions.CodeBuildAction[];
+  },
 ) =>
   pipeline.addStage({
     stageName: "Source",
@@ -17,7 +19,7 @@ export const addSourcePipelineStage = (
         repo: "project-utk",
         owner: "BrandonP321",
         branch: "main",
-        ...props,
       }),
+      ...(props.secondaryActions || []),
     ],
   });

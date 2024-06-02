@@ -21,6 +21,8 @@ import {
 import { stackName } from "../../helpers/resourceHelpers";
 import { capitalize } from "lodash";
 import { addCodeArtifactPolicyToRole } from "../../helpers/codeartifactHelpers";
+import { addSourcePipelineStage } from "../../helpers/codepipelineHelpers";
+import { AddEcrPoliciesToRole } from "../../helpers/ecrHelpers";
 
 const getBuildArtifactName = (prefix: string, stage: string) =>
   `${prefix}BuildArtifact${capitalize(stage)}`;
@@ -55,6 +57,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     const project = this.buildStageCodeBuildProject();
 
     addCodeArtifactPolicyToRole(project.role!);
+    AddEcrPoliciesToRole(project.role!);
 
     this.pipeline.addStage({
       stageName: "Build",
@@ -88,6 +91,39 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
       });
     });
   }
+
+  addSourceStage() {
+    return addSourcePipelineStage(this.pipeline, this.sourceOutput, {
+      secondaryActions: [
+        new codepipelineActions.CodeBuildAction({
+          actionName: "Filter-Source",
+          project: this.filterSourceProject,
+          input: this.sourceOutput,
+          outputs: [this.sourceOutput],
+        }),
+      ],
+    });
+  }
+
+  filterSourceProject = new codebuild.PipelineProject(
+    this,
+    stackName("Filter-Source-Project"),
+    {
+      projectName: stackName("Filter-Source-Project"),
+      environment: {
+        ...codebuildLambdaEnvironment,
+      },
+      buildSpec: codebuild.BuildSpec.fromObject({
+        version: "0.2",
+        phases: {},
+        artifacts: {
+          "base-directory": ".",
+          files: ["**/*"],
+          "exclude-paths": ["./packages/web/**/*"],
+        },
+      }),
+    },
+  );
 
   buildStageCodeBuildProject() {
     return new codebuild.PipelineProject(
