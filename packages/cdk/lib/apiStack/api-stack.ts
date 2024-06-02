@@ -100,7 +100,7 @@ export class APIStack extends CdkStack<APIStage> {
     this.appEnv = new elasticbeanstalk.CfnEnvironment(this, "Environment", {
       environmentName: getApiEbEnvName(this.props.stage),
       applicationName: this.ebApp.applicationName!,
-      solutionStackName: "64bit Amazon Linux 2023 v6.1.5 running Node.js 20",
+      solutionStackName: "64bit Amazon Linux 2023 v6.1.5 running Docker",
       optionSettings: getAPIEBConfig(this.props.stage, {
         SSLCertificateArn: this.cert.certificateArn,
         instanceProfileArn: this.instanceProfile.attrArn,

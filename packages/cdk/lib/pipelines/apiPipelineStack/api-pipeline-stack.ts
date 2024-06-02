@@ -1,6 +1,8 @@
+import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
 import * as codepipelineActions from "aws-cdk-lib/aws-codepipeline-actions";
+import * as ecr from "aws-cdk-lib/aws-ecr";
 import { Construct } from "constructs";
 import { APIStage, orderedApiStages } from "../../../config/stage";
 import {
@@ -32,6 +34,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     prod: new codepipeline.Artifact(getAPIBuildArtifactName("prod")),
   };
   buildOutputList = orderedApiStages.map((stage) => this.buidOutputMap[stage]);
+  ecrRepo: ecr.Repository;
 
   constructor(
     scope: Construct,
@@ -39,6 +42,11 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     props: CdkPipeline.Props<APIStack, APIStage>,
   ) {
     super(scope, id, props);
+
+    this.ecrRepo = new ecr.Repository(this, "ECRRepo", {
+      repositoryName: "utk-api-ecr-repo",
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
 
     // Source stage
     this.addSourceStage();
@@ -91,13 +99,28 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
           ...codebuildLambdaEnvironment,
           environmentVariables: {
             ...codebuildDefaultEnvironmentVariables,
+            REPOSITORY_URI: {
+              value: this.ecrRepo.repositoryUri,
+            },
+            // AWS_ACCOUNT_ID: {
+            //   value: this.props.env?.account,
+            // },
+            // AWS_DEFAULT_REGION: {
+            //   value: this.props.env?.region,
+            // },
           },
         },
         buildSpec: codebuild.BuildSpec.fromObject({
           version: "0.2",
           phases: {
             install: codebuildInstallPhase,
-            pre_build: codebuildPreBuildPhase,
+            pre_build: {
+              commands: [
+                "echo Logging in to Amazon ECR...",
+                "aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com",
+                "export TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)",
+              ],
+            },
             build: {
               commands: [
                 "echo 'Synthesizing CDK stacks'",
@@ -111,9 +134,20 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
 
                 "echo 'Moving API Procfile to project root'",
                 "bin/move-api-procfile-to-root.sh",
+
+                "echo Building the Docker image...",
+                "docker build -t $REPOSITORY_URI:$TAG .",
+                "docker tag $REPOSITORY_URI:$TAG $REPOSITORY_URI:latest",
               ],
             },
-            post_build: codebuildPostBuildPhase,
+            post_build: {
+              commands: [
+                "echo Pushing the Docker images...",
+                "docker push $REPOSITORY_URI:$TAG",
+                "docker push $REPOSITORY_URI:latest",
+                'printf \'[{"name":"api","imageUri":"%s"}]\' $REPOSITORY_URI:$TAG > imagedefinitions.json',
+              ],
+            },
           },
           artifacts: {
             "base-directory": "packages/cdk/cdk.out",
@@ -128,7 +162,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                   ...acc,
                   [getAPIBuildArtifactName(stage)]: {
                     "base-directory": `.`,
-                    files: ["**/*"],
+                    files: ["imagedefinitions.json"],
                     "exclude-paths": ["node_modules/**/*"],
                   },
                 }),
