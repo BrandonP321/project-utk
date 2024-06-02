@@ -16,7 +16,7 @@ export const codebuildInstallPhase = {
     ". bin/set-artifact-token.sh",
     `aws codeartifact login --tool npm --repository ${CodeArtifactRepoName} --domain ${CodeArtifactRepoDomain}`,
     "echo 'Installing dependencies'",
-    "yarn install --immutable",
+    "yarn install",
   ],
 };
 

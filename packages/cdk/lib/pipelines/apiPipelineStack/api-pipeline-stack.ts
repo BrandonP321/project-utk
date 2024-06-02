@@ -37,6 +37,8 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
   };
   buildOutputList = orderedApiStages.map((stage) => this.buidOutputMap[stage]);
   ecrRepo: ecr.Repository;
+  /** Artifact to contain entire repo before filtering action runs */
+  rawSourceOutput = new codepipeline.Artifact("RawSourceOutput");
 
   constructor(
     scope: Construct,
@@ -52,6 +54,8 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
 
     // Source stage
     this.addSourceStage();
+    /** Optimize by filtering out unnecessary packages from monorepo */
+    this.addSourceFilterStage();
 
     // Build stage
     const project = this.buildStageCodeBuildProject();
@@ -93,12 +97,17 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
   }
 
   addSourceStage() {
-    return addSourcePipelineStage(this.pipeline, this.sourceOutput, {
-      secondaryActions: [
+    return addSourcePipelineStage(this.pipeline, this.rawSourceOutput, {});
+  }
+
+  addSourceFilterStage() {
+    this.pipeline.addStage({
+      stageName: "Filter-Source",
+      actions: [
         new codepipelineActions.CodeBuildAction({
           actionName: "Filter-Source",
           project: this.filterSourceProject,
-          input: this.sourceOutput,
+          input: this.rawSourceOutput,
           outputs: [this.sourceOutput],
         }),
       ],
