@@ -21,10 +21,8 @@ COPY packages/api ./packages/api
 COPY packages/shared ./packages/shared
 
 # Install dependencies for entire monorepo
-# RUN ./bin/set-artifact-token.sh && \
-#     yarn install
-
-RUN yarn install
+RUN ./bin/set-artifact-token.sh && \
+    yarn install
 
 RUN yarn api build
 
