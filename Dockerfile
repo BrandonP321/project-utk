@@ -13,6 +13,9 @@ COPY bin/set-artifact-token.sh ./bin/set-artifact-token.sh
 COPY packages/api/package.json ./packages/api/
 COPY packages/shared/package.json ./packages/shared/
 
+# Grant execute permissions to scripts
+RUN chmod +x ./bin/set-artifact-token.sh
+
 # Enable corepack
 RUN ./bin/set-artifact-token.sh && corepack enable && yarn set version berry
 
