@@ -7,6 +7,7 @@ WORKDIR /app
 # Set AWS CodeArtifact auth token as env arg from build arg
 ARG UTK_CODEARTIFACT_AUTH_TOKEN
 ENV UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN
+ENV AWS_SDK_LOAD_CONFIG=1
 
 # Copy root level files
 COPY package.json yarn.lock tsconfig.json .yarnrc.yml .

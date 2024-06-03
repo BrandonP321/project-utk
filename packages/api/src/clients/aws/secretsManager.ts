@@ -3,9 +3,7 @@ import {
   SecretsManagerClient,
 } from "@aws-sdk/client-secrets-manager";
 
-export const secretsManagerClient = new SecretsManagerClient({
-  region: process.env.AWS_REGION,
-});
+export const secretsManagerClient = new SecretsManagerClient({});
 
 export class SecretsManagerUtils {
   static async getSecretValue(secretId: string) {
