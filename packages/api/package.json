@@ -11,8 +11,7 @@
     "test:unit": "yarn run -T jest --selectProjects unit",
     "test:integration": "yarn run -T jest --selectProjects integration",
     "test:watch": "yarn run -T jest --watch",
-    "test:coverage": "yarn run -T jest --coverage",
-    "docker:build:test": "docker buildx build --build-arg UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN -t test:latest ."
+    "test:coverage": "yarn run -T jest --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.554.0",

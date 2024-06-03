@@ -182,6 +182,10 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                 "echo 'Synthesizing CDK stacks for all API stages...'",
                 "yarn cdk synth:api",
 
+                "echo Moving Docker files to root directory...",
+                "chmod +x ./bin/move-api-docker-files.sh",
+                "./bin/move-api-docker-files.sh",
+
                 "echo Building the API Docker image...",
                 "docker build --build-arg UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN -t $REPOSITORY_URI:$TAG .",
 
