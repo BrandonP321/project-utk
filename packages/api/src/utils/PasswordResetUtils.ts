@@ -5,6 +5,7 @@ import { NodeMailerUtils } from "./NodeMailerUtils";
 import jwt from "jsonwebtoken";
 import { URLUtils } from "@project-utk/shared/src/utils/URLUtils";
 import { ResetVendorPassword } from "@project-utk/shared/src/api/routes";
+import { EnvVars } from "./EnvVars";
 
 type JWTPayload = {
   vendorId: string;
@@ -13,12 +14,12 @@ type JWTPayload = {
 export class PasswordResetUtils {
   static tokenExpiry = "1h";
   static tokenExpiryMs = TimeUtils.hoursToMilliseconds(60);
-  private static tokenSecret = process.env.EMAIL_VERIFICATION_SECRET!;
+  private static getTokenSecret = () => EnvVars.EMAIL_VERIFICATION_SECRET!;
 
   static generateResetToken = (vendor: Vendor) => {
     const payload: JWTPayload = { vendorId: vendor.id };
 
-    return jwt.sign(payload, this.tokenSecret, {
+    return jwt.sign(payload, this.getTokenSecret(), {
       expiresIn: this.tokenExpiry,
     });
   };
@@ -35,7 +36,7 @@ export class PasswordResetUtils {
       .setPath(ResetVendorPassword.WebPath).href;
 
     await NodeMailerUtils.transporter().sendMail({
-      from: NodeMailerUtils.email,
+      from: NodeMailerUtils.getEmail(),
       to: vendor.email,
       subject: "Project UTK Password Reset",
       html: `<p>Click <a href="${link}">here</a> to reset your password.</p>`,
@@ -43,6 +44,6 @@ export class PasswordResetUtils {
   };
 
   static verifyToken = (token: string) => {
-    return JWTUtils.verifyToken<JWTPayload>(token, this.tokenSecret);
+    return JWTUtils.verifyToken<JWTPayload>(token, this.getTokenSecret());
   };
 }

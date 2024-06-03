@@ -10,13 +10,20 @@ export const codebuildLambdaEnvironment: codebuild.BuildEnvironment = {
   buildImage: codebuild.LinuxLambdaBuildImage.AMAZON_LINUX_2023_NODE_20,
 };
 
+export const codebuildDockerEnvironment: codebuild.BuildEnvironment = {
+  privileged: true,
+  computeType: codebuild.ComputeType.MEDIUM,
+  // `aws/codebuild/standard:7.0` build image comes with Node.js 20.x pre-installed
+  buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
+};
+
 export const codebuildInstallPhase = {
   commands: [
     'echo "Setting up CodeArtifact credentials"',
     ". bin/set-artifact-token.sh",
-    `aws codeartifact login --tool npm --repository ${CodeArtifactRepoName} --domain ${CodeArtifactRepoDomain}`,
+
     "echo 'Installing dependencies'",
-    "yarn install",
+    "YARN_ENABLE_IMMUTABLE_INSTALLS=false && yarn install",
   ],
 };
 

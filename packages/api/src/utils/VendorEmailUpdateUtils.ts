@@ -5,6 +5,7 @@ import Vendor from "../models/vendor/Vendor";
 import { NodeMailerUtils } from "./NodeMailerUtils";
 import { URLUtils } from "@project-utk/shared/src/utils/URLUtils";
 import { RequestVendorEmailUpdate } from "@project-utk/shared/src/api/routes";
+import { EnvVars } from "./EnvVars";
 
 type TokenPayload = {
   vendorId: string;
@@ -14,7 +15,7 @@ type TokenPayload = {
 export class VendorEmailUpdateUtils {
   private static tokenExpiresIn =
     apiConfig.vendor.auth.emailUpdateTokenExpirationSec;
-  private static tokenSecret = apiConfig.vendor.auth.emailUpdateTokenSecret;
+  private static tokenSecret = EnvVars.EMAIL_UPDATE_SECRET;
 
   static getToken(vendorId: string, newEmail: string) {
     const payload: TokenPayload = { vendorId, newEmail };
@@ -41,7 +42,7 @@ export class VendorEmailUpdateUtils {
       .setPath(RequestVendorEmailUpdate.WebPath).href;
 
     await NodeMailerUtils.transporter().sendMail({
-      from: NodeMailerUtils.email,
+      from: NodeMailerUtils.getEmail(),
       to: vendor.email,
       subject: "Project UTK Email Update",
       html: `<p>Click <a href="${link}">here</a> to update your email address.</p>`,

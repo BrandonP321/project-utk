@@ -2,6 +2,7 @@ import { ebConfigToSettingOptions } from "../lib/helpers/elasticbeanstalkHelpers
 import { EBSettingOptionsConfig } from "../lib/helpers/elasticbeanstalkSettingOptions";
 import { getStageValueFunc } from "../lib/helpers/stageHelpers";
 import { APIStage } from "./stage";
+import { APIEnvVars } from "@project-utk/shared/src/@types/environment";
 
 type Params = {
   SSLCertificateArn: string;
@@ -10,6 +11,12 @@ type Params = {
 
 export const getAPIEBConfig = (stage: APIStage, params: Params) => {
   const getStageValue = getStageValueFunc(stage);
+
+  const envVars: APIEnvVars = {
+    STAGE: stage,
+    ENV_VARS_SECRET_ID: `utk/api/env_vars/${stage}`,
+    RDS_DB_STAGE: stage === APIStage.PROD ? "prod" : "dev",
+  };
 
   const config: EBSettingOptionsConfig = {
     "aws:autoscaling:asg": {
@@ -49,7 +56,10 @@ export const getAPIEBConfig = (stage: APIStage, params: Params) => {
       SupportedArchitectures: getStageValue("x86_64", {}),
       SpotMaxPrice: getStageValue("", { dev: "0.007" }),
     },
-    "aws:elasticbeanstalk:application:environment": {},
+    "aws:elasticbeanstalk:application:environment": {
+      ...envVars,
+      AWS_REGION: "us-east-1",
+    },
   };
 
   if (stage === "prod") {

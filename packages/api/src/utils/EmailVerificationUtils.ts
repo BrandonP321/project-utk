@@ -4,6 +4,7 @@ import { JWTUtils } from "./JWTUtils";
 import { NodeMailerUtils } from "./NodeMailerUtils";
 import jwt from "jsonwebtoken";
 import { VerifyVendorEmail } from "@project-utk/shared/src/api/routes";
+import { EnvVars } from "./EnvVars";
 
 type VendorJWTPayload = {
   vendorId: string;
@@ -11,10 +12,10 @@ type VendorJWTPayload = {
 
 export class EmailVerificationUtils {
   private static tokenExpiry = "1h";
-  private static tokenSecret = process.env.EMAIL_VERIFICATION_SECRET!;
+  private static getTokenSecret = () => EnvVars.EMAIL_VERIFICATION_SECRET;
 
   static generateVerificationToken = (vendor: Vendor) => {
-    return jwt.sign({ vendorId: vendor.id }, this.tokenSecret, {
+    return jwt.sign({ vendorId: vendor.id }, this.getTokenSecret(), {
       expiresIn: this.tokenExpiry,
     });
   };
@@ -32,7 +33,7 @@ export class EmailVerificationUtils {
       .setPath(VerifyVendorEmail.WebPath).href;
 
     await NodeMailerUtils.transporter().sendMail({
-      from: NodeMailerUtils.email,
+      from: NodeMailerUtils.getEmail(),
       to: vendor.email,
       subject: "Project UTK Email Verification",
       html: `<p>Click <a href="${link}">here</a> to verify your email address.</p>`,
@@ -40,6 +41,6 @@ export class EmailVerificationUtils {
   };
 
   static verifyToken = (token: string) => {
-    return JWTUtils.verifyToken<VendorJWTPayload>(token, this.tokenSecret);
+    return JWTUtils.verifyToken<VendorJWTPayload>(token, this.getTokenSecret());
   };
 }

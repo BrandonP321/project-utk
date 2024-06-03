@@ -15,8 +15,7 @@ import {
   codebuildLambdaEnvironment,
   codebuildDefaultEnvironmentVariables,
   codebuildInstallPhase,
-  codebuildPreBuildPhase,
-  codebuildPostBuildPhase,
+  codebuildDockerEnvironment,
 } from "../../helpers/codebuildHelpers";
 import { stackName } from "../../helpers/resourceHelpers";
 import { capitalize } from "lodash";
@@ -134,6 +133,21 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     },
   );
 
+  getDockerRunJson() {
+    return {
+      AWSEBDockerrunVersion: "1",
+      Image: {
+        Name: "%s",
+        Update: "true",
+      },
+      Ports: [
+        {
+          ContainerPort: "8000",
+        },
+      ],
+    };
+  }
+
   buildStageCodeBuildProject() {
     return new codebuild.PipelineProject(
       this,
@@ -141,18 +155,15 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
       {
         projectName: stackName("API-Pipeline-Build-Project"),
         environment: {
-          ...codebuildLambdaEnvironment,
+          ...codebuildDockerEnvironment,
           environmentVariables: {
             ...codebuildDefaultEnvironmentVariables,
             REPOSITORY_URI: {
               value: this.ecrRepo.repositoryUri,
             },
-            // AWS_ACCOUNT_ID: {
-            //   value: this.props.env?.account,
-            // },
-            // AWS_DEFAULT_REGION: {
-            //   value: this.props.env?.region,
-            // },
+            AWS_ACCOUNT_ID: {
+              value: this.props.env?.account,
+            },
           },
         },
         buildSpec: codebuild.BuildSpec.fromObject({
@@ -163,25 +174,18 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
               commands: [
                 "echo Logging in to Amazon ECR...",
                 "aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com",
-                "export TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)",
+                "export TAG=$(echo $CODEBUILD_BUILD_ID | cut -d ':' -f 2)",
               ],
             },
             build: {
               commands: [
-                "echo 'Synthesizing CDK stacks'",
+                "echo 'Synthesizing CDK stacks for all API stages...'",
                 "yarn cdk synth:api",
 
-                "echo 'Bundling API package'",
-                "yarn api build",
+                "echo Building the API Docker image...",
+                "docker build --build-arg UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN -t $REPOSITORY_URI:$TAG .",
 
-                "echo 'Making move-api-procfile-to-root.sh executable'",
-                "chmod +x bin/move-api-procfile-to-root.sh",
-
-                "echo 'Moving API Procfile to project root'",
-                "bin/move-api-procfile-to-root.sh",
-
-                "echo Building the Docker image...",
-                "docker build -t $REPOSITORY_URI:$TAG .",
+                "echo 'Tagging the Docker image as latest...'",
                 "docker tag $REPOSITORY_URI:$TAG $REPOSITORY_URI:latest",
               ],
             },
@@ -190,7 +194,9 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                 "echo Pushing the Docker images...",
                 "docker push $REPOSITORY_URI:$TAG",
                 "docker push $REPOSITORY_URI:latest",
-                'printf \'[{"name":"api","imageUri":"%s"}]\' $REPOSITORY_URI:$TAG > imagedefinitions.json',
+
+                "echo Writing Dockerrun.aws.json file...",
+                `printf '${JSON.stringify(this.getDockerRunJson())}' $REPOSITORY_URI:$TAG > Dockerrun.aws.json`,
               ],
             },
           },
@@ -207,7 +213,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
                   ...acc,
                   [getAPIBuildArtifactName(stage)]: {
                     "base-directory": `.`,
-                    files: ["imagedefinitions.json"],
+                    files: ["Dockerrun.aws.json"],
                     "exclude-paths": ["node_modules/**/*"],
                   },
                 }),

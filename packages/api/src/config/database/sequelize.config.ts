@@ -1,13 +1,15 @@
 import { Sequelize, Options, Config } from "sequelize";
 import { SecretsManagerUtils } from "../../clients/aws/secretsManager";
 import { DeepWriteable } from "sequelize/types/utils";
+import { EnvVars } from "../../utils/EnvVars";
+import { apiConfig } from "..";
 
 const config: Options = {
   dialect: "postgres",
-  database: process.env.RDS_DB_NAME,
   // logging: console.log,
   logging: false,
-  host: process.env.RDS_DB_HOST,
+  database: apiConfig.db.name,
+  host: apiConfig.db.host,
 };
 
 export const sequelize = new Sequelize(config);
@@ -42,7 +44,7 @@ export const connectToDB = async () => {
   await syncDB();
 
   // Can run asynchronously so server can start up
-  if (process.env.STAGE === "local") {
+  if (EnvVars.STAGE === "local") {
     useSeeders();
   }
 };

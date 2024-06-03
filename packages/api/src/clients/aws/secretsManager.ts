@@ -2,6 +2,7 @@ import {
   GetSecretValueCommand,
   SecretsManagerClient,
 } from "@aws-sdk/client-secrets-manager";
+import { apiConfig } from "../../config";
 
 export const secretsManagerClient = new SecretsManagerClient({});
 
@@ -26,7 +27,7 @@ export class SecretsManagerUtils {
     };
 
     return await SecretsManagerUtils.getParsedSecretValue<DBSecret>(
-      process.env.RDS_DB_SECRET_ID!,
+      apiConfig.db.authSecretId,
     );
   }
 }

@@ -4,14 +4,15 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "build": "rm -rf ./dist && ts-node esbuild.config.ts",
+    "build": "rm -rf ./dist && ts-node -P ./tsconfig.esbuild.json esbuild.config.ts",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
     "test": "yarn run -T jest --verbose",
     "test:unit": "yarn run -T jest --selectProjects unit",
     "test:integration": "yarn run -T jest --selectProjects integration",
     "test:watch": "yarn run -T jest --watch",
-    "test:coverage": "yarn run -T jest --coverage"
+    "test:coverage": "yarn run -T jest --coverage",
+    "docker:build:test": "docker buildx build --build-arg UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN -t test:latest ."
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.554.0",

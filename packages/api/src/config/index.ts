@@ -1,5 +1,20 @@
 import { ConfigUtils, TimeUtils } from "@project-utk/shared/src/utils";
 
+const dbConfig = {
+  db: {
+    devDB: {
+      name: "utkdevserverlessdb",
+      host: "utk-dev-aurora-serverless.cluster-cveiephms8k5.us-east-1.rds.amazonaws.com",
+      authSecretId: "rds!cluster-1814e6ed-f907-48fc-8f56-e239df30f001",
+    },
+    prodDB: {
+      name: "",
+      host: "",
+      authSecretId: "",
+    },
+  },
+};
+
 export const apiConfig = {
   vendor: {
     auth: {
@@ -20,10 +35,8 @@ export const apiConfig = {
         TimeUtils.hoursToSeconds(1),
         {},
       ),
-      emailUpdateTokenSecret: ConfigUtils.getConfigValue<string>(
-        process.env.EMAIL_UPDATE_SECRET!,
-        {},
-      ),
     },
   },
+  db:
+    process.env.RDS_DB_STAGE === "dev" ? dbConfig.db.devDB : dbConfig.db.prodDB,
 };

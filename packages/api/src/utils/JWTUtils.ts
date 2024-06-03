@@ -4,6 +4,7 @@ import Vendor from "../models/vendor/Vendor";
 import { DefaultAPIErrors } from "@project-utk/shared/src/api/routes/routeErrors";
 import { v4 as uuid } from "uuid";
 import { apiConfig } from "../config";
+import { EnvVars } from "./EnvVars";
 
 type VendorJWTPayload = {
   vendorId: string;
@@ -16,13 +17,13 @@ export class JWTUtils {
   static cookieKey = jwtCookieKey;
 
   static generateAccessToken<P extends {}>(payload: P) {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
+    return jwt.sign(payload, EnvVars.ACCESS_TOKEN_SECRET, {
       expiresIn: apiConfig.vendor.auth.accessTokenExpirationSec,
     });
   }
 
   static generateRefreshToken<P extends {}>(payload: P) {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET!, {
+    return jwt.sign(payload, EnvVars.REFRESH_TOKEN_SECRET, {
       expiresIn: apiConfig.vendor.auth.refreshTokenExpirationSec,
     });
   }
@@ -59,7 +60,7 @@ export class JWTUtils {
 
     const [affected] = await Vendor.update(
       { refreshToken: jwt.refreshToken },
-      { where: { id: vendorId } }
+      { where: { id: vendorId } },
     );
 
     // If no rows were affected, throw an error
@@ -79,14 +80,14 @@ export class JWTUtils {
   static verifyVendorAccessToken(token: string) {
     return JWTUtils.verifyToken<VendorJWTPayload>(
       token,
-      process.env.ACCESS_TOKEN_SECRET!
+      EnvVars.ACCESS_TOKEN_SECRET,
     );
   }
 
   static verifyVendorRefreshToken(token: string) {
     return JWTUtils.verifyToken<VendorJWTPayload>(
       token,
-      process.env.REFRESH_TOKEN_SECRET!
+      EnvVars.REFRESH_TOKEN_SECRET,
     );
   }
 

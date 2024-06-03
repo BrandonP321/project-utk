@@ -1,15 +1,16 @@
 import nodemailer from "nodemailer";
+import { EnvVars } from "./EnvVars";
 
 export class NodeMailerUtils {
-  static email = process.env.EMAIL_VERIFICATION_EMAIL!;
-  static password = process.env.EMAIL_VERIFICATION_PASSWORD!;
+  static getEmail = () => EnvVars.EMAIL_VERIFICATION_EMAIL;
+  static getPassword = () => EnvVars.EMAIL_VERIFICATION_PASSWORD;
 
   static transporter = () =>
     nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: NodeMailerUtils.email,
-        pass: NodeMailerUtils.password,
+        user: NodeMailerUtils.getEmail(),
+        pass: NodeMailerUtils.getPassword(),
       },
     });
 }
