@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
    
-FROM node:20 as builder
+FROM public.ecr.aws/lambda/nodejs:20
 
 WORKDIR /app
 
