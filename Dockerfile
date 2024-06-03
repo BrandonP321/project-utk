@@ -4,28 +4,26 @@ FROM public.ecr.aws/lambda/nodejs:20
 
 WORKDIR /app
 
+# Set AWS CodeArtifact auth token as env arg from build arg
+ARG UTK_CODEARTIFACT_AUTH_TOKEN
+ENV UTK_CODEARTIFACT_AUTH_TOKEN=$UTK_CODEARTIFACT_AUTH_TOKEN
+
 # Copy root level files
 COPY package.json yarn.lock tsconfig.json .yarnrc.yml .
 COPY .yarn .yarn/
-COPY bin/set-artifact-token.sh ./bin/set-artifact-token.sh
 
 # Copy api and shared package files for install
 COPY packages/api/package.json ./packages/api/
 COPY packages/shared/package.json ./packages/shared/
 
-# Grant execute permissions to scripts
-RUN chmod +x ./bin/set-artifact-token.sh
-
-# Enable corepack
-RUN ./bin/set-artifact-token.sh && corepack enable && yarn set version berry
+# Enable corepack/yarn 2
+RUN corepack enable && yarn set version berry
 
 # Copy api and shared source files
 COPY packages/api ./packages/api
 COPY packages/shared ./packages/shared
 
-# Install dependencies for entire monorepo
-RUN ./bin/set-artifact-token.sh && \
-    yarn install
+RUN yarn install
 
 RUN yarn api build
 
