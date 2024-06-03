@@ -3,7 +3,9 @@ import {
   SecretsManagerClient,
 } from "@aws-sdk/client-secrets-manager";
 
-export const secretsManagerClient = new SecretsManagerClient({});
+export const secretsManagerClient = new SecretsManagerClient({
+  region: process.env.AWS_REGION,
+});
 
 export class SecretsManagerUtils {
   static async getSecretValue(secretId: string) {
@@ -26,7 +28,7 @@ export class SecretsManagerUtils {
     };
 
     return await SecretsManagerUtils.getParsedSecretValue<DBSecret>(
-      process.env.RDS_DB_SECRET_ID!
+      process.env.RDS_DB_SECRET_ID!,
     );
   }
 }
