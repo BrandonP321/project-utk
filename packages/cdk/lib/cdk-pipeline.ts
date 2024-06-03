@@ -79,7 +79,7 @@ export class CdkPipeline<
       actions: [
         new codepipelineActions.CodeBuildAction({
           actionName: "Filter-Source",
-          project: this.filterSourceProject,
+          project: this.getFilterSourceProject(),
           input: this.rawSourceOutput,
           outputs: [this.sourceOutput],
         }),
@@ -92,10 +92,8 @@ export class CdkPipeline<
     files: ["**/*"],
   };
 
-  filterSourceProject = new codebuild.PipelineProject(
-    this,
-    "Filter-Source-Project",
-    {
+  getFilterSourceProject = () =>
+    new codebuild.PipelineProject(this, "Filter-Source-Project", {
       projectName: "Filter-Source-Project",
       environment: {
         ...codebuildLambdaEnvironment,
@@ -105,8 +103,7 @@ export class CdkPipeline<
         phases: {},
         artifacts: this.filterSourceProjectBuildSpecArtifacts,
       }),
-    },
-  );
+    });
 
   getStackUpdateStageActions(
     stack: CdkStack<string>,

@@ -120,8 +120,8 @@ export class WebPipelineStack extends CdkPipeline<WebStack, WebStage> {
               files: ["**/*"],
             },
             [this.WebBuildOutputArtifactName]: {
-              "base-directory": ".",
-              files: ["packages/web/build/**/*"],
+              "base-directory": "./packages/web/build",
+              files: ["**/*"],
             },
           },
         },
