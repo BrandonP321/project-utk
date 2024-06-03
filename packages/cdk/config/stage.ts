@@ -6,11 +6,12 @@ export enum APIStage {
 export const orderedApiStages: APIStage[] = [APIStage.DEV];
 
 export enum WebStage {
-  LOCAL = "local",
   DEV = "dev",
   STAGING = "staging",
   PROD = "prod",
 }
+
+export const orderedWebStages: WebStage[] = [WebStage.DEV];
 
 export enum SharedCdkStage {
   LOCAL = "local",

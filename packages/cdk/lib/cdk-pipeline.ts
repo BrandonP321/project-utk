@@ -4,15 +4,17 @@ import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import * as codepipelineActions from "aws-cdk-lib/aws-codepipeline-actions";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as iam from "aws-cdk-lib/aws-iam";
-import * as codeartifact from "aws-cdk-lib/aws-codeartifact";
 import { Construct } from "constructs";
 import { addSourcePipelineStage } from "./helpers/codepipelineHelpers";
 import { CdkStack } from "./cdk-stack";
 import { capitalize } from "lodash";
-import {
-  CodeArtifactRepoDomain,
-  CodeArtifactRepoName,
-} from "./helpers/codeartifactHelpers";
+import { codebuildLambdaEnvironment } from "./helpers/codebuildHelpers";
+
+type BuildSpecArtifact = {
+  "base-directory": string;
+  files: string[];
+  "exclude-paths"?: string[];
+};
 
 export namespace CdkPipeline {
   export type Props<
@@ -30,6 +32,7 @@ export class CdkPipeline<
 > extends cdk.Stack {
   props: CdkPipeline.Props<Stack, Stage>;
   pipeline: codepipeline.Pipeline;
+  rawSourceOutput = new codepipeline.Artifact();
   sourceOutput = new codepipeline.Artifact();
   cdkOutputArtifactName = "CDKOutputArtifact";
   cdkOutput = new codepipeline.Artifact(this.cdkOutputArtifactName);
@@ -67,8 +70,43 @@ export class CdkPipeline<
   }
 
   addSourceStage() {
-    return addSourcePipelineStage(this.pipeline, this.sourceOutput, {});
+    return addSourcePipelineStage(this.pipeline, this.rawSourceOutput, {});
   }
+
+  addSourceFilterStage() {
+    this.pipeline.addStage({
+      stageName: "Filter-Source",
+      actions: [
+        new codepipelineActions.CodeBuildAction({
+          actionName: "Filter-Source",
+          project: this.filterSourceProject,
+          input: this.rawSourceOutput,
+          outputs: [this.sourceOutput],
+        }),
+      ],
+    });
+  }
+
+  filterSourceProjectBuildSpecArtifacts: BuildSpecArtifact = {
+    "base-directory": ".",
+    files: ["**/*"],
+  };
+
+  filterSourceProject = new codebuild.PipelineProject(
+    this,
+    "Filter-Source-Project",
+    {
+      projectName: "Filter-Source-Project",
+      environment: {
+        ...codebuildLambdaEnvironment,
+      },
+      buildSpec: codebuild.BuildSpec.fromObject({
+        version: "0.2",
+        phases: {},
+        artifacts: this.filterSourceProjectBuildSpecArtifacts,
+      }),
+    },
+  );
 
   getStackUpdateStageActions(
     stack: CdkStack<string>,

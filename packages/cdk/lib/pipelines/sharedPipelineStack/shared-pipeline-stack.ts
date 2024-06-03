@@ -42,6 +42,7 @@ export class SharedCdkPipelineStack extends CdkPipeline<
 
     // Source stage
     this.addSourceStage();
+    this.addSourceFilterStage();
 
     // Build stage
     const project = this.buildStageCodeBuildProject();
@@ -74,6 +75,11 @@ export class SharedCdkPipelineStack extends CdkPipeline<
       });
     });
   }
+
+  filterSourceProjectBuildSpecArtifacts = {
+    "base-directory": ".",
+    files: ["/*", "./packages/shared/**/*", "./packages/cdk/**/*"],
+  };
 
   createCodeArtifactRepo() {
     this.codeArtifactDomain = new codeartifact.CfnDomain(

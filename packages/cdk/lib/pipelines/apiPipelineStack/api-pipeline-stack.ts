@@ -95,43 +95,11 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     });
   }
 
-  addSourceStage() {
-    return addSourcePipelineStage(this.pipeline, this.rawSourceOutput, {});
-  }
-
-  addSourceFilterStage() {
-    this.pipeline.addStage({
-      stageName: "Filter-Source",
-      actions: [
-        new codepipelineActions.CodeBuildAction({
-          actionName: "Filter-Source",
-          project: this.filterSourceProject,
-          input: this.rawSourceOutput,
-          outputs: [this.sourceOutput],
-        }),
-      ],
-    });
-  }
-
-  filterSourceProject = new codebuild.PipelineProject(
-    this,
-    stackName("Filter-Source-Project"),
-    {
-      projectName: stackName("Filter-Source-Project"),
-      environment: {
-        ...codebuildLambdaEnvironment,
-      },
-      buildSpec: codebuild.BuildSpec.fromObject({
-        version: "0.2",
-        phases: {},
-        artifacts: {
-          "base-directory": ".",
-          files: ["**/*"],
-          "exclude-paths": ["./packages/web/**/*"],
-        },
-      }),
-    },
-  );
+  filterSourceProjectBuildSpecArtifacts = {
+    "base-directory": ".",
+    files: ["**/*"],
+    "exclude-paths": ["./packages/web/**/*"],
+  };
 
   getDockerRunJson() {
     return {

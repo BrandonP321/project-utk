@@ -1,6 +1,6 @@
 import { APIStage, SharedCdkStage, WebStage } from "./stage";
 
-type Account = {
+export type Account = {
   account: string;
   region: string;
 };
@@ -26,8 +26,9 @@ export const SharedCdkAccounts: Record<SharedCdkStage, Account> = {
 export const SharedCdkPipelineAccount: Account = defaultAccount;
 
 export const WebAccounts: Record<WebStage, Account> = {
-  local: defaultAccount,
   dev: defaultAccount,
   staging: defaultAccount,
   prod: defaultAccount,
 };
+
+export const WebPipelineAccount: Account = defaultAccount;
