@@ -1,6 +1,5 @@
 import * as s3 from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
-import { Account } from "../../config/accounts";
 import { stackName } from "./resourceHelpers";
 
 export const createReactAppStaticAssetsBucket = (
@@ -9,7 +8,7 @@ export const createReactAppStaticAssetsBucket = (
   stage: string,
 ) => {
   return new s3.Bucket(scope, id, {
-    bucketName: stackName(id, stage),
+    bucketName: stackName(id, stage, true),
     websiteIndexDocument: "index.html",
     websiteErrorDocument: "index.html",
     publicReadAccess: true,
