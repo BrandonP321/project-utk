@@ -91,6 +91,14 @@ export class APIStack extends CdkStack<APIStage> {
       ],
     });
 
+    // Add secrets manager policy to the instance role
+    this.instanceRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["secretsmanager:GetSecretValue"],
+        resources: ["*"],
+      }),
+    );
+
     this.instanceProfile = new iam.CfnInstanceProfile(this, "InstanceProfile", {
       roles: [this.instanceRole.roleName],
     });
