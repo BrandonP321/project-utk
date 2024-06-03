@@ -14,7 +14,7 @@ COPY packages/api/package.json ./packages/api/
 COPY packages/shared/package.json ./packages/shared/
 
 # Enable corepack
-RUN corepack enable && yarn set version berry
+RUN ./bin/set-artifact-token.sh && corepack enable && yarn set version berry
 
 # Copy api and shared source files
 COPY packages/api ./packages/api
