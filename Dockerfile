@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
    
-FROM public.ecr.aws/lambda/nodejs:20
+FROM public.ecr.aws/docker/library/node:20-alpine
 
 WORKDIR /app
 
