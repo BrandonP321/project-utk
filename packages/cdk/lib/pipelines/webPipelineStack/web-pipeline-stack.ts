@@ -51,7 +51,7 @@ export class WebPipelineStack extends CdkPipeline<WebStack, WebStage> {
       const invalidationProject = getCFInvalidationCodebuildProject(
         this,
         "Invalidate-Cache",
-        stage,
+        this.getPipelineResourceName("Invalidate-Cache-Project", { stage }),
         stack.cfDistribution.distributionId,
       );
 
@@ -90,7 +90,7 @@ export class WebPipelineStack extends CdkPipeline<WebStack, WebStage> {
 
   buildStageCodeBuildProject() {
     return new codebuild.PipelineProject(this, "WebBuildProject", {
-      projectName: stackName("Web-Build-Project"),
+      projectName: this.getPipelineResourceName("Web-Build-Project"),
       environment: {
         ...codebuildLambdaEnvironment,
         environmentVariables: {
