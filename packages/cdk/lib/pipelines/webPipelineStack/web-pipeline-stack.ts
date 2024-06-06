@@ -24,7 +24,7 @@ export class WebPipelineStack extends CdkPipeline<WebStack, WebStage> {
     id: string,
     props: CdkPipeline.Props<WebStack, WebStage>,
   ) {
-    super(scope, id, props);
+    super(scope, id, "UTK-Web-Pipeline", props);
 
     this.addSourceStage();
     this.addSourceFilterStage();

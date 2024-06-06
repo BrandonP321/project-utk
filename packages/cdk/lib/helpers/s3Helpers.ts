@@ -8,7 +8,7 @@ export const createReactAppStaticAssetsBucket = (
   stage: string,
 ) => {
   return new s3.Bucket(scope, id, {
-    bucketName: stackName(id, stage, true),
+    bucketName: stackName(id, { stage, lowerCase: true }),
     websiteIndexDocument: "index.html",
     websiteErrorDocument: "index.html",
     publicReadAccess: true,

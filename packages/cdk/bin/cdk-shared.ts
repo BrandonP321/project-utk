@@ -19,13 +19,17 @@ const stacks: Record<SharedCdkStage, SharedStack> =
   sharedCdkPipelineStages.reduce(
     (acc, stage) => ({
       ...acc,
-      [stage]: new SharedStack(app, stackName("SharedResourcesStack", stage), {
-        stage,
-        env: {
-          account: SharedCdkAccounts[stage].account,
-          region: SharedCdkAccounts[stage].region,
+      [stage]: new SharedStack(
+        app,
+        stackName("SharedResourcesStack", { stage }),
+        {
+          stage,
+          env: {
+            account: SharedCdkAccounts[stage].account,
+            region: SharedCdkAccounts[stage].region,
+          },
         },
-      }),
+      ),
     }),
     {} as Record<SharedCdkStage, SharedStack>,
   );
@@ -35,7 +39,6 @@ const pipelineStack = new SharedCdkPipelineStack(
   stackName("SharedResourcesPipelineStack"),
   {
     env: SharedCdkPipelineAccount,
-    pipelineName: stackName("Shared-Resources-Pipeline"),
     stageStacks: stacks,
   },
 );

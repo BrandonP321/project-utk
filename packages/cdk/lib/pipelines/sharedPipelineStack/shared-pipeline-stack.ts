@@ -36,7 +36,7 @@ export class SharedCdkPipelineStack extends CdkPipeline<
     id: string,
     props: CdkPipeline.Props<SharedStack, SharedCdkStage>,
   ) {
-    super(scope, id, props);
+    super(scope, id, "UTK-Shared-Pipeline", props);
 
     this.createCodeArtifactRepo();
 
@@ -78,16 +78,15 @@ export class SharedCdkPipelineStack extends CdkPipeline<
 
   filterSourceProjectBuildSpecArtifacts = {
     "base-directory": ".",
-    files: ["/*", "./packages/shared/**/*", "./packages/cdk/**/*"],
+    files: ["**/*"],
+    "exclude-paths": ["./packages/web/**/*", "./packages/api/**/*"],
   };
 
   createCodeArtifactRepo() {
     this.codeArtifactDomain = new codeartifact.CfnDomain(
       this,
       "UTK-CodeArtifact-Domain",
-      {
-        domainName: CodeArtifactRepoDomain,
-      },
+      { domainName: CodeArtifactRepoDomain },
     );
 
     const repo = new codeartifact.CfnRepository(this, "UTK-CodeArtifact-Repo", {
@@ -106,7 +105,7 @@ export class SharedCdkPipelineStack extends CdkPipeline<
       this,
       `UTK-Shared-Pipeline-Build-Project`,
       {
-        projectName: `UTK-Shared-Pipeline-Build-Project`,
+        projectName: this.getPipelineResourceName("Build-Project"),
         environment: {
           ...codebuildLambdaEnvironment,
           environmentVariables: {

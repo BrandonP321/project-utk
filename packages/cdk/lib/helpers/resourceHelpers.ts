@@ -1,5 +1,15 @@
-export function stackName(name: string, stage?: string, lowerCase = false) {
-  let modifiedName = stage ? `UTK-${name}-${stage}` : `UTK-${name}`;
+export type StackNameParams = {
+  stage?: string;
+  lowerCase?: boolean;
+  prefixOverride?: string;
+};
+
+export function stackName(name: string, params?: StackNameParams) {
+  const { lowerCase, prefixOverride = "UTK", stage } = params ?? {};
+
+  let modifiedName = stage
+    ? `${prefixOverride}-${name}-${stage}`
+    : `${prefixOverride}-${name}`;
 
   if (lowerCase) {
     modifiedName = modifiedName.toLowerCase();

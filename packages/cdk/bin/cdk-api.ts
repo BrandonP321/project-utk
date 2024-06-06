@@ -12,7 +12,7 @@ const app = new cdk.App();
 const apiStacks: Record<APIStage, APIStack> = orderedApiStages.reduce(
   (acc, stage) => ({
     ...acc,
-    [stage]: new APIStack(app, stackName("APIStack", stage), {
+    [stage]: new APIStack(app, stackName("APIStack", { stage }), {
       stage,
       env: {
         account: APIAccounts[stage].account,
@@ -25,7 +25,6 @@ const apiStacks: Record<APIStage, APIStack> = orderedApiStages.reduce(
 
 const pipelineStack = new APIPipelineStack(app, stackName("APIPipelineStack"), {
   stageStacks: apiStacks,
-  pipelineName: stackName("API-Pipeline"),
   env: APIPipelineAccount,
 });
 

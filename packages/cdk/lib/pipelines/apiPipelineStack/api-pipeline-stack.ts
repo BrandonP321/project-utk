@@ -44,7 +44,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     id: string,
     props: CdkPipeline.Props<APIStack, APIStage>,
   ) {
-    super(scope, id, props);
+    super(scope, id, "UTK-API-Pipeline", props);
 
     this.ecrRepo = new ecr.Repository(this, "ECRRepo", {
       repositoryName: "utk-api-ecr-repo",

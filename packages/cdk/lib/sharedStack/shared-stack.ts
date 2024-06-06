@@ -10,13 +10,17 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
     id: string,
     props: CdkStack.Props<SharedCdkStage>,
   ) {
-    super(scope, id, props);
+    super(scope, id, props, "UTK-Shared");
 
     this.createMediaAssetsS3Bucket();
   }
 
   createMediaAssetsS3Bucket() {
     const bucket = new s3.Bucket(this, `Media-Bucket`, {
+      bucketName: this.getResourceName("Media-Bucket", {
+        lowerCase: true,
+        stage: this.props.stage,
+      }),
       versioned: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,

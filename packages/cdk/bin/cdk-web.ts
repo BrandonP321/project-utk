@@ -10,7 +10,7 @@ const app = new cdk.App();
 const webStacks: Record<WebStage, WebStack> = orderedWebStages.reduce(
   (acc, stage) => ({
     ...acc,
-    [stage]: new WebStack(app, stackName("WebStack", stage), {
+    [stage]: new WebStack(app, stackName("WebStack", { stage }), {
       stage,
       env: {
         account: WebAccounts[stage].account,
@@ -23,7 +23,6 @@ const webStacks: Record<WebStage, WebStack> = orderedWebStages.reduce(
 
 const pipelineStack = new WebPipelineStack(app, stackName("WebPipelineStack"), {
   stageStacks: webStacks,
-  pipelineName: stackName("Web-Pipeline"),
   env: WebPipelineAccount,
 });
 

@@ -13,7 +13,7 @@ export const getCFInvalidationCodebuildProject = (
   distributionId: string,
 ): codebuild.PipelineProject =>
   new codebuild.PipelineProject(scope, id, {
-    projectName: stackName("CFInvalidation", stage),
+    projectName: stackName("CFInvalidation", { stage }),
     environment: {
       ...codebuildLambdaEnvironment,
       environmentVariables: {
