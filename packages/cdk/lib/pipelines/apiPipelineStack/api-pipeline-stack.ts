@@ -47,7 +47,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
     super(scope, id, "UTK-API-Pipeline", props);
 
     this.ecrRepo = new ecr.Repository(this, "ECRRepo", {
-      repositoryName: "utk-api-ecr-repo",
+      repositoryName: this.getPipelineResourceName("ECR-Repo"),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
@@ -121,7 +121,7 @@ export class APIPipelineStack extends CdkPipeline<APIStack, APIStage> {
       this,
       stackName("API-Pipeline-Build-Project"),
       {
-        projectName: stackName("API-Pipeline-Build-Project"),
+        projectName: this.getPipelineResourceName("Buid-Project"),
         environment: {
           ...codebuildDockerEnvironment,
           environmentVariables: {
