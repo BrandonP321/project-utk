@@ -28,7 +28,7 @@ export class APIStack extends CdkStack<APIStage> {
   aliasFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, props: CdkStack.Props<APIStage>) {
-    super(scope, id, props);
+    super(scope, id, props, "UTK-API");
 
     // S3 bucket to store the application versions
     this.createAppVersionsBucket();
@@ -56,6 +56,10 @@ export class APIStack extends CdkStack<APIStage> {
 
   private createAppVersionsBucket() {
     this.appVersionsBucket = new s3.Bucket(this, "App-Versions-Bucket", {
+      bucketName: this.getResourceName("App-Versions-Bucket", {
+        lowerCase: true,
+        stage: this.props.stage,
+      }),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       versioned: false,
     });
@@ -69,6 +73,9 @@ export class APIStack extends CdkStack<APIStage> {
 
   private createACMCertificate() {
     this.cert = new acm.Certificate(this, "Certificate", {
+      certificateName: this.getResourceName("Certificate", {
+        stage: this.props.stage,
+      }),
       domainName: this.apiDomain,
       validation: acm.CertificateValidation.fromDns(this.hostedZone),
     });
@@ -123,6 +130,9 @@ export class APIStack extends CdkStack<APIStage> {
     // For NodeJsFunction to work, esbuild MUST be listed as a dependency
     // in the root level package.json
     this.aliasFunction = new NodejsFunction(this, "AliasFunction", {
+      functionName: this.getResourceName("AliasFunction", {
+        stage: this.props.stage,
+      }),
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: "handler",
       entry: path.join(
@@ -154,9 +164,7 @@ export class APIStack extends CdkStack<APIStage> {
     const customResourceProviderRole = new iam.Role(
       this,
       "CustomResourceProviderRole",
-      {
-        assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
-      },
+      { assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com") },
     );
 
     customResourceProviderRole.addToPolicy(

@@ -9,6 +9,8 @@ import { addSourcePipelineStage } from "./helpers/codepipelineHelpers";
 import { CdkStack } from "./cdk-stack";
 import { capitalize } from "lodash";
 import { codebuildLambdaEnvironment } from "./helpers/codebuildHelpers";
+import { StackNameParams, stackName } from "./helpers/resourceHelpers";
+import { string } from "yup";
 
 type BuildSpecArtifact = {
   "base-directory": string;
@@ -22,7 +24,6 @@ export namespace CdkPipeline {
     Stage extends string,
   > = cdk.StackProps & {
     stageStacks: Record<Stage, Stack>;
-    pipelineName: string;
   };
 }
 
@@ -37,17 +38,24 @@ export class CdkPipeline<
   cdkOutputArtifactName = "CDKOutputArtifact";
   cdkOutput = new codepipeline.Artifact(this.cdkOutputArtifactName);
   pipelineRole: iam.Role;
+  /** Prefix for all resources created by this stack */
+  resourceNamePrefix = "UTK";
 
   constructor(
     scope: Construct,
     id: string,
+    resourceNamePrefix: string,
     props: CdkPipeline.Props<Stack, Stage>,
   ) {
     super(scope, id, props);
 
     this.props = props;
+    this.resourceNamePrefix = resourceNamePrefix;
 
     const artifactBucket = new s3.Bucket(this, "Pipeline-Artifacts", {
+      bucketName: this.getPipelineResourceName("Artifacts", {
+        lowerCase: true,
+      }),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       versioned: false,
@@ -61,11 +69,23 @@ export class CdkPipeline<
       ],
     });
 
-    this.pipeline = new codepipeline.Pipeline(this, this.props.pipelineName, {
-      artifactBucket,
-      restartExecutionOnUpdate: true,
-      pipelineName: this.props.pipelineName,
-      role: this.pipelineRole,
+    this.pipeline = new codepipeline.Pipeline(
+      this,
+      this.getPipelineResourceName("Pipeline"),
+      {
+        artifactBucket,
+        restartExecutionOnUpdate: true,
+        pipelineName: this.getPipelineResourceName("Pipeline"),
+        role: this.pipelineRole,
+      },
+    );
+  }
+
+  /** Appends `this.resourceNamePrefix` to name argument */
+  getPipelineResourceName(name: string, params?: StackNameParams) {
+    return stackName(name, {
+      ...params,
+      prefixOverride: this.resourceNamePrefix,
     });
   }
 
@@ -94,7 +114,7 @@ export class CdkPipeline<
 
   getFilterSourceProject = () =>
     new codebuild.PipelineProject(this, "Filter-Source-Project", {
-      projectName: "Filter-Source-Project",
+      projectName: this.getPipelineResourceName("Filter-Source-Project"),
       environment: {
         ...codebuildLambdaEnvironment,
       },

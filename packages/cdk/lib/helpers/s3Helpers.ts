@@ -5,10 +5,10 @@ import { stackName } from "./resourceHelpers";
 export const createReactAppStaticAssetsBucket = (
   scope: Construct,
   id: string,
-  stage: string,
+  bucketName: string,
 ) => {
   return new s3.Bucket(scope, id, {
-    bucketName: stackName(id, stage, true),
+    bucketName,
     websiteIndexDocument: "index.html",
     websiteErrorDocument: "index.html",
     publicReadAccess: true,

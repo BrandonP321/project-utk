@@ -24,15 +24,21 @@ export class WebStack extends CdkStack<WebStage> {
     : this.appDomain;
 
   constructor(scope: Construct, id: string, props: CdkStack.Props<WebStage>) {
-    super(scope, id, props);
+    super(scope, id, props, "UTK-Web");
 
     this.staticsBucket = createReactAppStaticAssetsBucket(
       this,
       "StaticsBucket",
-      this.props.stage,
+      this.getResourceName("Statics-Bucket", {
+        stage: this.props.stage,
+        lowerCase: true,
+      }),
     );
 
     this.siteCertificate = new acm.Certificate(this, "SiteCertificate", {
+      certificateName: this.getResourceName("Site-Certificate", {
+        stage: this.props.stage,
+      }),
       domainName: this.appUrl,
       subjectAlternativeNames: [`www.${this.appUrl}`],
       validation: acm.CertificateValidation.fromDns(this.hostedZone),
@@ -42,6 +48,9 @@ export class WebStack extends CdkStack<WebStage> {
       this,
       "CFDistribution",
       {
+        comment: this.getResourceName("CF-Distribution", {
+          stage: this.props.stage,
+        }),
         viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
           this.siteCertificate,
           { aliases: [this.appUrl, `www.${this.appUrl}`] },

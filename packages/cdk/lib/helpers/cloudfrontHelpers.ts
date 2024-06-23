@@ -9,11 +9,11 @@ export const getCFDistributionArn = (distId: string, account: string) =>
 export const getCFInvalidationCodebuildProject = (
   scope: Construct,
   id: string,
-  stage: string,
+  projectName: string,
   distributionId: string,
 ): codebuild.PipelineProject =>
   new codebuild.PipelineProject(scope, id, {
-    projectName: stackName("CFInvalidation", stage),
+    projectName,
     environment: {
       ...codebuildLambdaEnvironment,
       environmentVariables: {
