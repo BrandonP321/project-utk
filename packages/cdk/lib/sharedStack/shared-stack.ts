@@ -29,6 +29,7 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
           allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
           allowedOrigins: ["*"],
           exposedHeaders: ["ETag"],
+          maxAge: 0,
         },
       ],
     });
