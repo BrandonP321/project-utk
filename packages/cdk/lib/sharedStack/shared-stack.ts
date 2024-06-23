@@ -23,6 +23,14 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
       }),
       versioned: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      cors: [
+        {
+          allowedHeaders: ["*"],
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
+          allowedOrigins: ["*"],
+          exposedHeaders: ["ETag"],
+        },
+      ],
     });
 
     bucket.addLifecycleRule({
