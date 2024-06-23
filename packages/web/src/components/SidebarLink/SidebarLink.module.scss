@@ -1,14 +1,18 @@
 @import "../../styles/uiBase.scss";
 
 a.link {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
+  border-radius: 0 2rem 2rem 0;
+  padding: $sizeS $sizeM;
+  border-width: 0;
   transition: all 0s;
 
   &:hover,
   &.active {
-    background-color: #007bff3b;
+    background-color: rgb(199, 199, 199);
   }
 
   &:hover {
@@ -16,6 +20,16 @@ a.link {
 
   &.active {
     color: #007bff;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0.25rem;
+      height: 100%;
+      background-color: #007bff;
+    }
   }
 }
 
