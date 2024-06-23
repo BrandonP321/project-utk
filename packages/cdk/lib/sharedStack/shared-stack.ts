@@ -26,7 +26,11 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
       cors: [
         {
           allowedHeaders: ["*"],
-          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
+          allowedMethods: [
+            s3.HttpMethods.GET,
+            s3.HttpMethods.PUT,
+            s3.HttpMethods.POST,
+          ],
           allowedOrigins: ["*"],
           exposedHeaders: ["ETag"],
           maxAge: 0,
