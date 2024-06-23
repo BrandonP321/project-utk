@@ -23,7 +23,6 @@ export class SharedStack extends CdkStack<SharedCdkStage> {
       }),
       versioned: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
     bucket.addLifecycleRule({
