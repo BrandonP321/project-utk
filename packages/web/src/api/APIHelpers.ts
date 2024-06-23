@@ -30,7 +30,7 @@ export type APIRequest<Req, Res, Errors extends APIErrorsMap<string>> = (
 ) => Promise<void>;
 
 export class APIHelpers {
-  protected static apiDomain = "http://localhost:8000";
+  protected static apiDomain = webConfig.api.connection.url;
 
   protected static req<Req, Res, Errors extends APIErrorsMap<string>>(
     path: string,
