@@ -15,6 +15,8 @@ import { getVendorListingMiddleware } from "../middleware/getVendorListing.middl
 import { UpdateVendorListingPricing } from "@project-utk/shared/src/api/routes/vendorListing/UpdateVendorListingPricing";
 import { UpdateVendorListingPricingController } from "../controllers/vendorListing/UpdateVendorListingPricingController";
 import { UpdateVendorListingController } from "../controllers/vendorListing/UpdateVendorListingController";
+import { GetListingImagesPresignedUrls } from "@project-utk/shared/src/api/routes/vendorListing/GetListingImagesPresignedUrls";
+import { GetListingImagesPresignedUrlsController } from "../controllers/vendorListing/GetListingImagesPresignedUrlsController";
 
 const router = express.Router();
 
@@ -23,7 +25,7 @@ router.post(
   CreateVendorListing.Path,
   authenticateJWT,
   getAuthVendor,
-  CreateVendorListingController
+  CreateVendorListingController,
 );
 
 // Update listing
@@ -32,7 +34,7 @@ router.post(
   authenticateJWT,
   getAuthVendor,
   getVendorListingMiddleware(undefined, true),
-  UpdateVendorListingController
+  UpdateVendorListingController,
 );
 
 // Get authed vendor listings
@@ -40,14 +42,14 @@ router.post(
   GetAuthedVendorListings.Path,
   authenticateJWT,
   getAuthVendor,
-  GetAuthedVendorListingsController
+  GetAuthedVendorListingsController,
 );
 
 // Get listing
 router.post(
   GetVendorListing.Path,
   getVendorListingMiddleware(),
-  GetVendorListingController
+  GetVendorListingController,
 );
 
 // Update listing pricing info
@@ -56,10 +58,18 @@ router.post(
   authenticateJWT,
   getAuthVendor,
   getVendorListingMiddleware(undefined, true),
-  UpdateVendorListingPricingController
+  UpdateVendorListingPricingController,
 );
 
 // Get listing Pricing Info
 router.post(GetListingPricingInfo.Path, GetListingPricingInfoController);
+
+// Get presigned urls for listing images
+router.post(
+  GetListingImagesPresignedUrls.Path,
+  authenticateJWT,
+  getAuthVendor,
+  GetListingImagesPresignedUrlsController,
+);
 
 export const vendorListingRouter = router;

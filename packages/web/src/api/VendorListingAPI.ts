@@ -7,6 +7,7 @@ import {
   UpdateVendorListingPricing,
 } from "@project-utk/shared/src/api/routes/vendorListing";
 import { APIHelpers } from "./APIHelpers";
+import { GetListingImagesPresignedUrls } from "@project-utk/shared/src/api/routes/vendorListing/GetListingImagesPresignedUrls";
 
 export class VendorListingAPI extends APIHelpers {
   static GetAuthVendorListings = this.req<
@@ -44,4 +45,10 @@ export class VendorListingAPI extends APIHelpers {
     UpdateVendorListingPricing.ResBody,
     typeof UpdateVendorListingPricing.Errors
   >(UpdateVendorListingPricing.Path);
+
+  static GetListingImagesPresignedUrls = this.req<
+    GetListingImagesPresignedUrls.ReqBody,
+    GetListingImagesPresignedUrls.ResBody,
+    typeof GetListingImagesPresignedUrls.Errors
+  >(GetListingImagesPresignedUrls.Path);
 }

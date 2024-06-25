@@ -14,7 +14,9 @@
     "test:coverage": "yarn run -T jest --coverage"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.600.0",
     "@aws-sdk/client-secrets-manager": "^3.554.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
     "@esbuild-plugins/tsconfig-paths": "^0.1.2",
     "@project-utk/shared": "workspace:^",
     "bcrypt": "^5.1.1",

@@ -39,4 +39,9 @@ export const apiConfig = {
   },
   db:
     process.env.RDS_DB_STAGE === "dev" ? dbConfig.db.devDB : dbConfig.db.prodDB,
+  mediaBucket: {
+    name: ConfigUtils.getConfigValue<string>("utk-web-statics-bucket-dev", {
+      prod: "utk-web-statics-bucket-prod",
+    }),
+  },
 };

@@ -14,6 +14,11 @@ import FormActions from "../../../components/FormActions/FormActions";
 import Button from "../../../components/Button/Button";
 import { ImageCompressionUtils } from "../../../utils/ImageCompressionUtils";
 import { ImageCropUtils } from "../../../utils/ImageCropUtils";
+import { useAPI } from "../../../hooks/useAPI";
+import { VendorListingAPI } from "../../../api/VendorListingAPI";
+import { useRef } from "react";
+import { GetListingImagesPresignedUrls } from "@project-utk/shared/src/api/routes/vendorListing/GetListingImagesPresignedUrls";
+import axios from "axios";
 
 namespace ListingEditorMedia {
   export type Props = {};
@@ -27,6 +32,20 @@ function ListingEditorMediaContent(props: ListingEditorMedia.Props) {
     selectedImgRef.current = images[index];
     setSelectedImageIndex(index);
   };
+
+  const presignedUrlsRef = useRef<
+    GetListingImagesPresignedUrls.SignedUrl[] | undefined
+  >(undefined);
+
+  const { fetchAPI: getPresignedUrls } = useAPI(
+    VendorListingAPI.GetListingImagesPresignedUrls,
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        presignedUrlsRef.current = data.signedUrls;
+      },
+    },
+  );
 
   const saveImages = async () => {
     const compressionErrors: ImageAsset[] = [];
@@ -67,18 +86,35 @@ function ListingEditorMediaContent(props: ListingEditorMedia.Props) {
       return;
     }
 
-    await Promise.all(
-      compressedImages
-        .filter((img): img is CompressedImage => !!img)
-        .map(async (image) => {
-          const {
-            compressedImg,
-            originalFile,
-            crop = ImageCropUtils.fullSizeCrop,
-          } = image;
+    const imagesForUpload = compressedImages.filter(
+      (img): img is CompressedImage => !!img,
+    );
 
-          // Upload to server
-        }),
+    presignedUrlsRef.current = undefined;
+
+    await getPresignedUrls({
+      imageNames: imagesForUpload.map((img) => img.originalFile.name),
+    });
+
+    const presignedUrls = presignedUrlsRef.current;
+
+    if (!presignedUrls) {
+      // TODO: Handle error
+      return;
+    }
+
+    await Promise.all(
+      (presignedUrls as GetListingImagesPresignedUrls.SignedUrl[]).map(
+        async (presigned, i) => {
+          const image = imagesForUpload[i];
+
+          await axios.put(presigned.url, image.compressedImg, {
+            headers: {
+              "Content-Type": image.compressedImg.type,
+            },
+          });
+        },
+      ),
     );
   };
 
